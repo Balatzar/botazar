@@ -1,8 +1,12 @@
 {
-  "Aide": {
-    "feedback -help": ""
-  },
-  "Envoyer un feedback": {
-    "feedback": "type (idea, bug, message) | content (ex 'Hello, everything is broken :)'"
+  "name": "Feedback",
+  "description": "A bot to provide feedback to the botmaker",
+  "commands": {
+    "Help": {
+      "feedback -help": ""
+    },
+    "Send feedback": {
+      "feedback": "type (idea, bug, message) | content (ex 'Hello, everything is broken :)'"
+    }
   }
 }
