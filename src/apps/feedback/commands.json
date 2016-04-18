@@ -1,8 +1,8 @@
 {
   "Aide": {
-    "-help": ""
+    "feedback -help": ""
   },
   "Envoyer un feedback": {
-    "-send": "type (idea, bug, message) | content (ex 'Hello, everything is broken :)'"
+    "feedback": "type (idea, bug, message) | content (ex 'Hello, everything is broken :)'"
   }
 }
