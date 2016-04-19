@@ -34,7 +34,7 @@
     "maxdepth"      : 3,    // {int} Max depth of nested blocks (within functions)
     "maxstatements" : false,    // {int} Max number statements per function
     "maxcomplexity" : false,    // {int} Max cyclomatic complexity per function
-    "maxlen"        : 80,    // {int} Max number of characters per line
+    "maxlen"        : 110,    // {int} Max number of characters per line
     "varstmt"       : true,    // true: Disallow any var statements. Only `let` and `const` are allowed.
 
     // Relaxing

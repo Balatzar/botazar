@@ -7,21 +7,24 @@ module.exports = function(input) {
     throw "No command";
   }
 
-  let res;
-
   switch(input.command) {
     case "-help" || "-h": {
-      res = helpModule();
-      break;
+      return helpModule();
     }
 
     default: {
       if (!input.text) {
         throw "Text input required";
       }
-      res = baseModule(input.text);
+      return baseModule(input.text);
     }
   }
-
-  return res;
 };
+
+/*
+
+modules have two parts :
+  pure testable function for logic
+  i/o (store to db, interact with other services)
+
+*/

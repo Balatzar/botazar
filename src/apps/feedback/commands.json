@@ -1,5 +1,6 @@
 {
   "name": "Feedback",
+  "aliases": "feedback, fdb",
   "description": "A bot to provide feedback to the botmaker",
   "commands": {
     "Help": {
