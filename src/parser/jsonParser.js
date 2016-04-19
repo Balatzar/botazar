@@ -3,7 +3,7 @@ const fs = require("fs");
 module.exports = function() {
   "use strict";
   let apps = [];
-  const path = "../apps";
+  const path = "../../apps";
   const dirs = fs.readdirSync(path);
 
   for (let i = 0; i < dirs.length; i += 1) {

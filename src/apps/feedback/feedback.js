@@ -1,5 +1,5 @@
-const helpModule = require("./modules/help");
-const baseModule = require("./modules/base");
+const helpModule = require("./modules/helpModule");
+//const baseModule = require("./modules/baseModule");
 
 module.exports = function(input) {
   "use strict";
@@ -7,10 +7,12 @@ module.exports = function(input) {
     throw "No command";
   }
 
+  console.log(input)
+
   switch(input.command) {
-    case "-help" || "-h": {
+    case "-help":
+    case "-h":
       return helpModule();
-    }
 
     default: {
       if (!input.text) {
