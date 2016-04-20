@@ -8,11 +8,9 @@ module.exports = function(input, user) {
     return "Argument missing";
   }
 
-  console.log(sanitized)
-
   let type = sanitized.shift();
 
-  console.log(type)
+  console.log(type);
 
   if (type !== "idea" &&
       type !== "bug" &&

@@ -64,6 +64,8 @@
     "supernew"      : false,     // true: Tolerate `new function () { ... };` and `new Object;`
     "validthis"     : false,     // true: Tolerate using this in a non-constructor function
 
+    "-W086"         : true,      // fall through
+
     // Environments
     "browser"       : false,    // Web Browser (window, document, etc)
     "browserify"    : false,    // Browserify (node.js code in the browser)

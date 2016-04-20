@@ -13,6 +13,13 @@ const Feedback = {
   createFeedback: function(feedback) {
     "use strict";
     Feedback.model.create(feedback);
+  },
+
+  listAll: function() {
+    "use strict";
+    const feeds = Feedback.model.find({});
+    console.log(Feedback.model.find({}))
+    return feeds;
   }
 };
 

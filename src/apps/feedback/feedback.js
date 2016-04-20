@@ -1,5 +1,6 @@
 const helpModule = require("./modules/helpModule");
 const baseModule = require("./modules/baseModule");
+const listModule = require("./modules/listModule");
 
 module.exports = function(input) {
   "use strict";
@@ -10,6 +11,10 @@ module.exports = function(input) {
     case "-help":
     case "-h":
       return helpModule();
+
+    case "-list":
+    case "-l":
+      return listModule();
 
     default: {
       if (!input.text) {
