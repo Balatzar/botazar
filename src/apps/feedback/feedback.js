@@ -3,9 +3,6 @@ const baseModule = require("./modules/baseModule");
 
 module.exports = function(input) {
   "use strict";
-  if (!input.command) {
-    throw "No command";
-  }
 
   console.log(input);
 
@@ -18,15 +15,7 @@ module.exports = function(input) {
       if (!input.text) {
         throw "Text input required";
       }
-      return baseModule(input.text);
+      return baseModule(input.text, input.user);
     }
   }
 };
-
-/*
-
-modules have two parts :
-  pure testable function for logic
-  i/o (store to db, interact with other services)
-
-*/
