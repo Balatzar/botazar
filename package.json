@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Balatzar/botazar#readme",
   "dependencies": {
+    "@slack/client": "^2.3.0",
     "mongoose": "^4.4.12",
     "slackbots": "^0.5.1",
     "youtube-api": "^1.4.0"

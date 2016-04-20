@@ -1,30 +1,26 @@
-const helpModule = require("./modules/help");
-const baseModule = require("./modules/base");
+const helpModule = require("./modules/helpModule");
+const baseModule = require("./modules/baseModule");
+const listModule = require("./modules/listModule");
 
 module.exports = function(input) {
   "use strict";
-  if (!input.command) {
-    throw "No command";
-  }
+
+  console.log(input);
 
   switch(input.command) {
-    case "-help" || "-h": {
+    case "-help":
+    case "-h":
       return helpModule();
-    }
+
+    case "-list":
+    case "-l":
+      return listModule();
 
     default: {
       if (!input.text) {
         throw "Text input required";
       }
-      return baseModule(input.text);
+      return baseModule(input.text, input.user);
     }
   }
 };
-
-/*
-
-modules have two parts :
-  pure testable function for logic
-  i/o (store to db, interact with other services)
-
-*/
