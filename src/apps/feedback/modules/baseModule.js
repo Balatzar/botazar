@@ -5,7 +5,7 @@ module.exports = function(input, message, out) {
   let sanitized = input.split(" ");
 
   if (sanitized.length < 2) {
-    return "Argument missing";
+    return "Il me manque un truc là !";
   }
 
   let type = sanitized.shift();
