@@ -11,9 +11,9 @@ test("Feedback - Set up the test", (t) => {
 
 });
 
-test("Feedback - Help command - Good argument", (t) => {
+test("Feedback - Help command", (t) => {
 
-  t.plan(1)
+  t.plan(4)
 
   const input           = { command: "-h" };
   const message         = { channel: test };
@@ -24,7 +24,16 @@ test("Feedback - Help command - Good argument", (t) => {
 
   feedbackApp(input, message, function(msg, channel) {
     console.log("in cb")
-    t.equal(msg, expectedOutput);
-  })
+    t.equal(msg, expectedOutput, "Testing -h command");
+    t.equal(channel, message.channel, "channel is not modified");
+  });
+
+  input.command = "-help";
+
+  feedbackApp(input, message, function(msg, channel) {
+    console.log("in cb")
+    t.equal(msg, expectedOutput, "Testing -help command");
+    t.equal(channel, message.channel, "channel is not modified");
+  });
 
 });
