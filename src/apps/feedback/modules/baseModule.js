@@ -15,7 +15,8 @@ module.exports = function(input, message, out) {
   if (type !== "idea" &&
       type !== "bug" &&
       type !== "msg") {
-    return "Wrong type.";
+    out("Type inconnu.", message.channel);
+    return;
   }
 
   Feedback.createFeedback({

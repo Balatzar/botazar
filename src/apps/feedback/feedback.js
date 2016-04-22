@@ -3,7 +3,7 @@ const baseModule      = require("./modules/baseModule");
 const listModule      = require("./modules/listModule");
 const archiveModule   = require("./modules/archiveModule");
 
-module.exports = function(input, out) {
+module.exports = function(input, message, out) {
   "use strict";
 
   console.log(input);
@@ -11,19 +11,19 @@ module.exports = function(input, out) {
   switch(input.command) {
     case "-help":
     case "-h": {
-      helpModule(input.message.channel, out);
+      helpModule(message.channel, out);
       break;
     }
 
     case "-list":
     case "-l": {
-      listModule(input.message.channel, out);
+      listModule(message.channel, out);
       break;
     }
 
     case "-delete":
     case "-d": {
-      archiveModule(input.text, input.message.channel, out);
+      archiveModule(input.text, message.channel, out);
       break;
     }
 
@@ -31,7 +31,7 @@ module.exports = function(input, out) {
       if (!input.text) {
         throw "Text input required";
       }
-      baseModule(input.text, input.message, out);
+      baseModule(input.text, message, out);
     }
   }
 };

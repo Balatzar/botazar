@@ -15,12 +15,11 @@ module.exports = function(input, message, out) {
 
   for (let i = 0; i < apps.length; i += 1) {
     if (apps[i].aliases.indexOf(app) !== -1) {
-      const obj = {
+      const input = {
         command: command,
         text: sanitizedInput ? sanitizedInput.join(" ") : "",
-        message: message
       };
-      require("../apps/" + apps[i].name.toLowerCase() + "/" + apps[i].entry)(obj, out);
+      require("../apps/" + apps[i].name.toLowerCase() + "/" + apps[i].entry)(input, message, out);
     }
   }
 
