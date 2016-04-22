@@ -20,6 +20,7 @@ module.exports = function(input, message, out) {
         text: sanitizedInput ? sanitizedInput.join(" ") : "",
       };
       require("../apps/" + apps[i].name.toLowerCase() + "/" + apps[i].entry)(input, message, out);
+      return;
     }
   }
 

@@ -24,6 +24,11 @@ const Feedback = {
         console.log(err);
       }
 
+      if (!feedbacks.length) {
+        out("Rien pour l'instant magueule !", channel);
+        return;
+      }
+
       let text = "";
       feedbacks.forEach(fdb => {
         if (fdb.archived) {
