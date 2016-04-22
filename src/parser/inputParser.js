@@ -23,5 +23,5 @@ module.exports = function(input, message, out) {
     }
   }
 
-  throw "App not found";
+  out("App non trouvée", message.channel);
 };
