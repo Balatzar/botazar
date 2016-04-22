@@ -19,9 +19,10 @@ const Feedback = {
   listAll: function(channel, out) {
     "use strict";
     console.log("fdb model");
-    Feedback.model.find({}, function(err, feedbacks) {
+    Feedback.model.find({ archived: false }, function(err, feedbacks) {
       if (err) {
-        console.log(err);
+        out(err, channel);
+        return;
       }
 
       if (!feedbacks.length) {
