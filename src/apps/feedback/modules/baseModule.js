@@ -1,6 +1,6 @@
 const Feedback = require("../models/Feedback");
 
-module.exports = function(input, user) {
+module.exports = function(input, message, out) {
   "use strict";
   let sanitized = input.split(" ");
 
@@ -19,10 +19,10 @@ module.exports = function(input, user) {
   }
 
   Feedback.createFeedback({
-    user: user,
+    user: message.user,
     type: type,
     text: sanitized.join(" ")
   });
 
-  return "Thanks for your input!";
+  out("Merci gars", message.channel);
 };

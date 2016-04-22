@@ -5,6 +5,7 @@ const feedbackSchema = new mongoose.Schema({
   type: String,
   text: String,
   user: String,
+  archived: { type: Boolean, default: false },
 });
 
 const Feedback = {
@@ -15,12 +16,38 @@ const Feedback = {
     Feedback.model.create(feedback);
   },
 
-  listAll: function() {
+  listAll: function(channel, out) {
     "use strict";
-    const feeds = Feedback.model.find({});
-    console.log(Feedback.model.find({}))
-    return feeds;
-  }
+    console.log("fdb model");
+    Feedback.model.find({}, function(err, feedbacks) {
+      if (err) {
+        console.log(err);
+      }
+
+      let text = "";
+      feedbacks.forEach(fdb => {
+        if (fdb.archived) {
+          return;
+        }
+        text += "*" + fdb.type + "*\n" +
+                fdb.text + "\n" +
+                "_id:_ " + fdb._id + "\n";
+      });
+
+      out(text, channel);
+    });
+  },
+
+  archiveFeedback: function(id, channel, out) {
+    "use strict";
+    console.log(id)
+    Feedback.model.findByIdAndUpdate(id, { $set: { archived: true }}, function(err) {
+      if (err) {
+        console.log(err);
+      }
+      out("Feedback archivé !", channel);
+    });
+  },
 };
 
 module.exports = Feedback;

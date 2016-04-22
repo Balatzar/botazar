@@ -5,7 +5,7 @@ module.exports = function() {
   const RtmClient = require("@slack/client").RtmClient;
   const RTM_EVENTS = require("@slack/client").RTM_EVENTS;
 
-  const token = process.env.SLACK_API_TOKEN || "";
+  const token = process.env.SLACK_API_TOKEN;
 
   const rtm = new RtmClient(token); // , { logLevel: "debug" }
 
@@ -22,8 +22,8 @@ module.exports = function() {
       let input = message.text.split(" ");
       input.shift();
       try {
-        rtm.sendMessage(inputParser(input.join(" "), { user: message.user }), message.channel, function messageSent() {
-          // optionally, you can supply a callback to execute once the message has been sent
+        inputParser(input.join(" "), message, function(msg, channel) {
+          rtm.sendMessage(msg, channel);
         });
       } catch (e) {
         console.log(e);

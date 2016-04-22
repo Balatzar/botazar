@@ -1,6 +1,6 @@
 const apps = require("./jsonParser.js")();
 
-module.exports = function(input, opt) {
+module.exports = function(input, message, out) {
   "use strict";
   console.log(input);
   if (typeof input !== "string") {
@@ -18,9 +18,9 @@ module.exports = function(input, opt) {
       const obj = {
         command: command,
         text: sanitizedInput ? sanitizedInput.join(" ") : "",
-        user: opt.user
+        message: message
       };
-      return require("../apps/" + apps[i].name.toLowerCase() + "/" + apps[i].entry)(obj);
+      require("../apps/" + apps[i].name.toLowerCase() + "/" + apps[i].entry)(obj, out);
     }
   }
 

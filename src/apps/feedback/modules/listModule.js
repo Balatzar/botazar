@@ -1,7 +1,7 @@
 const Feedback = require("../models/Feedback");
 
-module.exports = function() {
+module.exports = function(channel, out) {
   "use strict";
-  const feedbacks = Feedback.listAll();
-  console.log(feedbacks);
+  console.log("list")
+  Feedback.listAll(channel, out);
 };
