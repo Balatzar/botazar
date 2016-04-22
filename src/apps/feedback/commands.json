@@ -5,10 +5,16 @@
   "description": "A bot to provide feedback to the botmaker",
   "commands": {
     "Help": {
-      "feedback -help": ""
+      "feedback -help | -h": ""
     },
     "Send feedback": {
       "feedback": "type (idea, bug, message) | content (ex 'Hello, everything is broken :)'"
+    },
+    "List feedback": {
+      "feedback -list | -l" :""
+    },
+    "Archive feedback": {
+      "feedback -delete | -d": "id (ex 5718f4dfc4b210bb25e3fcf4)"
     }
   }
 }
