@@ -16,9 +16,9 @@ module.exports = function() {
     if (!message.text) {
       return;
     }
-    if (message.text.indexOf("baltabot") === 0 ||
-        message.text.indexOf("botazar") === 0 ||
-        message.text.indexOf("botazar:") === 0 ||
+    if (message.text.indexOf("baltabot")      === 0 ||
+        message.text.indexOf("botazar")       === 0 ||
+        message.text.indexOf("botazar:")      === 0 ||
         message.text.indexOf("<@U1082RRH8>:") === 0) {
       let input = message.text.split(" ");
       input.shift();
