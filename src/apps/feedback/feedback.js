@@ -1,7 +1,7 @@
-const helpModule = require("./modules/helpModule");
-const baseModule = require("./modules/baseModule");
-const listModule = require("./modules/listModule");
-const archiveModule = require("./modules/archiveModule");
+const helpModule      = require("./modules/helpModule");
+const baseModule      = require("./modules/baseModule");
+const listModule      = require("./modules/listModule");
+const archiveModule   = require("./modules/archiveModule");
 
 module.exports = function(input, out) {
   "use strict";

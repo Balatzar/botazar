@@ -40,10 +40,9 @@ const Feedback = {
 
   archiveFeedback: function(id, channel, out) {
     "use strict";
-    console.log(id)
     Feedback.model.findByIdAndUpdate(id, { $set: { archived: true }}, function(err) {
       if (err) {
-        console.log(err);
+        out("Echec !", err);
       }
       out("Feedback archivé !", channel);
     });
