@@ -3,14 +3,14 @@ const mongoose      = require("mongoose");
 const feedbackApp   = require("../feedback");
 const Feedback      = require("../models/Feedback");
 
-"use strict";
-
 const mongoURL = "mongodb://localhost/botazartest";
 
 mongoose.connect(mongoURL);
 
 mongoose.connection.on('open', function(){
   mongoose.connection.db.dropDatabase(function (err) {
+
+    "use strict";
     
     test("Feedback - Set up the test", (t) => {
 
@@ -24,9 +24,9 @@ mongoose.connection.on('open', function(){
 
       t.plan(4);
 
-      const input           = { command: "-h" };
-      const message         = { channel: "test" };
-      const expectedOutput  = "This app is to send feedback to the botmaker!\n" +
+      let input           = { command: "-h" };
+      let message         = { channel: "test" };
+      let expectedOutput  = "This app is to send feedback to the botmaker!\n" +
                               "You can you use it with the syntax `feedback|fdb [type] [msg]`\n" +
                               "They are 3 types : _idea_, _bug_, _msg_\n" +
                               "Example : `botazar feedback idea 'create an app to remind me to commit every now and then'`"; 
@@ -49,13 +49,12 @@ mongoose.connection.on('open', function(){
 
       t.plan(5);
 
-      const input           = { text: "idea test this module" };
-      const message         = { channel: "test" };
-      const expectedOutput  = "Merci gars";
+      let input           = { text: "idea test this module" };
+      let message         = { channel: "test" };
 
       feedbackApp(input, message, function(msg, channel) {
         
-        t.equal(msg, expectedOutput, "Checking the text output");
+        t.equal(msg, "Merci gars", "Checking the text output");
         t.equal(channel, message.channel, "channel is not modified");
         
         Feedback.model.find({}, function(err, feedbacks) {
@@ -70,43 +69,49 @@ mongoose.connection.on('open', function(){
 
             t.plan(2);
 
-            const input           = { command: "-l" };
-            const message         = { channel: "test" };
-            const expectedOutput  = "*" + created.type + "*\n" +
-                                    created.text + "\n" +
-                                    "_id:_ " + created._id + "\n";
+            let input         = { command: "-l" };
+            let message       = { channel: "test" };
+            let expectedList  = "*" + created.type + "*\n" +
+                                created.text + "\n" +
+                                "_id:_ " + created._id + "\n";
 
             feedbackApp(input, message, function(msg, channel) {
         
-              t.equal(msg, expectedOutput, "Checking the text output");
+              t.equal(msg, expectedList, "Checking the text output");
               t.equal(channel, message.channel, "channel is not modified");
 
               test("Feedback - Archive command", (t) => {
 
-                t.plan(4);
+                t.plan(6);
 
-                const input           = {
+                let input           = {
                   command: "-d",
-                  text: "571b16b52da6d2922c255d65",
+                  text: "571b16b52da6d2922c255d6g",
                 };
-                const message         = { channel: "test" };
-                const expectedOutput  = "Ce feedback n'existe pas !";
+                let message         = { channel: "test" };
 
                 feedbackApp(input, message, function(msg, channel) {
         
-                  t.equal(msg, expectedOutput, "Checking the text output for wrongID");
+                  t.equal(msg, "Ce feedback n'existe pas !", "Checking the text output for wrongID");
                   t.equal(channel, message.channel, "channel is not modified");
 
                   input.text      = created._id;
-                  expectedOutput  = "Feedback archivé !";
 
                   feedbackApp(input, message, function(msg, channel) {
         
-                    t.equal(msg, expectedOutput, "Checking the text output for rightID");
+                    t.equal(msg, "Feedback archivé !", "Checking the text output for rightID");
                     t.equal(channel, message.channel, "channel is not modified");
 
-                    mongoose.disconnect();
+                    input.command   = "-list";
 
+                    feedbackApp(input, message, function(msg, channel) {
+        
+                      t.equal(msg, "Rien pour l'instant magueule !", "Checking the text output for empty list");
+                      t.equal(channel, message.channel, "channel is not modified");
+
+                      mongoose.disconnect();
+
+                    });
                   });
                 });
               });

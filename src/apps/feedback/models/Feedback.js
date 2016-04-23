@@ -48,7 +48,7 @@ const Feedback = {
       if (err) {
         return out("Echec !", channel);
       }
-      if (fdb = {}) {
+      if (fdb === null) {
         return out("Ce feedback n'existe pas !", channel);
       }
       Feedback.model.findByIdAndUpdate(id, { $set: { archived: true }}, function(err) {
