@@ -5,8 +5,13 @@ const Feedback      = require("../models/Feedback");
 
 "use strict";
 
-const mongoURL = "mongodb://localhost/botazartest"
+const mongoURL = "mongodb://localhost/botazartest";
 
+mongoose.connect(mongoURL);
+
+mongoose.connection.on('open', function(){
+   mongoose.connection.db.dropDatabase(function (err) {
+    
 test("Feedback - Set up the test", (t) => {
 
   t.pass("This test will pass.");
@@ -44,20 +49,25 @@ test("Feedback - Base command", (t) => {
 
   t.plan(4);
 
-  mongoose.connect(mongoURL);
-
   const input           = { text: "idea test this module" };
   const message         = { channel: "test" };
   const expectedOutput  = "Merci gars";
 
   feedbackApp(input, message, function(msg, channel) {
+    
     t.equal(msg, expectedOutput, "Checking the text output");
     t.equal(channel, message.channel, "channel is not modified");
+    
     Feedback.model.find({}, function(err, feedbacks) {
+      
       t.equal(feedbacks[0].type, "idea", "Checking the object created type");
       t.equal(feedbacks[0].text, "test this module", "Checking the object created text");
+      
       mongoose.disconnect();
     });
   });
 
 });
+
+  });
+})
