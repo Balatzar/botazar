@@ -10,7 +10,7 @@ const mongoURL = "mongodb://localhost/botazartest";
 mongoose.connect(mongoURL);
 
 mongoose.connection.on('open', function(){
-   mongoose.connection.db.dropDatabase(function (err) {
+  mongoose.connection.db.dropDatabase(function (err) {
     
     test("Feedback - Set up the test", (t) => {
 
@@ -81,8 +81,35 @@ mongoose.connection.on('open', function(){
               t.equal(msg, expectedOutput, "Checking the text output");
               t.equal(channel, message.channel, "channel is not modified");
 
-              //test("Feedback - Archive command", ())
+              test("Feedback - Archive command", (t) => {
 
+                t.plan(4);
+
+                const input           = {
+                  command: "-d",
+                  text: "571b16b52da6d2922c255d65",
+                };
+                const message         = { channel: "test" };
+                const expectedOutput  = "Ce feedback n'existe pas !";
+
+                feedbackApp(input, message, function(msg, channel) {
+        
+                  t.equal(msg, expectedOutput, "Checking the text output for wrongID");
+                  t.equal(channel, message.channel, "channel is not modified");
+
+                  input.text      = created._id;
+                  expectedOutput  = "Feedback archivé !";
+
+                  feedbackApp(input, message, function(msg, channel) {
+        
+                    t.equal(msg, expectedOutput, "Checking the text output for rightID");
+                    t.equal(channel, message.channel, "channel is not modified");
+
+                    mongoose.disconnect();
+
+                  });
+                });
+              });
             });
           });
         });

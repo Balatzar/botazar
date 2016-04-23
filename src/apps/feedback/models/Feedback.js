@@ -21,13 +21,11 @@ const Feedback = {
     console.log("fdb model");
     Feedback.model.find({ archived: false }, function(err, feedbacks) {
       if (err) {
-        out(err, channel);
-        return;
+        return out(err, channel);
       }
 
       if (!feedbacks.length) {
-        out("Rien pour l'instant magueule !", channel);
-        return;
+        return out("Rien pour l'instant magueule !", channel);
       }
 
       let text = "";
@@ -46,11 +44,19 @@ const Feedback = {
 
   archiveFeedback: function(id, channel, out) {
     "use strict";
-    Feedback.model.findByIdAndUpdate(id, { $set: { archived: true }}, function(err) {
+    Feedback.model.findById(id, function(err, fdb) {
       if (err) {
-        out("Echec !", err);
+        return out("Echec !", channel);
       }
-      out("Feedback archivé !", channel);
+      if (fdb = {}) {
+        return out("Ce feedback n'existe pas !", channel);
+      }
+      Feedback.model.findByIdAndUpdate(id, { $set: { archived: true }}, function(err) {
+        if (err) {
+          return out("Echec !", channel);
+        }
+        out("Feedback archivé !", channel);
+      });
     });
   },
 };
