@@ -66,9 +66,9 @@ mongoose.connection.on('open', function(){
           t.equal(created.text, "test this module", "Checking the object created text");
           t.equal(created.archived, false, "Checking that the object created is not archived");
           
-          test("Feedback - List command", (tt) => {
+          test("Feedback - List command", (t) => {
 
-            tt.plan(2);
+            t.plan(2);
 
             const input           = { command: "-l" };
             const message         = { channel: "test" };
@@ -78,13 +78,12 @@ mongoose.connection.on('open', function(){
 
             feedbackApp(input, message, function(msg, channel) {
         
-              tt.equal(msg, expectedOutput, "Checking the text output");
-              tt.equal(channel, message.channel, "channel is not modified");
+              t.equal(msg, expectedOutput, "Checking the text output");
+              t.equal(channel, message.channel, "channel is not modified");
 
-              mongoose.disconnect();
+              //test("Feedback - Archive command", ())
 
             });
-
           });
         });
       });
