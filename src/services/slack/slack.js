@@ -2,9 +2,6 @@ const inputParser = require("../../parser/inputParser");
 const RtmClient   = require("@slack/client").RtmClient;
 const RTM_EVENTS  = require("@slack/client").RTM_EVENTS;
 
-const botNames    = [ "baltabot", "botazar", "botazar:",
-                      "<@U1082RRH8>:", "balthabot", "petikon" ];
-
 module.exports = function() {
   "use strict";
 
@@ -19,11 +16,7 @@ module.exports = function() {
     if (!message.text) {
       return;
     }
-    let input = message.text.split(" ");
-    if (botNames.indexOf(input[0])) {
-      input.shift();
-    }
-    inputParser(input.join(" "), message, function(msg, channel) {
+    inputParser(message.text, message, function(msg, channel) {
       rtm.sendMessage(msg, channel);
     });
   });

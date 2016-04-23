@@ -2,6 +2,7 @@
   "name": "Feedback",
   "entry": "feedback.js",
   "aliases": "feedback, fdb",
+  "named": true,
   "description": "A bot to provide feedback to the botmaker",
   "commands": {
     "Help": {
