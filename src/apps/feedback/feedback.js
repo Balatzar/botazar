@@ -29,7 +29,7 @@ module.exports = function(input, message, out) {
 
     default: {
       if (!input.text) {
-        throw "Text input required";
+        return out("Text input required", message.channel);
       }
       baseModule(input.text, message, out);
     }
