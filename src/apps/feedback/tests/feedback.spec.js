@@ -3,8 +3,7 @@ const mongoose      = require("mongoose");
 const feedbackApp   = require("../feedback");
 const Feedback      = require("../models/Feedback");
 
-module.exports = function() {
-  const mongoURL = process.env.MONGO_URL || "mongodb://localhost/botazartest";
+const mongoURL = process.env.MONGO_URL || "mongodb://localhost/botazartest";
 
 mongoose.connect(mongoURL);
 
@@ -137,5 +136,3 @@ mongoose.connection.on('open', function(){
     });
   });
 });
-
-}
