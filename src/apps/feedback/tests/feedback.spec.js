@@ -3,7 +3,7 @@ const mongoose      = require("mongoose");
 const feedbackApp   = require("../feedback");
 const Feedback      = require("../models/Feedback");
 
-const mongoURL = "mongodb://localhost/botazartest";
+const mongoURL = process.env.MONGO_URL || "mongodb://localhost/botazartest";
 
 mongoose.connect(mongoURL);
 
