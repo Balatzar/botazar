@@ -9,13 +9,11 @@ module.exports = function(input, message, out) {
   }
   const sanitizedInput = input.toLowerCase().split(" ");
   let named = false;
-  
+
   if (botNames.indexOf(sanitizedInput[0]) !== -1) {
     sanitizedInput.shift();
     named = true;
   }
-
-  console.log(named)
 
   const app = sanitizedInput.shift();
   let command = "";
