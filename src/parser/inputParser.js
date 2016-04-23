@@ -22,15 +22,32 @@ module.exports = function(input, message, out) {
   }
 
   for (let i = 0; i < apps.length; i += 1) {
-    if (apps[i].aliases.indexOf(app) !== -1 && apps[i].named === named) {
+    if ((apps[i].aliases.indexOf(app) !== -1 && apps[i].named === named) || reg(apps[i], app.concat(sanitizedInput))) {
       const input = {
         command: command,
         text: sanitizedInput ? sanitizedInput.join(" ") : "",
       };
       require("../apps/" + apps[i].name.toLowerCase() + "/" + apps[i].entry)(input, message, out);
-      return;
     }
   }
 
   return;
 };
+
+function reg(app, input) {
+  "use strict";
+  const regex = app.regex ? new RegExp(app.regex) : false;
+  if (!regex) {
+    return;
+  }
+  if (typeof input === "string") {
+    return regex.test(input);
+  }
+  for (let i = 0; i < input.length; i += 1) {
+    if (regex.test(input[i])) {
+      console.log("URL")
+      return true;
+    }
+  }
+  return false;
+}
