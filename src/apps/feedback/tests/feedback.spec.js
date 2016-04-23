@@ -47,7 +47,7 @@ mongoose.connection.on('open', function(){
 
     test("Feedback - Base command", (t) => {
 
-      t.plan(5);
+      t.plan(7);
 
       let input           = { text: "idea test this module" };
       let message         = { channel: "test" };
@@ -64,6 +64,13 @@ mongoose.connection.on('open', function(){
           t.equal(created.type, "idea", "Checking the object created type");
           t.equal(created.text, "test this module", "Checking the object created text");
           t.equal(created.archived, false, "Checking that the object created is not archived");
+
+          feedbackApp({ text: "idae this should not work" }, message, function(msg, channel) {
+
+            t.equal(msg, "Type inconnu.", "This type should not be recognized.");
+            t.equal(channel, message.channel, "channel is not modified");
+
+          });
           
           test("Feedback - List command", (t) => {
 
