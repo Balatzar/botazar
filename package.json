@@ -4,8 +4,7 @@
   "description": "Mon bot",
   "main": "app.js",
   "scripts": {
-    "test": "node tests/apps.specs.js",
-    "testsave": "tape src/apps/**/tests/*.js | faucet"
+    "test": "tape src/apps/**/tests/*.js | faucet"
   },
   "repository": {
     "type": "git",
