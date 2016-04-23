@@ -4,8 +4,8 @@ module.exports = function(input, message, out) {
   "use strict";
   let sanitized = input.split(" ");
 
-  if (sanitized.length < 2) {
-    return "Il me manque un truc là !";
+  if (sanitized.length < 2 || sanitized[1] === "") {
+    return out("Il me manque un truc là !", message.channel);
   }
 
   let type = sanitized.shift();
@@ -15,8 +15,7 @@ module.exports = function(input, message, out) {
   if (type !== "idea" &&
       type !== "bug" &&
       type !== "msg") {
-    out("Type inconnu.", message.channel);
-    return;
+    return out("Type inconnu.", message.channel);
   }
 
   Feedback.createFeedback({

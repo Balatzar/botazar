@@ -47,7 +47,7 @@ mongoose.connection.on('open', function(){
 
     test("Feedback - Base command", (t) => {
 
-      t.plan(7);
+      t.plan(9);
 
       let input           = { text: "idea test this module" };
       let message         = { channel: "test" };
@@ -68,6 +68,13 @@ mongoose.connection.on('open', function(){
           feedbackApp({ text: "idae this should not work" }, message, function(msg, channel) {
 
             t.equal(msg, "Type inconnu.", "This type should not be recognized.");
+            t.equal(channel, message.channel, "channel is not modified");
+
+          });
+
+          feedbackApp({ text: "idea " }, message, function(msg, channel) {
+
+            t.equal(msg, "Il me manque un truc là !", "It should say that it lakes an argument");
             t.equal(channel, message.channel, "channel is not modified");
 
           });
