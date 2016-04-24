@@ -16,9 +16,13 @@ module.exports = function() {
     if (!message.text) {
       return;
     }
-    inputParser(message.text, message, function(msg, channel) {
-      rtm.sendMessage(msg, channel);
-    });
+    inputParser(message.text, bakeChannel(message.channel, rtm));
   });
 
 };
+
+function bakeChannel(channel, rtm) {
+  return function(msg) {
+    rtm.sendMessage(msg, channel);
+  }
+}

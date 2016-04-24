@@ -2,7 +2,7 @@ const apps        = require("./jsonParser.js")();
 const botNames    = [ "baltabot", "botazar", "botazar:",
                       "<@U1082RRH8>:", "balthabot", "petikon" ];
 
-module.exports = function(input, message, out) {
+module.exports = function(input, out) {
   "use strict";
   if (typeof input !== "string") {
     throw "Input needs to be a string";
@@ -28,7 +28,7 @@ module.exports = function(input, message, out) {
         command: command,
         text: sanitizedInput ? sanitizedInput.join(" ") : "",
       };
-      require("../apps/" + apps[i].name.toLowerCase() + "/" + apps[i].entry)(input, message, out);
+      require("../apps/" + apps[i].name.toLowerCase() + "/" + apps[i].entry)(input, out);
     }
   }
 
@@ -39,14 +39,13 @@ function reg(app, input) {
   "use strict";
   const regex = app.regex ? new RegExp(app.regex) : false;
   if (!regex) {
-    return;
+    return false;
   }
   if (typeof input === "string") {
     return regex.test(input);
   }
   for (let i = 0; i < input.length; i += 1) {
     if (regex.test(input[i])) {
-      console.log("URL")
       return true;
     }
   }

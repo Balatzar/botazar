@@ -4,7 +4,6 @@ const feedbackSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   type: String,
   text: String,
-  user: String,
   archived: { type: Boolean, default: false },
 });
 
@@ -16,16 +15,16 @@ const Feedback = {
     Feedback.model.create(feedback);
   },
 
-  listAll: function(channel, out) {
+  listAll: function(out) {
     "use strict";
     console.log("fdb model");
     Feedback.model.find({ archived: false }, function(err, feedbacks) {
       if (err) {
-        return out(err, channel);
+        return out(err);
       }
 
       if (!feedbacks.length) {
-        return out("Rien pour l'instant magueule !", channel);
+        return out("Rien pour l'instant magueule !");
       }
 
       let text = "";
@@ -38,24 +37,24 @@ const Feedback = {
                 "_id:_ " + fdb._id + "\n";
       });
 
-      out(text, channel);
+      out(text);
     });
   },
 
-  archiveFeedback: function(id, channel, out) {
+  archiveFeedback: function(id, out) {
     "use strict";
     Feedback.model.findById(id, function(err, fdb) {
       if (err) {
-        return out("Echec !", channel);
+        return out("Echec !");
       }
       if (fdb === null) {
-        return out("Ce feedback n'existe pas !", channel);
+        return out("Ce feedback n'existe pas !");
       }
       Feedback.model.findByIdAndUpdate(id, { $set: { archived: true }}, function(err) {
         if (err) {
-          return out("Echec !", channel);
+          return out("Echec !");
         }
-        out("Feedback archivé !", channel);
+        out("Feedback archivé !");
       });
     });
   },
