@@ -2,6 +2,9 @@ const Feedback = require("../models/Feedback");
 
 module.exports = function(input, message, out) {
   "use strict";
+  if (!input) {
+    return out("Il faut du texte !", message.channel);
+  }
   let sanitized = input.split(" ");
 
   if (sanitized.length < 2 || sanitized[1] === "") {

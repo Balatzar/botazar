@@ -47,7 +47,7 @@ mongoose.connection.on('open', function(){
 
     test("Feedback - Base command", (t) => {
 
-      t.plan(9);
+      t.plan(11);
 
       let input           = { text: "idea test this module" };
       let message         = { channel: "test" };
@@ -75,6 +75,13 @@ mongoose.connection.on('open', function(){
           feedbackApp({ text: "idea " }, message, function(msg, channel) {
 
             t.equal(msg, "Il me manque un truc là !", "It should say that it lakes an argument");
+            t.equal(channel, message.channel, "channel is not modified");
+
+          });
+
+          feedbackApp({ text: "" }, message, function(msg, channel) {
+
+            t.equal(msg, "Il faut du texte !", "It should say that it lakes text");
             t.equal(channel, message.channel, "channel is not modified");
 
           });

@@ -22,7 +22,8 @@ module.exports = function(input, message, out) {
   }
 
   for (let i = 0; i < apps.length; i += 1) {
-    if ((apps[i].aliases.indexOf(app) !== -1 && apps[i].named === named) || reg(apps[i], app.concat(sanitizedInput))) {
+    if ((apps[i].aliases.indexOf(app) !== -1 && apps[i].named === named) ||
+          reg(apps[i], app.concat(sanitizedInput))) {
       const input = {
         command: command,
         text: sanitizedInput ? sanitizedInput.join(" ") : "",
