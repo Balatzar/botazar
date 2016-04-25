@@ -1,9 +1,9 @@
 {
-  "name": "slack_yt",
-  "entry": "slack_yt.js",
-  "aliases": "slack_yt, fdb",
+  "strName": "slack_yt",
+  "strEntry": "slack_yt.js",
+  "arrAliases": "slack_yt, fdb",
   "regex": "^(<https\\:\\/\\/)?(www\\.youtube\\.com|youtu\\.?be)\\/.+$",
-  "named": false,
+  "boolNamed": false,
   "description": "A bot to store youtube vids posted to slack",
   "commands": {
     "youtube url": {

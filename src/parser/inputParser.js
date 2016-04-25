@@ -1,53 +1,84 @@
-const apps        = require("./jsonParser.js")();
-const botNames    = [ "baltabot", "botazar", "botazar:",
+const arrApps        = require("./jsonParser.js")();
+const arrBotNames    = [ "baltabot", "botazar", "botazar:",
                       "<@U1082RRH8>:", "balthabot", "petikon" ];
 
-module.exports = function(input, out) {
+module.exports = function(strInput, funcOut) {
   "use strict";
-  if (typeof input !== "string") {
+  if (typeof strInput !== "string") {
     throw "Input needs to be a string";
   }
-  const sanitizedInput = input.toLowerCase().split(" ");
-  let named = false;
 
-  if (botNames.indexOf(sanitizedInput[0]) !== -1) {
-    sanitizedInput.shift();
-    named = true;
-  }
+  const arrSanitizedInput = strInput.toLowerCase().split(" ");
 
-  const app = sanitizedInput.shift();
-  let command = "";
-  if (sanitizedInput[0] && sanitizedInput[0][0] === "-") {
-    command = sanitizedInput.shift();
-  }
+  if (arrBotNames.indexOf(arrSanitizedInput[0]) !== -1) {
 
-  for (let i = 0; i < apps.length; i += 1) {
-    if ((apps[i].aliases.indexOf(app) !== -1 && apps[i].named === named) ||
-          reg(apps[i], app.concat(sanitizedInput))) {
-      const input = {
-        command: command,
-        text: sanitizedInput ? sanitizedInput.join(" ") : "",
-      };
-      require("../apps/" + apps[i].name.toLowerCase() + "/" + apps[i].entry)(input, out);
+    arrSanitizedInput.shift();
+
+    if (!arrSanitizedInput.length) {
+      return;
     }
+
+    const strApp = arrSanitizedInput.shift();
+    let strCommand = "";
+    if (arrSanitizedInput[0] && arrSanitizedInput[0][0] === "-") {
+      strCommand = arrSanitizedInput.shift();
+    }
+
+    for (let i = 0; i < arrApps.length; i += 1) {
+      if (arrApps[i].arrAliases.indexOf(strApp) !== -1 && arrApps[i].boolNamed) {
+        require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, strCommand, funcOut);
+        return;
+      }
+    }
+
+  }
+
+  else {
+
+    for (let i = 0; i < arrApps.length; i += 1) {
+      if (funcReg(arrApps[i], arrSanitizedInput)) {
+        require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, undefined, funcOut);
+      }
+    }
+
   }
 
   return;
 };
 
-function reg(app, input) {
+function funcReg(objApp, arrInput) {
   "use strict";
-  const regex = app.regex ? new RegExp(app.regex) : false;
+  const regex = objApp.regex ? new RegExp(objApp.regex) : false;
   if (!regex) {
     return false;
   }
-  if (typeof input === "string") {
-    return regex.test(input);
-  }
-  for (let i = 0; i < input.length; i += 1) {
-    if (regex.test(input[i])) {
+  for (let i = 0; i < arrInput.length; i += 1) {
+    if (regex.test(arrInput[i])) {
       return true;
     }
   }
   return false;
 }
+
+
+/*
+
+recevoir l'input string
+
+le mettre en lower case et le découper dans un array
+
+regarder si le premier index de l'array est le nom du bot
+
+  si oui c'est une app nommée qui doit avoir un nom d'app et éventuellement une commande
+    extraire le premier index et le mettre dans une variable app
+    regarder si le nouveau premier index a un -, si oui l'extraire et le mettre dans une var
+    chercher l'app correspondante et l'appeller si elle existe avec la commande eventuellement
+      -> trouvée et tout l'arr restant
+
+  si non c'est peut etre une app regex
+    tester les regex des apps qui en ont avec tous les elements de l'arr input
+    si une est valide, l'appeller avec tout l'arr
+
+  si rien on ne fait rien
+
+*/

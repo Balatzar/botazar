@@ -1,8 +1,8 @@
 {
-  "name": "Feedback",
-  "entry": "feedback.js",
-  "aliases": "feedback, fdb",
-  "named": true,
+  "strName": "Feedback",
+  "strEntry": "feedback.js",
+  "arrAliases": "feedback, fdb",
+  "boolNamed": true,
   "description": "A bot to provide feedback to the botmaker",
   "commands": {
     "Help": {
