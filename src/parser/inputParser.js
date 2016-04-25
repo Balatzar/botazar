@@ -18,11 +18,13 @@ module.exports = function(strInput, funcOut) {
       return;
     }
 
-    const strApp = sanitizedInput.shift();
+    const strApp = arrSanitizedInput.shift();
     let strCommand = "";
     if (arrSanitizedInput[0] && arrSanitizedInput[0][0] === "-") {
       strCommand = arrSanitizedInput.shift();
     }
+
+    console.log(strApp)
 
     for (let i = 0; i < arrApps.length; i += 1) {
       if (arrApps[i].arrAliases.indexOf(strApp) !== -1 && arrApps[i].boolNamed) {
@@ -37,6 +39,7 @@ module.exports = function(strInput, funcOut) {
     for (let i = 0; i < arrApps.length; i += 1) {
       if (funcReg(arrApps[i]), arrSanitizedInput) {
         require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, undefined, funcOut);
+        return;
       }
     }
 

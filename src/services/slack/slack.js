@@ -20,7 +20,8 @@ module.exports = function(strToken) {
 };
 
 function funcBakeChannel(strChannel, rtm) {
-  return function(msg) {
+  "use strict";
+  return function(strMsg) {
     rtm.sendMessage(strMsg, strChannel);
-  }
+  };
 }
