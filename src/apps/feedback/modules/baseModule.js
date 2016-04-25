@@ -1,11 +1,14 @@
 const Feedback = require("../models/Feedback");
 
-module.exports = function(input, user) {
+module.exports = function(input, out) {
   "use strict";
+  if (!input) {
+    return out("Il faut du texte !");
+  }
   let sanitized = input.split(" ");
 
-  if (sanitized.length < 2) {
-    return "Argument missing";
+  if (sanitized.length < 2 || sanitized[1] === "") {
+    return out("Il me manque un truc là !");
   }
 
   let type = sanitized.shift();
@@ -15,14 +18,13 @@ module.exports = function(input, user) {
   if (type !== "idea" &&
       type !== "bug" &&
       type !== "msg") {
-    return "Wrong type.";
+    return out("Type inconnu.");
   }
 
   Feedback.createFeedback({
-    user: user,
     type: type,
     text: sanitized.join(" ")
   });
 
-  return "Thanks for your input!";
+  out("Merci gars");
 };

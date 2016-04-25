@@ -1,26 +1,34 @@
-const helpModule = require("./modules/helpModule");
-const baseModule = require("./modules/baseModule");
-const listModule = require("./modules/listModule");
+const helpModule      = require("./modules/helpModule");
+const baseModule      = require("./modules/baseModule");
+const listModule      = require("./modules/listModule");
+const archiveModule   = require("./modules/archiveModule");
 
-module.exports = function(input) {
+module.exports = function(input, out) {
   "use strict";
 
   console.log(input);
 
   switch(input.command) {
     case "-help":
-    case "-h":
-      return helpModule();
+    case "-h": {
+      helpModule(out);
+      break;
+    }
 
     case "-list":
-    case "-l":
-      return listModule();
+    case "-l": {
+      listModule(out);
+      break;
+    }
+
+    case "-delete":
+    case "-d": {
+      archiveModule(input.text, out);
+      break;
+    }
 
     default: {
-      if (!input.text) {
-        throw "Text input required";
-      }
-      return baseModule(input.text, input.user);
+      baseModule(input.text, out);
     }
   }
 };
