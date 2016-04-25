@@ -4,4 +4,4 @@ const slackService  = require("./src/services/slack/slack");
 mongoose.connect(process.env.MONGO_URL || "mongodb://localhost/botazar");
 console.log("Connected to mongo!");
 
-slackService();
+slackService(process.env.SLACK_API_TOKEN);

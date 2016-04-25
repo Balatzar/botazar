@@ -1,28 +1,26 @@
-const inputParser = require("../../parser/inputParser");
 const RtmClient   = require("@slack/client").RtmClient;
 const RTM_EVENTS  = require("@slack/client").RTM_EVENTS;
+const funcInputParser = require("../../parser/inputParser");
 
-module.exports = function() {
+module.exports = function(strToken) {
   "use strict";
 
-  const token = process.env.SLACK_API_TOKEN;
-
-  const rtm = new RtmClient(token); // , { logLevel: "debug" }
+  const rtm = new RtmClient(strToken); // , { logLevel: "debug" }
 
   rtm.start();
 
-  rtm.on(RTM_EVENTS.MESSAGE, function (message) {
-    console.log(message.text);
-    if (!message.text) {
+  rtm.on(RTM_EVENTS.MESSAGE, function (objMessage) {
+    console.log(objMessage.text);
+    if (!objMessage.text) {
       return;
     }
-    inputParser(message.text, bakeChannel(message.channel, rtm));
+    funcInputParser(objMessage.text, funcBakeChannel(objMessage.channel, rtm));
   });
 
 };
 
-function bakeChannel(channel, rtm) {
+function funcBakeChannel(strChannel, rtm) {
   return function(msg) {
-    rtm.sendMessage(msg, channel);
+    rtm.sendMessage(strMsg, strChannel);
   }
 }
