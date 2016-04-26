@@ -1,5 +1,6 @@
 const google = require("googleapis");
 const Tokens = require("../models/Tokens");
+const Playlist = require("../models/Playlist");
 const OAuth2 = google.auth.OAuth2;
 const youtube = google.youtube("v3");
 
@@ -17,14 +18,28 @@ module.exports = function(objMessage, funcOut) {
       oauth2Client.setCredentials(tokens);
 
       youtube.playlists.insert({
-        "part": "snippet",
+        "part": "snippet,status",
         resource: {
           snippet: {
-            title: "Test Playlist",
-            description: "A private playlist created with the YouTube API"
+            title: "Botazar playlist",
+            description: "A playlist created with the YouTube API and botazar"
           },
+          "status": {
+            "privacyStatus": "public"
+           }
         },
         auth: oauth2Client
+      }, function(err, res) {
+        if (err) {
+          funcOut(JSON.stringify(err));
+        } else {
+          Playlist.createPlaylist({
+            id: res.id,
+            channel: objMessage.channel,
+            title: "Botazar playlist"
+          });
+          funcOut("Votre playlist est ici ! https://www.youtube.com/playlist?list=" + res.id);
+        }
       });
     }
   });
