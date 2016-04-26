@@ -21,11 +21,11 @@ module.exports = function(strInput, objMessage, funcOut) {
     const strApp = arrSanitizedInput.shift();
     let strCommand = "";
     if (arrSanitizedInput[0] && arrSanitizedInput[0][0] === "-") {
-      strCommand = arrSanitizedInput.shift();
+      strCommand = arrSanitizedInput.shift().toLowerCase();
     }
 
     for (let i = 0; i < arrApps.length; i += 1) {
-      if (arrApps[i].arrAliases.indexOf(strApp) !== -1 && arrApps[i].boolNamed) {
+      if (arrApps[i].arrAliases.indexOf(strApp.toLowerCase()) !== -1 && arrApps[i].boolNamed) {
         require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, strCommand, objMessage, funcOut);
         return;
       }
