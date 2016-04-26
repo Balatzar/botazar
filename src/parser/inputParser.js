@@ -8,7 +8,7 @@ module.exports = function(strInput, funcOut) {
     throw "Input needs to be a string";
   }
 
-  const arrSanitizedInput = strInput.toLowerCase().split(" ");
+  const arrSanitizedInput = strInput.split(" ");
 
   if (arrBotNames.indexOf(arrSanitizedInput[0]) !== -1) {
 

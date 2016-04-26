@@ -10,9 +10,9 @@ const tokensSchema = new mongoose.Schema({
 const Tokens = {
   model: mongoose.model("Tokens", tokensSchema),
 
-  createTokens: function(Tokens) {
+  createTokens: function(tokens) {
     "use strict";
-    Tokens.model.create(Tokens);
+    Tokens.model.create(tokens);
   },
   
 };

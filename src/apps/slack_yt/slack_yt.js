@@ -1,6 +1,6 @@
 const helpModule        = require("./modules/helpModule");
 // const listModule        = require("./modules/listModule");
-// const initModule        = require("./modules/initModule");
+const initModule        = require("./modules/initModule");
 const createModule      = require("./modules/createModule");
 const baseModule        = require("./modules/baseModule");
 
@@ -23,11 +23,11 @@ module.exports = function(arrInput, strCommand, funcOut) {
     //   break;
     // }
 
-    // case "-init":
-    // case "-i": {
-    //   initModule(arrInput.join(" "), funcOut);
-    //   break;
-    // }
+    case "-init":
+    case "-i": {
+      initModule(arrInput.join(" "), funcOut);
+      break;
+    }
 
     case "-create":
     case "-c": {
