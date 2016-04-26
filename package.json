@@ -19,6 +19,8 @@
   "dependencies": {
     "@slack/client": "^2.3.0",
     "bunyan": "^1.8.1",
+    "googleapis": "^5.2.1",
+    "moment": "^2.13.0",
     "mongoose": "^4.4.12",
     "slackbots": "^0.5.1"
   },

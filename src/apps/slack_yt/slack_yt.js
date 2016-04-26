@@ -1,33 +1,43 @@
-const youtube = require("youtube-api");
-const opn = require("opn");
+const helpModule        = require("./modules/helpModule");
+// const listModule        = require("./modules/listModule");
+// const initModule        = require("./modules/initModule");
+// const createModule      = require("./modules/createModule");
+const baseModule        = require("./modules/baseModule");
 
-module.exports = function(arrInput, command, funcOut) {
+module.exports = function(arrInput, strCommand, funcOut) {
   "use strict";
 
-  const oauth = youtube.authenticate({
-    type: "oauth",
-    client_id: process.env.YOUTUBE_CLIENT_ID,
-    client_secret: process.env.YOUTUBE_CLIENT_SECRET
-  });
+  console.log(arrInput);
+  console.log(strCommand);
 
-  opn(oauth.generateAuthUrl({
-    access_type: "offline",
-    scope: ["https://www.googleapis.com/auth/youtubepartner",
-            "https://www.googleapis.com/auth/youtube",
-            "https://www.googleapis.com/auth/youtube.force-ssl"]
-  }));
-  // funcOut("coucou");
+  switch(strCommand) {
+    case "-help":
+    case "-h": {
+      helpModule(funcOut);
+      break;
+    }
+
+    // case "-list":
+    // case "-l": {
+    //   listModule(funcOut);
+    //   break;
+    // }
+
+    // case "-init":
+    // case "-i": {
+    //   initModule(arrInput.join(" "), funcOut);
+    //   break;
+    // }
+
+    // case "-create":
+    // case "-c": {
+    //   createModule(arrInput.join(" "), funcOut);
+    //   break;
+    // }
+
+    default: {
+      baseModule(arrInput.join(" "), funcOut);
+    }
+  }
+
 };
-
- // const spotifyApi = new SpotifyWebApi({
- //    clientId : "",
- //    clientSecret : "",
- //    redirectUri : "http://www.example.com/callback"
- //  });
-
- //  spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE')
- //  .then(function(data) {
- //    console.log('Artist albums', data.body);
- //  }, function(err) {
- //    console.error(err);
- //  });

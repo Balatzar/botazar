@@ -1,16 +1,25 @@
 {
   "strName": "slack_yt",
   "strEntry": "slack_yt.js",
-  "arrAliases": "slack_yt, fdb",
+  "arrAliases": "slack_yt, syt, sly, slyt",
   "regex": "^(<https\\:\\/\\/)?(www\\.youtube\\.com|youtu\\.?be)\\/.+$",
-  "boolNamed": false,
+  "boolNamed": true,
   "description": "A bot to store youtube vids posted to slack",
   "commands": {
     "youtube url": {
       "youtube url": ""
     },
     "List songs": {
-      "list": ""
+      "yts -list": ""
+    },
+    "Help": {
+      "yts -help": ""
+    },
+    "Init playlist": {
+      "yts -init": ""
+    },
+    "Store code": {
+      "yts -create": "4/auusaj-Zc63T_7U55RvqbXirB5q_jxqQmyNVoXrwyLU#"
     }
   }
 }

@@ -1,9 +1,9 @@
 module.exports = function(out) {
   "use strict";
-  const help =  "This app is to send feedback to the botmaker!\n" +
-                "You can you use it with the syntax `feedback|fdb [type] [msg]`\n" +
-                "They are 3 types : _idea_, _bug_, _msg_\n" +
-                "Example : `botazar feedback idea 'create an app to remind me to commit every now and then'`";
+  const help =  "Salut caca alors comme ça tu veux feedback?\n" +
+                "Comme on est free du body ici tu peux aussi utiliser `feedback|fdb [type] [msg]`\n" +
+                "Tu peux enregistrer des ​_idea_ / _bug_ / _msg_\n" +
+                "Exemple : `botazar feedback bug 'le bot raconte n'importe quoi c'est embarassant'`";
 
   out(help);
 };
