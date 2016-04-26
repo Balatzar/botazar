@@ -18,9 +18,9 @@
   "homepage": "https://github.com/Balatzar/botazar#readme",
   "dependencies": {
     "@slack/client": "^2.3.0",
+    "bunyan": "^1.8.1",
     "mongoose": "^4.4.12",
-    "slackbots": "^0.5.1",
-    "youtube-api": "^1.4.0"
+    "slackbots": "^0.5.1"
   },
   "devDependencies": {
     "faucet": "0.0.1",
