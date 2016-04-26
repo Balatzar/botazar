@@ -2,7 +2,7 @@ const arrApps        = require("./jsonParser.js")();
 const arrBotNames    = [ "baltabot", "botazar", "botazar:",
                       "<@U1082RRH8>:", "balthabot", "petikon" ];
 
-module.exports = function(strInput, funcOut) {
+module.exports = function(strInput, objMessage, funcOut) {
   "use strict";
   if (typeof strInput !== "string") {
     throw "Input needs to be a string";
@@ -26,7 +26,7 @@ module.exports = function(strInput, funcOut) {
 
     for (let i = 0; i < arrApps.length; i += 1) {
       if (arrApps[i].arrAliases.indexOf(strApp) !== -1 && arrApps[i].boolNamed) {
-        require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, strCommand, funcOut);
+        require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, strCommand, objMessage, funcOut);
         return;
       }
     }
@@ -37,7 +37,7 @@ module.exports = function(strInput, funcOut) {
 
     for (let i = 0; i < arrApps.length; i += 1) {
       if (funcReg(arrApps[i], arrSanitizedInput)) {
-        require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, undefined, funcOut);
+        require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, undefined, objMessage, funcOut);
       }
     }
 

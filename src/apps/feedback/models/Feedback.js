@@ -5,6 +5,7 @@ const feedbackSchema = new mongoose.Schema({
   type: String,
   text: String,
   archived: { type: Boolean, default: false },
+  user: String,
 });
 
 const Feedback = {

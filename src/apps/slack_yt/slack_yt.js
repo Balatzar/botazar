@@ -4,7 +4,7 @@ const initModule        = require("./modules/initModule");
 const createModule      = require("./modules/createModule");
 const baseModule        = require("./modules/baseModule");
 
-module.exports = function(arrInput, strCommand, funcOut) {
+module.exports = function(arrInput, strCommand, objMessage, funcOut) {
   "use strict";
 
   console.log(arrInput);
@@ -25,7 +25,7 @@ module.exports = function(arrInput, strCommand, funcOut) {
 
     case "-init":
     case "-i": {
-      initModule(arrInput.join(" "), funcOut);
+      initModule(objMessage, funcOut);
       break;
     }
 

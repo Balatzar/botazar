@@ -1,6 +1,6 @@
 const Feedback = require("../models/Feedback");
 
-module.exports = function(input, out) {
+module.exports = function(input, objMessage, out) {
   "use strict";
   if (!input) {
     return out("Il faut du texte !");
@@ -23,7 +23,8 @@ module.exports = function(input, out) {
 
   Feedback.createFeedback({
     type: type,
-    text: sanitized.join(" ")
+    text: sanitized.join(" "),
+    user: objMessage.user,
   });
 
   out("Merci gars");

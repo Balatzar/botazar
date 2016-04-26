@@ -14,7 +14,7 @@ module.exports = function(strToken) {
     if (!objMessage.text) {
       return;
     }
-    funcInputParser(objMessage.text, funcBakeChannel(objMessage.channel, rtm));
+    funcInputParser(objMessage.text, objMessage, funcBakeChannel(objMessage.channel, rtm));
   });
 
 };

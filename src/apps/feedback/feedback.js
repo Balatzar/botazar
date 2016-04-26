@@ -3,7 +3,7 @@ const baseModule      = require("./modules/baseModule");
 const listModule      = require("./modules/listModule");
 const archiveModule   = require("./modules/archiveModule");
 
-module.exports = function(arrInput, strCommand, funcOut) {
+module.exports = function(arrInput, strCommand, objMessage, funcOut) {
   "use strict";
 
   console.log(arrInput);
@@ -29,7 +29,7 @@ module.exports = function(arrInput, strCommand, funcOut) {
     }
 
     default: {
-      baseModule(arrInput.join(" "), funcOut);
+      baseModule(arrInput.join(" "), objMessage, funcOut);
     }
   }
 };
