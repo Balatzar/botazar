@@ -1,7 +1,7 @@
 const helpModule        = require("./modules/helpModule");
 // const listModule        = require("./modules/listModule");
 // const initModule        = require("./modules/initModule");
-// const createModule      = require("./modules/createModule");
+const createModule      = require("./modules/createModule");
 const baseModule        = require("./modules/baseModule");
 
 module.exports = function(arrInput, strCommand, funcOut) {
@@ -29,14 +29,14 @@ module.exports = function(arrInput, strCommand, funcOut) {
     //   break;
     // }
 
-    // case "-create":
-    // case "-c": {
-    //   createModule(arrInput.join(" "), funcOut);
-    //   break;
-    // }
+    case "-create":
+    case "-c": {
+      createModule(arrInput, funcOut);
+      break;
+    }
 
     default: {
-      baseModule(arrInput.join(" "), funcOut);
+      baseModule(arrInput, funcOut);
     }
   }
 
