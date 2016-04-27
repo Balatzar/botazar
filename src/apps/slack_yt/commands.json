@@ -9,8 +9,8 @@
     "youtube url": {
       "youtube url": ""
     },
-    "List songs": {
-      "yts -list": ""
+    "Info": {
+      "yts -info": ""
     },
     "Help": {
       "yts -help": ""
@@ -19,7 +19,7 @@
       "yts -init": ""
     },
     "Store code": {
-      "yts -create": "4/auusaj-Zc63T_7U55RvqbXirB5q_jxqQmyNVoXrwyLU#"
+      "yts -login": "code 4/auusaj-Zc63T_7U55RvqbXirB5q_jxqQmyNVoXrwyLU#"
     }
   }
 }

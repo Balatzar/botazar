@@ -1,36 +1,57 @@
 const google = require("googleapis");
 const Tokens = require("../models/Tokens");
+const Playlist = require("../models/Playlist");
 const OAuth2 = google.auth.OAuth2;
+const youtube = google.youtube("v3");
 
 const oauth2Client = new OAuth2(process.env.GOOGLE_API_CLIENTID, process.env.GOOGLE_API_CLIENTSECRET, "http://balthazar.space");
 
-module.exports = function(arrInput, funcOut) {
+module.exports = function(objMessage, funcOut) {
   "use strict";
-  if (arrInput.length) {
-    if (arrInput[0] === "code") {
-      const code = arrInput[1];
 
-      oauth2Client.getToken(code, function(err, tokens) {
+  Playlist.model.find({ channel: objMessage.channel }, function(err, playlist) {
+    if (err) {
+      console.log(err);
+    } else if (playlist.length) {
+      funcOut("Ya déjà une playlist dans ce channel !");
+    } else {
+      Tokens.model.find({}, function(err, token) {
         if (err) {
           funcOut(JSON.stringify(err));
-          console.log(err);
         } else {
-          Tokens.createTokens(tokens);
+          const tokens = token[0];
+
+          oauth2Client.setCredentials(tokens);
+
+          youtube.playlists.insert({
+            "part": "snippet,status",
+            resource: {
+              snippet: {
+                title: "Botazar playlist",
+                description: "A playlist created with the YouTube API and botazar"
+              },
+              "status": {
+                "privacyStatus": "public"
+               }
+            },
+            auth: oauth2Client
+          }, function(err, res) {
+            if (err) {
+              funcOut(JSON.stringify(err));
+            } else {
+              const url = "https://www.youtube.com/playlist?list=" + res.id;
+              Playlist.createPlaylist({
+                id: res.id,
+                channel: objMessage.channel,
+                title: "Botazar playlist",
+                url: url,
+              });
+              funcOut("Votre playlist est ici !\n" + url);
+            }
+          });
         }
       });
     }
-  } else {
-      const scope = "https://www.googleapis.com/auth/youtube";
+  });
 
-      const url = oauth2Client.generateAuthUrl({
-        access_type: "offline",
-        scope: scope,
-        prompt: "consent"
-      });
-
-      funcOut("Veuillez autoriser l'application et me filer le code en faisant :\n" +
-              "`botazar sly -c code erg3er1h3e2r1h3e2r13er1g32e`\n" +
-              "Le code est dans l'url après `http://balthazar.space/?code=`!");
-      funcOut(url);
-  }
 };

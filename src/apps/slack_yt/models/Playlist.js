@@ -5,6 +5,7 @@ const playlistSchema = new mongoose.Schema({
   id: String,
   title: String,
   channel: String,
+  url: String,
 });
 
 const Playlist = {

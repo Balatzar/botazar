@@ -1,7 +1,7 @@
 const helpModule        = require("./modules/helpModule");
-// const listModule        = require("./modules/listModule");
-const initModule        = require("./modules/initModule");
+const infoModule        = require("./modules/infoModule");
 const createModule      = require("./modules/createModule");
+const loginModule       = require("./modules/loginModule");
 const baseModule        = require("./modules/baseModule");
 
 module.exports = function(arrInput, strCommand, objMessage, funcOut) {
@@ -17,21 +17,21 @@ module.exports = function(arrInput, strCommand, objMessage, funcOut) {
       break;
     }
 
-    // case "-list":
-    // case "-l": {
-    //   listModule(funcOut);
-    //   break;
-    // }
-
-    case "-init":
+    case "-info":
     case "-i": {
-      initModule(objMessage, funcOut);
+      infoModule(objMessage, funcOut);
       break;
     }
 
     case "-create":
     case "-c": {
-      createModule(arrInput, funcOut);
+      createModule(objMessage, funcOut);
+      break;
+    }
+
+    case "-login":
+    case "-l": {
+      loginModule(arrInput, funcOut);
       break;
     }
 
