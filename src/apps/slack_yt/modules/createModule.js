@@ -27,7 +27,7 @@ module.exports = function(objMessage, funcOut) {
             "part": "snippet,status",
             resource: {
               snippet: {
-                title: "Botazar playlist",
+                title: objMessage.team + " - " + objMessage.channelName,
                 description: "A playlist created with the YouTube API and botazar"
               },
               "status": {

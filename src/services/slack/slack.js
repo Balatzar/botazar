@@ -6,7 +6,7 @@ const funcInputParser = require("../../parser/inputParser");
 module.exports = function(strToken) {
   "use strict";
 
-  const rtm = new RtmClient(strToken); // , { logLevel: "debug" }
+  const rtm = new RtmClient(strToken, {logLevel: "info"}); // , { logLevel: "debug" }
 
   let arrChannels;
   let arrUsers;
