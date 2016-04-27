@@ -1,24 +1,21 @@
 const RtmClient       = require("@slack/client").RtmClient;
 const RTM_EVENTS      = require("@slack/client").RTM_EVENTS;
 const CLIENT_EVENTS   = require("@slack/client").CLIENT_EVENTS;
+const MemoryDataStore   = require("@slack/client").MemoryDataStore;
 const funcInputParser = require("../../parser/inputParser");
 
 module.exports = function(strToken) {
   "use strict";
 
-  const rtm = new RtmClient(strToken, {logLevel: "info"}); // , { logLevel: "debug" }
-
-  let arrChannels;
-  let arrUsers;
-  let strTeam;
+  const rtm = new RtmClient(strToken, {
+    logLevel: "error",
+    dataStore: new MemoryDataStore(),
+  }); // , { logLevel: "debug" }
 
   rtm.start();
 
   rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
     console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}`);
-    arrChannels = rtmStartData.channels;
-    arrUsers = rtmStartData.users;
-    strTeam = rtmStartData.team.name;
   });
 
   rtm.on(RTM_EVENTS.MESSAGE, function (objMessage) {
@@ -26,9 +23,10 @@ module.exports = function(strToken) {
     if (!objMessage.text) {
       return;
     }
-    objMessage.channelName = arrChannels.find(c => c.id === objMessage.channel).name;
-    objMessage.userName = arrUsers.find(u => u.id === objMessage.user).name;
-    objMessage.team = strTeam;
+    objMessage.userName = rtm.dataStore.getUserById(objMessage.user).name;
+    objMessage.team = rtm.dataStore.getTeamById(rtm.activeTeamId).name;
+    objMessage.channelName = rtm.dataStore.getChannelGroupOrDMById(objMessage.channel).name;
+    console.log(objMessage)
     funcInputParser(objMessage.text, objMessage, funcBakeChannel(objMessage.channel, rtm));
   });
 
