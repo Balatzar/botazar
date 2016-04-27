@@ -36,7 +36,7 @@ module.exports = function(arrInput, strCommand, objMessage, funcOut) {
     }
 
     default: {
-      baseModule(arrInput, funcOut);
+      baseModule(arrInput, objMessage, funcOut);
     }
   }
 
