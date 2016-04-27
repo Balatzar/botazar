@@ -14,7 +14,19 @@ const Playlist = {
     "use strict";
     Playlist.model.create(playlist);
   },
-  
+
+  findCurrentPlaylist(strChannel, funcGetTokensAndSendPlaylist) {
+    "use strict";
+    Playlist.model.findOne({ channel: strChannel }, function(err, playlist) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        funcGetTokensAndSendPlaylist(playlist.id);
+      }
+    });
+  }
+
 };
 
 module.exports = Playlist;

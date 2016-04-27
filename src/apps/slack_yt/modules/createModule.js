@@ -20,13 +20,11 @@ module.exports = function(arrInput, funcOut) {
       });
     }
   } else {
-      const scopes = ["https://www.googleapis.com/auth/youtubepartner",
-                      "https://www.googleapis.com/auth/youtube",
-                      "https://www.googleapis.com/auth/youtube.force-ssl"];
+      const scope = "https://www.googleapis.com/auth/youtube";
 
       const url = oauth2Client.generateAuthUrl({
         access_type: "offline",
-        scope: scopes,
+        scope: scope,
         prompt: "consent"
       });
 
