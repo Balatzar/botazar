@@ -1,5 +1,6 @@
-const RtmClient   = require("@slack/client").RtmClient;
-const RTM_EVENTS  = require("@slack/client").RTM_EVENTS;
+const RtmClient       = require("@slack/client").RtmClient;
+const RTM_EVENTS      = require("@slack/client").RTM_EVENTS;
+const CLIENT_EVENTS   = require("@slack/client").CLIENT_EVENTS;
 const funcInputParser = require("../../parser/inputParser");
 
 module.exports = function(strToken) {
@@ -7,13 +8,21 @@ module.exports = function(strToken) {
 
   const rtm = new RtmClient(strToken); // , { logLevel: "debug" }
 
+  let arrChannels;
+
   rtm.start();
+
+  rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
+    console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}`);
+    arrChannels = rtmStartData.channels;
+  });
 
   rtm.on(RTM_EVENTS.MESSAGE, function (objMessage) {
     console.log(objMessage.text);
     if (!objMessage.text) {
       return;
     }
+    objMessage.channelName = arrChannels.find(c => c.id === objMessage.channel).name;
     funcInputParser(objMessage.text, objMessage, funcBakeChannel(objMessage.channel, rtm));
   });
 
