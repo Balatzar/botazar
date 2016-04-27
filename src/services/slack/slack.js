@@ -9,12 +9,14 @@ module.exports = function(strToken) {
   const rtm = new RtmClient(strToken); // , { logLevel: "debug" }
 
   let arrChannels;
+  let arrUsers;
 
   rtm.start();
 
   rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
     console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}`);
     arrChannels = rtmStartData.channels;
+    arrUsers = rtmStartData.users;
   });
 
   rtm.on(RTM_EVENTS.MESSAGE, function (objMessage) {
@@ -23,6 +25,7 @@ module.exports = function(strToken) {
       return;
     }
     objMessage.channelName = arrChannels.find(c => c.id === objMessage.channel).name;
+    objMessage.userName = arrUsers.find(u => u.id === objMessage.user).name;
     funcInputParser(objMessage.text, objMessage, funcBakeChannel(objMessage.channel, rtm));
   });
 
