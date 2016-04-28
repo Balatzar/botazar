@@ -1,25 +1,30 @@
 {
-  "strName": "Slack > Youtube",
+  "strName": "slack_yt",
   "strEntry": "slack_yt.js",
   "arrAliases": "slack_yt, syt, sly, slyt",
   "regex": "^(<https\\:\\/\\/)?(www\\.youtube\\.com|youtu\\.?be)\\/.+$",
   "boolNamed": true,
-  "description": "A bot to store youtube vids posted to slack",
+  "description": "une app qui me permet de sauvegarder toutes vos vidéos youtube dans une plaulsit par channel!",
   "commands": {
-    "youtube url": {
-      "youtube url": ""
+    "Youtube url": {
+      "syntax": "[youtube url] (ex `https://www.youtube.com/watch?v=dQw4w9WgXcQ`",
+      "description": "le module qui stocke les urls youtube dans une playlist si elle existe pour ce channel"
     },
     "Info": {
-      "yts -info": ""
+      "syntax": "-info | -i (ex `botazar sly -l`)",
+      "description": "si une playlist a été créée dans ce channel en donne l'url"
     },
     "Help": {
-      "yts -help": ""
+      "syntax": "-help | -i (ex `botazar sly -h`)",
+      "description": "donne l'aide de cette commande"
     },
-    "Init playlist": {
-      "yts -init": ""
+    "Create playlist": {
+      "syntax": "-create | -c (ex `botazar sly -c`",
+      "description": "crée une playlist dans ce channel"
     },
-    "Store code": {
-      "yts -login": "code 4/auusaj-Zc63T_7U55RvqbXirB5q_jxqQmyNVoXrwyLU#"
+    "Login": {
+      "syntax": "-login | -l (ex `botazar -l`)",
+      "description": "module qui permet de s'authentifier à l'api google quand le bot est lancé pour la première fois"
     }
   }
 }
