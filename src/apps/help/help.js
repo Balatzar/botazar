@@ -27,6 +27,7 @@ module.exports = function(arrInput, strCommand, objMessage, funcOut) {
           }
         }
         let res = "*" + currentApp.strName + "*\n" +
+                  currentApp.description + "\n" +
                   "_Aliases_ : " + strAliases + "\n" +
                   arrCommands.join("\n");
         return funcOut(res);
