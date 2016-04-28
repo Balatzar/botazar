@@ -14,7 +14,7 @@ module.exports = function(arrInput, objMessage, funcOut) {
 
   arrInput.forEach(str => {
     if (regex.test(str)) {
-      const intIndex = str.indexOf("v=") + 2;
+      const intIndex = str.indexOf("v=") !== -1 ? str.indexOf("v=") + 2 : str.indexOf("be/") + 3;
       const strVideoId = str.substring(intIndex, intIndex + 11);
 
       const funcGetTokensAndSendPlaylist = function(strPlaylistId) {
