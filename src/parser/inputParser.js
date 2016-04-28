@@ -1,6 +1,6 @@
 const arrApps        = require("./jsonParser.js")();
 const arrBotNames    = [ "baltabot", "botazar", "botazar:",
-                      "<@U1082RRH8>:", "balthabot", "petikon" ];
+                      "<@U1082RRH8>:", "balthabot", "petikon", "bz" ];
 
 module.exports = function(strInput, objMessage, funcOut) {
   "use strict";
