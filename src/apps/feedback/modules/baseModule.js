@@ -3,12 +3,12 @@ const Feedback = require("../models/Feedback");
 module.exports = function(input, objMessage, out) {
   "use strict";
   if (!input) {
-    return out("Il faut du texte !");
+    return out("il faut du texte !");
   }
   let sanitized = input.split(" ");
 
-  if (sanitized.length < 2 || sanitized[1] === "") {
-    return out("Il me manque un truc là !");
+  if (sanitized.length < 2 || sanitized[1] === "") {
+    return out("il me manque un truc là !");
   }
 
   let type = sanitized.shift();
@@ -25,6 +25,7 @@ module.exports = function(input, objMessage, out) {
     type: type,
     text: sanitized.join(" "),
     user: objMessage.user,
+    userName: objMessage.userName,
   });
 
   out("Merci gars");

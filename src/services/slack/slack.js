@@ -26,7 +26,6 @@ module.exports = function(strToken) {
     objMessage.userName = rtm.dataStore.getUserById(objMessage.user).name;
     objMessage.team = rtm.dataStore.getTeamById(rtm.activeTeamId).name;
     objMessage.channelName = rtm.dataStore.getChannelGroupOrDMById(objMessage.channel).name;
-    console.log(objMessage)
     funcInputParser(objMessage.text, objMessage, funcBakeChannel(objMessage.channel, rtm));
   });
 
