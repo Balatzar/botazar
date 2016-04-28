@@ -1,9 +1,9 @@
-const google = require("googleapis");
-const Tokens = require("../models/Tokens");
-const Playlist = require("../models/Playlist");
+const google    = require("googleapis");
+const Tokens    = require("../models/Tokens");
+const Playlist  = require("../models/Playlist");
 
-const youtube = google.youtube("v3");
-const OAuth2 = google.auth.OAuth2;
+const youtube   = google.youtube("v3");
+const OAuth2    = google.auth.OAuth2;
 
 const oauth2Client = new OAuth2(process.env.GOOGLE_API_CLIENTID, process.env.GOOGLE_API_CLIENTSECRET, "http://balthazar.space");
 
