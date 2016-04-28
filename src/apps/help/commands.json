@@ -6,10 +6,12 @@
   "description": "une app qui explique comment je fonctionne !",
   "commands": {
     "Help": {
-      "": ""
+      "syntax": "aucune (ex `botazar help`)",
+      "description": "lancer le module d'aide général"
     },
-    "App": {
-      "[nom app]": "type (idea, bug, message) | content (ex 'Hello, everything is broken :)'"
+    "Help [app]": {
+      "syntax": "[nom app] (ex `botazar help fdb`)'",
+      "description": "un module pour afficher une desciption précise d'une app"
     }
   }
 }
