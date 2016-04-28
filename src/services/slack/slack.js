@@ -1,12 +1,16 @@
 const RtmClient       = require("@slack/client").RtmClient;
 const RTM_EVENTS      = require("@slack/client").RTM_EVENTS;
 const CLIENT_EVENTS   = require("@slack/client").CLIENT_EVENTS;
+const MemoryDataStore   = require("@slack/client").MemoryDataStore;
 const funcInputParser = require("../../parser/inputParser");
 
 module.exports = function(strToken) {
   "use strict";
 
-  const rtm = new RtmClient(strToken, {logLevel: "info"}); // , { logLevel: "debug" }
+  const rtm = new RtmClient(strToken, {
+    logLevel: "error",
+    dataStore: new MemoryDataStore(),
+  }); // , { logLevel: "debug" }
 
   rtm.start();
 
@@ -19,6 +23,9 @@ module.exports = function(strToken) {
     if (!objMessage.text) {
       return;
     }
+    objMessage.userName = rtm.dataStore.getUserById(objMessage.user).name;
+    objMessage.team = rtm.dataStore.getTeamById(rtm.activeTeamId).name;
+    objMessage.channelName = rtm.dataStore.getChannelGroupOrDMById(objMessage.channel).name;
     funcInputParser(objMessage.text, objMessage, funcBakeChannel(objMessage.channel, rtm));
   });
 
