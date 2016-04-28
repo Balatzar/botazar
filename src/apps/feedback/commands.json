@@ -3,19 +3,23 @@
   "strEntry": "feedback.js",
   "arrAliases": "feedback, fdb",
   "boolNamed": true,
-  "description": "A bot to provide feedback to the botmaker",
+  "description": "une app pour envoyer du feedback (des idées ou des bugs) au créateur !",
   "commands": {
     "Help": {
-      "feedback -help | -h": ""
+      "syntax": "feedback -help | -h (ex `botazar fdb -h`)",
+      "description": "un module pour avoir de l'aide sur cette app"
     },
     "Send feedback": {
-      "feedback": "type (idea, bug, message) | content (ex 'Hello, everything is broken :)'"
+      "syntax": "feedback [type] (idea, bug, message) [content] (ex `botazar fdb bug hello everything is broken`)",
+      "description": "un module pour envoyer du feedback"
     },
     "List feedback": {
-      "feedback -list | -l" :""
+      "syntax" :"feedback -list | -l (ex `botazar fdb -l`)",
+      "description": "un module pour lister tooous les feedbacks"
     },
     "Archive feedback": {
-      "feedback -delete | -d": "id (ex 5718f4dfc4b210bb25e3fcf4)"
+      "syntax": "feedback -delete | -d [id] (ex `botazar fdb -d 5718f4dfc4b210bb25e3fcf4`)",
+      "description": "un module pour archiver un feedback"
     }
   }
 }

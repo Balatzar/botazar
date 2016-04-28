@@ -22,6 +22,9 @@ const Playlist = {
       if (err) {
         console.log(err);
       }
+      else if (playlist === null) {
+        console.log("no playlist");
+      }
       else {
         funcGetTokensAndSendPlaylist(playlist.id);
       }

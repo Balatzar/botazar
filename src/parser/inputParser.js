@@ -10,7 +10,7 @@ module.exports = function(strInput, objMessage, funcOut) {
 
   const arrSanitizedInput = strInput.split(" ");
 
-  if (arrBotNames.indexOf(arrSanitizedInput[0]) !== -1) {
+  if (arrBotNames.indexOf(arrSanitizedInput[0].toLowerCase()) !== -1) {
 
     arrSanitizedInput.shift();
 
