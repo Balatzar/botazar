@@ -1,5 +1,5 @@
 {
-  "strName": "slack_yt",
+  "strName": "Slack > Youtube",
   "strEntry": "slack_yt.js",
   "arrAliases": "slack_yt, syt, sly, slyt",
   "regex": "^(<https\\:\\/\\/)?(www\\.youtube\\.com|youtu\\.?be)\\/.+$",
