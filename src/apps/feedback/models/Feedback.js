@@ -6,6 +6,7 @@ const feedbackSchema = new mongoose.Schema({
   text: String,
   archived: { type: Boolean, default: false },
   user: String,
+  userName: String,
 });
 
 const Feedback = {
@@ -35,6 +36,7 @@ const Feedback = {
         }
         text += "*" + fdb.type + "*\n" +
                 fdb.text + "\n" +
+                "par " + fdb.userName + "\n" +
                 "_id:_ " + fdb._id + "\n";
       });
 
