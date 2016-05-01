@@ -10,12 +10,12 @@
       "description": "un module pour avoir de l'aide sur cette app"
     },
     "Play": {
-      "syntax": "pendu play | -p (ex `botazar pendu -p`)",
+      "syntax": "pendu (ex `botazar pendu`)",
       "description": "lance une partie !"
     },
     "Leaderboard": {
       "syntax" :"pendu -leaderboard | -l (ex `botazar pendu -l`)",
       "description": "montre les meilleurs joueurs !"
-    },
+    }
   }
 }
