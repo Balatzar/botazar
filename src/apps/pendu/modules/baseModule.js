@@ -1,11 +1,85 @@
-
+const fs      = require("fs");
+const iconv   = require('iconv-lite');
+const Game    = require("../models/Game");
+const Word    = require("../models/Word");
+const Watcher = require("../../../services/slack/models/Watcher");
 
 module.exports = function(arrInput, objMessage, funcOut) {
   "use strict";
 
-
-
+  Game.model.findOne({ playing: true, channel: objMessage.channel }, function(err, games) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log(games)
+    if (games === null) {
+      createGame(objMessage, funcOut);
+    } else {
+      for (let i = 1; i < games.length; i += 1) {
+        if (games[i].channel === objMessage.channel) {
+          return playGame(arrInput, games[i], funcOut);
+        }
+      }
+      createGame(objMessage, funcOut);
+    }
+  });
 };
+
+function playGame(arrInput, objGame, funcOut) {
+  if (arrInput.length !== 1) {
+    return;
+  }
+  const strGuess = arrInput[0];
+  if (strGuess.length > 1) {
+    if (strGuess.toLowerCase() === objGame.word.toLowerCase()) {
+      winGame(objGame, funcOut);
+    } else if (!objGame.points - 1) {
+      looseGame(objGame, funcOut);
+    } else {
+      looseRound(objGame, funcOut);
+    }
+  } else {
+    if (objGame.word.toLowerCase().indexOf(strGuess) !== -1) {
+      winRound(objGame, funcOut);
+    } else {
+      looseRound(objGame, funcOut);
+    }
+  }
+  return 0;
+}
+
+function createGame(objMessage, funcOut) {
+  Word.model.findRandom().limit(1).exec(function (err, word) {
+    if (err) {
+      return console.log(err);
+    }
+    if (!word.length) {
+      fs.readFile("src/apps/pendu/assets/liste_francais.txt", {encoding: 'binary'}, function(err, file) {
+        if (err) {
+          return console.log(err);
+        }
+        const sanitized = iconv.decode(file, "ISO-8859-1")
+        sanitized.split("\r").forEach(w => {
+          Word.createWord({ word: w.slice(1) });
+        });
+        funcOut("ok j'ai initilialisé mon dico, veuillez relancer le pendu s'il vous plait :)");
+      })
+    } else {
+      const newWord = word[0].word;
+      const toFind = newWord.replace(/./gi, '_');
+      Game.createGame({
+        channel: objMessage.channel,
+        word: newWord,
+        current: toFind,
+      });
+      Watcher.createWatcher({
+        channel: objMessage.channel,
+        app: "pendu",
+      });
+      funcOut("ok le mot à trouver contient " + toFind.length + " lettres !\n" + toFind);
+    }
+  });
+}
 
 
 /*

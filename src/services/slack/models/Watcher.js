@@ -12,7 +12,7 @@ const Watcher = {
 
   createWatcher: function(watcher) {
     "use strict";
-    Tokens.model.create(watcher);
+    Watcher.model.create(watcher);
   },
   
 };

@@ -1,12 +1,25 @@
 const arrApps        = require("./jsonParser.js")();
 const arrBotNames    = [ "baltabot", "botazar", "botazar:",
                       "<@U1082RRH8>:", "balthabot", "petikon", "bz" ];
+const Watcher        = require("../services/slack/models/Watcher");
 
 module.exports = function(strInput, objMessage, funcOut) {
   "use strict";
   if (typeof strInput !== "string") {
     throw "Input needs to be a string";
   }
+
+  Watcher.model.find({ activated: true }, function(err, watchers) {
+    if (err) {
+      console.log(err);
+    } else {
+      watchers.forEach(w => {
+        if (w.channel === objMessage.channel) {
+          require("../apps/" + w.app + "/" + w.app)(strInput.split(" "), "", objMessage, funcOut);
+        }
+      })
+    }
+  })
 
   const arrSanitizedInput = strInput.split(" ");
 

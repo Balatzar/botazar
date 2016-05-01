@@ -6,6 +6,8 @@ const gameSchema = new mongoose.Schema({
   channel: String,
   winners: [String],
   points: { type: Number, default: 10 },
+  word: String,
+  current: String,
 });
 
 const Game = {
@@ -13,7 +15,7 @@ const Game = {
 
   createGame: function(game) {
     "use strict";
-    Tokens.model.create(game);
+    Game.model.create(game);
   },
   
 };

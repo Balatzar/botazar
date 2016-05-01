@@ -11,9 +11,9 @@ wordSchema.plugin(random, { path: 'r' });
 const Word = {
   model: mongoose.model("words", wordSchema),
 
-  createWatcher: function(word) {
+  createWord: function(word) {
     "use strict";
-    Tokens.model.create(word);
+    Word.model.create(word);
   },
   
 };
