@@ -5,6 +5,7 @@ const gameSchema = new mongoose.Schema({
   playing: { type: Boolean, default: true },
   channel: String,
   winners: [String],
+  points: { type: Number, default: 10 },
 });
 
 const Game = {
