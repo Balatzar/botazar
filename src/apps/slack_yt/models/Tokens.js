@@ -8,7 +8,7 @@ const tokensSchema = new mongoose.Schema({
 });
 
 const Tokens = {
-  model: mongoose.model("Tokens", tokensSchema),
+  model: mongoose.model("tokens", tokensSchema),
 
   createTokens: function(tokens) {
     "use strict";
