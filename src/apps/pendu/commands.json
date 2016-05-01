@@ -1,0 +1,21 @@
+{
+  "strName": "Pendu",
+  "strEntry": "pendu.js",
+  "arrAliases": "pendu, erg",
+  "boolNamed": true,
+  "description": "le classique !",
+  "commands": {
+    "Help": {
+      "syntax": "pendu -help | -h (ex `botazar pendu -h`)",
+      "description": "un module pour avoir de l'aide sur cette app"
+    },
+    "Play": {
+      "syntax": "pendu play | -p (ex `botazar pendu -p`)",
+      "description": "lance une partie !"
+    },
+    "Leaderboard": {
+      "syntax" :"pendu -leaderboard | -l (ex `botazar pendu -l`)",
+      "description": "montre les meilleurs joueurs !"
+    },
+  }
+}
