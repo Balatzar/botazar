@@ -1,8 +1,9 @@
-const fs      = require("fs");
-const iconv   = require("iconv-lite");
-const Game    = require("../models/Game");
-const Word    = require("../models/Word");
-const Watcher = require("../../../services/slack/models/Watcher");
+const fs        = require("fs");
+const iconv     = require("iconv-lite");
+const Game      = require("../models/Game");
+const Word      = require("../models/Word");
+const Player    = require("../models/Player");
+const Watcher   = require("../../../services/slack/models/Watcher");
 
 // const accents = {
 //   é: "e",
@@ -80,10 +81,12 @@ function winGame(objGame, objMessage, funcOut) {
   for (let i = 0; i < participants.length; i += 1) {
     if (participants[i] !== objMessage.userName) {
       winners += participants[i] + " ";
+      Player.winGame({ username: participants[i], points: objGame.points });
     }
   }
 
   winners += add;
+  Player.winGame({ username: objMessage.userName, points: objGame.points });
 
   const res = "yes c'est gagné !\n" +
           "le mot était *" + objGame.word + "*\n\n" +

@@ -8,7 +8,6 @@ module.exports = function(strToken) {
   "use strict";
 
   const rtm = new RtmClient(strToken, {
-    logLevel: "debug",
     dataStore: new MemoryDataStore(),
   }); // , { logLevel: "debug" }
 

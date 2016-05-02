@@ -1,6 +1,19 @@
+const Player    = require("../models/Player");
+
 module.exports = function(funcOut) {
   "use strict";
-  const derp =  "pas encore fait :scream:"
 
-  funcOut(derp);
+  Player.model.find({}).sort({ points: -1 }).limit(10).exec(function(err, players) {
+    if (err) {
+      console.log(err);
+    } else {
+      let res = "";
+      let i = 0;
+      players.forEach(p => {
+        i+= 1;
+        res += ">*" + i + " : " + p.username + "* - " + p.points + " points (" + p.games + " parties)\n\n";
+      });
+      funcOut(res);
+    }
+  });
 };
