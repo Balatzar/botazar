@@ -29,7 +29,7 @@ module.exports = function(arrInput, objMessage, funcOut) {
       createGame(objMessage, funcOut);
     } else {
       playGame(arrInput, objMessage, game, funcOut);
-      
+
     }
   });
 };
@@ -39,7 +39,7 @@ function playGame(arrInput, objMessage, objGame, funcOut) {
   if (arrInput.length !== 1) {
     return;
   }
-  let strGuess = arrInput[0];
+  let strGuess = arrInput[0].toLowerCase();
 
   // if (accents.keys().indexOf(strGuess) !== -1) {
   //   strGuess = accents[strGuess];
@@ -71,30 +71,28 @@ function winGame(objGame, objMessage, funcOut) {
   "use strict";
   const participants = objGame.participants;
   let winners = "";
-  let plural = participants[0] !== objMessage.userName ? " et " + objMessage.userName : objMessage.userName;
-  let gagner = participants[0] !== objMessage.userName ? " gagnent " : " gagne ";
-  const add = participants.indexOf(objMessage.userName) ? plural : "";
+
+  const condition = !participants.length || (participants.length === 1 && participants[0] === objMessage.userName);
+
+  const add = condition ? objMessage.userName : "et " + objMessage.userName;
+  const plural = condition ? " gagne " : " gagnent ";
 
   for (let i = 0; i < participants.length; i += 1) {
-    if (i === participants.length - 1) {
-      if (add) {
-        winners += add;
-      } else {
-        winners += " et " + participants[i];
-      }
-    } else {
+    if (participants[i] !== objMessage.userName) {
       winners += participants[i] + " ";
     }
   }
 
+  winners += add;
+
   const res = "yes c'est gagné !\n" +
           "le mot était *" + objGame.word + "*\n\n" +
-          winners + gagner + objGame.points + " points !";
+          winners + plural + objGame.points + " points !";
 
   funcOut(res);
 
   endGame(objGame, objMessage, { playing: false, });
-  
+
 }
 
 function looseGame(objGame, objMessage, funcOut) {
@@ -102,8 +100,8 @@ function looseGame(objGame, objMessage, funcOut) {
 
   funcOut("nop c'est raté :/\nle mot était _" + objGame.word + "_");
 
-  endGame(objGame, objMessage, { playing: false, points: 0});
-  
+  endGame(objGame, objMessage, { playing: false, points: 0 });
+
 }
 
 function endGame(objGame, objMessage, set) {
@@ -136,7 +134,7 @@ function winRound(objGame, strGuess, objMessage, funcOut) {
       newCurrent += strGuess;
     } else {
       newCurrent += strCurrent[i];
-      if (strCurrent[i] === "_") {
+      if (strCurrent[i] === ".") {
         win = false;
       }
     }
@@ -155,7 +153,7 @@ function winRound(objGame, strGuess, objMessage, funcOut) {
       }
     });
   }
-  
+
 }
 
 function looseRound(objGame, strGuess, objMessage, funcOut) {
@@ -166,7 +164,13 @@ function looseRound(objGame, strGuess, objMessage, funcOut) {
     looseGame(objGame, objMessage, funcOut);
   } else {
 
-    funcOut("nope !\nil vous reste " + intPoints + " points\n" + objGame.current);
+    let res = "nope !\nil vous reste " + intPoints + " points\n" + objGame.current;
+
+    if (intPoints === 3) {
+      res += "\n*attention les accents comptent !*";
+    }
+
+    funcOut(res);
 
     Game.model.findByIdAndUpdate(objGame._id, { $inc: { points: -1 }, $push: { played: strGuess }}, function(err) {
       if (err) {
@@ -192,11 +196,13 @@ function createGame(objMessage, funcOut) {
         sanitized.split("\r").forEach(w => {
           Word.createWord({ word: w.slice(1) });
         });
-        funcOut("ok j'ai initialisé mon dico, veuillez relancer le pendu s'il vous plait :)");
+        setTimeout(function(funcOut) {
+          funcOut("ok j'ai initialisé mon dico, veuillez relancer le pendu s'il vous plait :)");
+        }, 5000);
       });
     } else {
       const newWord = word[0].word;
-      const toFind = newWord.replace(/./gi, "_");
+      const toFind = newWord.replace(/./gi, ".");
       Game.createGame({
         channel: objMessage.channel,
         word: newWord,
