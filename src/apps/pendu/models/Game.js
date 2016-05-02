@@ -4,10 +4,11 @@ const gameSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   playing: { type: Boolean, default: true },
   channel: String,
-  winners: [String],
+  participants: [String],
   points: { type: Number, default: 10 },
   word: String,
   current: String,
+  played: [String],
 });
 
 const Game = {

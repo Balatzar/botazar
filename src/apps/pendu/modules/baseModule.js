@@ -1,72 +1,202 @@
 const fs      = require("fs");
-const iconv   = require('iconv-lite');
+const iconv   = require("iconv-lite");
 const Game    = require("../models/Game");
 const Word    = require("../models/Word");
 const Watcher = require("../../../services/slack/models/Watcher");
 
+// const accents = {
+//   é: "e",
+//   è: "e",
+//   ë: "e",
+//   ê: "e",
+//   à: "a",
+//   ù: "u",
+//   ö: "o",
+//   ô: "o",
+//   î: "i",
+//   ï: "i",
+// };
+
 module.exports = function(arrInput, objMessage, funcOut) {
   "use strict";
 
-  Game.model.findOne({ playing: true, channel: objMessage.channel }, function(err, games) {
+  Game.model.findOne({ playing: true, channel: objMessage.channel }, function(err, game) {
     if (err) {
       return console.log(err);
     }
-    console.log(games)
-    if (games === null) {
+    console.log(game);
+    if (game === null) {
       createGame(objMessage, funcOut);
     } else {
-      for (let i = 1; i < games.length; i += 1) {
-        if (games[i].channel === objMessage.channel) {
-          return playGame(arrInput, games[i], funcOut);
-        }
-      }
-      createGame(objMessage, funcOut);
+      playGame(arrInput, objMessage, game, funcOut);
+      
     }
   });
 };
 
-function playGame(arrInput, objGame, funcOut) {
+function playGame(arrInput, objMessage, objGame, funcOut) {
+  "use strict";
   if (arrInput.length !== 1) {
     return;
   }
-  const strGuess = arrInput[0];
+  let strGuess = arrInput[0];
+
+  // if (accents.keys().indexOf(strGuess) !== -1) {
+  //   strGuess = accents[strGuess];
+  // }
+
   if (strGuess.length > 1) {
-    if (strGuess.toLowerCase() === objGame.word.toLowerCase()) {
-      winGame(objGame, funcOut);
-    } else if (!objGame.points - 1) {
-      looseGame(objGame, funcOut);
+    if (strGuess.length !== objGame.word.length) {
+      return;
+    }
+    else if (strGuess.toLowerCase() === objGame.word.toLowerCase()) {
+      winGame(objGame, objMessage, funcOut);
     } else {
-      looseRound(objGame, funcOut);
+      looseGame(objGame, objMessage, funcOut);
     }
   } else {
+    if (objGame.played.indexOf(strGuess) !== -1) {
+      return funcOut("vous avez deja joué cette lettre");
+    }
     if (objGame.word.toLowerCase().indexOf(strGuess) !== -1) {
-      winRound(objGame, funcOut);
+      winRound(objGame, strGuess, objMessage, funcOut);
     } else {
-      looseRound(objGame, funcOut);
+      looseRound(objGame, strGuess, objMessage, funcOut);
     }
   }
   return 0;
 }
 
+function winGame(objGame, objMessage, funcOut) {
+  "use strict";
+  const participants = objGame.participants;
+  let winners = "";
+  let plural = participants[0] !== objMessage.userName ? " et " + objMessage.userName : objMessage.userName;
+  let gagner = participants[0] !== objMessage.userName ? " gagnent " : " gagne ";
+  const add = participants.indexOf(objMessage.userName) ? plural : "";
+
+  for (let i = 0; i < participants.length; i += 1) {
+    if (i === participants.length - 1) {
+      if (add) {
+        winners += add;
+      } else {
+        winners += " et " + participants[i];
+      }
+    } else {
+      winners += participants[i] + " ";
+    }
+  }
+
+  const res = "yes c'est gagné !\n" +
+          "le mot était *" + objGame.word + "*\n\n" +
+          winners + gagner + objGame.points + " points !";
+
+  funcOut(res);
+
+  endGame(objGame, objMessage, { playing: false, });
+  
+}
+
+function looseGame(objGame, objMessage, funcOut) {
+  "use strict";
+
+  funcOut("nop c'est raté :/\nle mot était _" + objGame.word + "_");
+
+  endGame(objGame, objMessage, { playing: false, points: 0});
+  
+}
+
+function endGame(objGame, objMessage, set) {
+  "use strict";
+
+  Game.model.findByIdAndUpdate(objGame._id, { $set: set, $addToSet: { participants: objMessage.userName }}, function(err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+
+  Watcher.model.findOneAndUpdate( { activated: true, channel: objMessage.channel, app: "pendu" },
+                                  { $set: { activated: false, }},
+                                  function(err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+}
+
+function winRound(objGame, strGuess, objMessage, funcOut) {
+  "use strict";
+  const strWord       = objGame.word.toLowerCase();
+  const strCurrent    = objGame.current;
+  let newCurrent      = "";
+  let win             = true;
+
+  for (let i = 0; i < strWord.length; i += 1) {
+    if (strWord[i] === strGuess) {
+      newCurrent += strGuess;
+    } else {
+      newCurrent += strCurrent[i];
+      if (strCurrent[i] === "_") {
+        win = false;
+      }
+    }
+  }
+
+  if (win) {
+    winGame(objGame, objMessage, funcOut);
+  } else {
+
+    funcOut("yes !\n" + newCurrent);
+
+    Game.model.findByIdAndUpdate( objGame._id, { $set: { current: newCurrent }, $addToSet: { participants: objMessage.userName, played: strGuess }},
+                                  function(err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
+  
+}
+
+function looseRound(objGame, strGuess, objMessage, funcOut) {
+  "use strict";
+  const intPoints = objGame.points - 1;
+
+  if (!intPoints) {
+    looseGame(objGame, objMessage, funcOut);
+  } else {
+
+    funcOut("nope !\nil vous reste " + intPoints + " points\n" + objGame.current);
+
+    Game.model.findByIdAndUpdate(objGame._id, { $inc: { points: -1 }, $push: { played: strGuess }}, function(err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
+
+}
+
 function createGame(objMessage, funcOut) {
+  "use strict";
   Word.model.findRandom().limit(1).exec(function (err, word) {
     if (err) {
       return console.log(err);
     }
     if (!word.length) {
-      fs.readFile("src/apps/pendu/assets/liste_francais.txt", {encoding: 'binary'}, function(err, file) {
+      fs.readFile("src/apps/pendu/assets/liste_francais.txt", { encoding: "binary" }, function(err, file) {
         if (err) {
           return console.log(err);
         }
-        const sanitized = iconv.decode(file, "ISO-8859-1")
+        const sanitized = iconv.decode(file, "ISO-8859-1");
         sanitized.split("\r").forEach(w => {
           Word.createWord({ word: w.slice(1) });
         });
-        funcOut("ok j'ai initilialisé mon dico, veuillez relancer le pendu s'il vous plait :)");
-      })
+        funcOut("ok j'ai initialisé mon dico, veuillez relancer le pendu s'il vous plait :)");
+      });
     } else {
       const newWord = word[0].word;
-      const toFind = newWord.replace(/./gi, '_');
+      const toFind = newWord.replace(/./gi, "_");
       Game.createGame({
         channel: objMessage.channel,
         word: newWord,
