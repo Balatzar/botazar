@@ -11,7 +11,7 @@ module.exports = function(funcOut) {
       let i = 0;
       players.forEach(p => {
         i+= 1;
-        res += ">*" + i + " : " + p.username + "* - " + p.points + " points (" + p.games + " parties)\n\n";
+        res += ">*" + i + " : " + p.username + "* - " + p.points + " points (" + p.games + " parties gagnées)\n\n";
       });
       funcOut(res);
     }
