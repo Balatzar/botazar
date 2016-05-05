@@ -70,27 +70,26 @@ function playGame(arrInput, objMessage, objGame, funcOut) {
 
 function winGame(objGame, objMessage, funcOut) {
   "use strict";
-  const participants = objGame.participants;
-  let winners = "";
+  const arrParticipants = objGame.participants;
+  let hashFinalScore = {};
+  let strWinners = "";
 
-  const condition = !participants.length || (participants.length === 1 && participants[0] === objMessage.userName);
+  arrParticipants.forEach(p => {
+    hashFinalScore[p] ? hashFinalScore[p] += 1 : hashFinalScore[p] = 1;
+  });
 
-  const add = condition ? objMessage.userName : "et " + objMessage.userName;
-  const plural = condition ? " gagne " : " gagnent ";
+  console.log(hashFinalScore)
 
-  for (let i = 0; i < participants.length; i += 1) {
-    if (participants[i] !== objMessage.userName) {
-      winners += participants[i] + " ";
-      Player.winGame({ username: participants[i], points: objGame.points });
+  for (let player in hashFinalScore) {
+    if (hashFinalScore.hasOwnProperty(player)) {
+      Player.winGame({ username: player, points: hashFinalScore[player] });
+      strWinners += player + " gagne " + hashFinalScore[player] + " points\n";
     }
   }
 
-  winners += add;
-  Player.winGame({ username: objMessage.userName, points: objGame.points });
-
   const res = "yes c'est gagné !\n" +
           "le mot était *" + objGame.word + "*\n\n" +
-          winners + plural + objGame.points + " points !";
+          strWinners;
 
   funcOut(res);
 
@@ -143,18 +142,17 @@ function winRound(objGame, strGuess, objMessage, funcOut) {
     }
   }
 
+  Game.model.findByIdAndUpdate( objGame._id, { $set: { current: newCurrent }, $push: { participants: objMessage.userName, played: strGuess }},
+                                function(err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+
   if (win) {
     winGame(objGame, objMessage, funcOut);
   } else {
-
     funcOut("yes !\n" + newCurrent);
-
-    Game.model.findByIdAndUpdate( objGame._id, { $set: { current: newCurrent }, $addToSet: { participants: objMessage.userName, played: strGuess }},
-                                  function(err) {
-      if (err) {
-        console.log(err);
-      }
-    });
   }
 
 }
