@@ -1,0 +1,18 @@
+{
+  "strName": "Scrum",
+  "strEntry": "scrum.js",
+  "arrAliases": "scrum, sc",
+  "boolNamed": true,
+  "description": "le bot peut aussi faire office de scrum master !",
+  "emitter": true,
+  "commands": {
+    "Help": {
+      "syntax": "scrum -help | -h (ex `botazar sc -h`)",
+      "description": "un module pour avoir de l'aide sur cette app"
+    },
+    "Configure": {
+      "syntax": "scrum -configure | -c (ex `botazar sc -c`)",
+      "description": "configure l'app"
+    }
+  }
+}
