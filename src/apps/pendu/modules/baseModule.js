@@ -143,17 +143,18 @@ function winRound(objGame, strGuess, objMessage, funcOut) {
   }
 
   Game.model.findByIdAndUpdate( objGame._id, { $set: { current: newCurrent }, $push: { participants: objMessage.userName, played: strGuess }},
-                                function(err) {
+                                { new: true },
+                                function(err, newGame) {
     if (err) {
       console.log(err);
     }
+    console.log(newGame)
+    if (win) {
+      winGame(newGame, objMessage, funcOut);
+    } else {
+      funcOut("yes !\n" + newCurrent);
+    }
   });
-
-  if (win) {
-    winGame(objGame, objMessage, funcOut);
-  } else {
-    funcOut("yes !\n" + newCurrent);
-  }
 
 }
 
