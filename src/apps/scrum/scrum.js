@@ -1,3 +1,7 @@
+const helpModule          = require("./modules/helpModule");
+const newModule           = require("./modules/newModule");
+const configureModule     = require("./modules/configureModule");
+
 module.exports = function(arrInput, strCommand, objMessage, funcOut) {
   "use strict";
 
@@ -8,6 +12,12 @@ module.exports = function(arrInput, strCommand, objMessage, funcOut) {
     case "-help":
     case "-h": {
       helpModule(funcOut);
+      break;
+    }
+
+    case "-new":
+    case "-n": {
+      newModule(arrInput, objMessage, funcOut);
       break;
     }
 
