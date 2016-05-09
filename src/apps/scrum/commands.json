@@ -13,6 +13,10 @@
     "Configure": {
       "syntax": "scrum -configure | -c (ex `botazar sc -c`)",
       "description": "configure l'app"
+    },
+    "New": {
+      "syntax": "scrum -new [name] | -n (ex `botazar sc -n tchatbot`)",
+      "description": "crée un nouveau projet"
     }
   }
 }

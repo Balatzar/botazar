@@ -7,12 +7,13 @@ const projectSchema = new mongoose.Schema({
   archived: { type: Boolean, default: false },
   owner: String,
   ownerName: String,
+  name: String,
 });
 
 const Project = {
   model: mongoose.model("projects", projectSchema),
 
-  createproject: function(project) {
+  createProject: function(project) {
     "use strict";
     Project.model.create(project);
   },

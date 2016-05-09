@@ -5,6 +5,7 @@ const watcherSchema = new mongoose.Schema({
   activated: { type: Boolean, default: true },
   channel: String,
   app: String,
+  state: String,
 });
 
 const Watcher = {

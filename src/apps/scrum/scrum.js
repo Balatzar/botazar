@@ -1,6 +1,6 @@
 const helpModule          = require("./modules/helpModule");
 const newModule           = require("./modules/newModule");
-const configureModule     = require("./modules/configureModule");
+// const configureModule     = require("./modules/configureModule");
 
 module.exports = function(arrInput, strCommand, objMessage, funcOut) {
   "use strict";
@@ -28,7 +28,7 @@ module.exports = function(arrInput, strCommand, objMessage, funcOut) {
     }
 
     default: {
-      helpModule(funcOut);
+      newModule(arrInput, objMessage, funcOut);
     }
   }
 };
