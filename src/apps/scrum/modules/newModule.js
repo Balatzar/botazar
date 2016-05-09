@@ -11,30 +11,69 @@ module.exports = function(arrInput, objMessage, funcOut) {
   }, function(err, watcher) {
     if (err) {
       console.log(err);
-    } else if (watcher.length) {
+    } 
+
+    else if (watcher.length) {
       const currentWatcher = watcher[0];
       const currentState = currentWatcher.state;
+      const input = arrInput.join(" ").toLowerCase();
+      console.log("currentState : ", currentState);
+
       if (currentState === "ASKING_NAME") {
-        funcOut("OK le nom de votre projet est bien *" + arrInput.join(" ") + "* ? (oui/non)");
-        Project.createProject({
-          owner: objMessage.user,
-          ownerName: objMessage.userName,
-          name: arrInput.join(" "),
-        });
-        Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "ASKING_CONFIRMATION "}}).exec();
-      } else if (currentState === "ASKING_CONFIRMATION") {
-        const input = arrInput.join(" ");
+        console.log("in ASKING_NAME");
+        Project.model.find({ name: input }, function(err, project) {
+          if (err) {
+            console.log(err);
+          } else if (project.length) {
+            funcOut("ce projet existe déjà !");
+          } else {
+            funcOut("OK le nom de votre projet est bien *" + arrInput.join(" ") + "* ? (oui/non)");
+            Project.createProject({
+              owner: objMessage.user,
+              ownerName: objMessage.userName,
+              name: arrInput.join(" "),
+              members: [objMessage.user],
+              membersNames: [objMessage.userName],
+            });
+            Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "ASKING_CONFIRMATION" }}).exec();
+          }
+        })
+      }
+
+      else if (currentState === "ASKING_CONFIRMATION") {
+        console.log("in ASKING_CONFIRMATION");
         let res;
         if (input === "oui") {
-          res = "OK c'est créé !";
+          res = "OK c'est créé !\nvoulez vous ajouter des gens ?";
+          Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "ASKING_PEOPLE" }}).exec();
         } else if (input === "non") {
           res = "ça roule, c'est quoi du coup ?";
+          Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "ASKING_NAME" }}).exec();
         } else {
           res = "sorry j'ai pas compris";
         }
         funcOut(res);
       }
-    } else {
+
+      else if (currentState === "ASKING_PEOPLE") {
+        console.log("in ASKING_PEOPLE");
+        let res;
+        if (input === "oui") {
+          res = "OK, mettez les noms des gens avec des @ siouplay";
+        } else if (input === "non") {
+          res = "OK bon bah on a fini !";
+          Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { activated: false }}).exec();
+        }
+        funcOut(res);
+      }
+
+      else {
+        funcOut("ça bug mec");
+      }
+
+    } 
+
+    else {
       Watcher.createWatcher({
         app: "scrum",
         channel: objMessage.channel,
