@@ -10,7 +10,7 @@
       "description": "lancer le module d'aide général"
     },
     "Help [app]": {
-      "syntax": "[nom app] (ex `botazar help fdb`)'",
+      "syntax": "[nom app] (ex `botazar help fdb`)",
       "description": "un module pour afficher une desciption précise d'une app"
     }
   }
