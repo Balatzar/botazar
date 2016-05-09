@@ -1,5 +1,7 @@
+"use strict";
 const Watcher   = require("../../../services/slack/models/Watcher");
 const Project   = require("../models/Project");
+let strName;
 
 module.exports = function(arrInput, objMessage, funcOut) {
   "use strict";
@@ -27,11 +29,12 @@ module.exports = function(arrInput, objMessage, funcOut) {
           } else if (project.length) {
             funcOut("ce projet existe déjà !");
           } else {
-            funcOut("OK le nom de votre projet est bien *" + arrInput.join(" ") + "* ? (oui/non)");
+            strName = input;
+            funcOut("OK le nom de votre projet est bien *" + input + "* ? (oui/non)");
             Project.createProject({
               owner: objMessage.user,
               ownerName: objMessage.userName,
-              name: arrInput.join(" "),
+              name: input,
               members: [objMessage.user],
               membersNames: [objMessage.userName],
             });
@@ -63,6 +66,10 @@ module.exports = function(arrInput, objMessage, funcOut) {
         } else if (input === "non") {
           res = "OK bon bah on a fini !";
           Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { activated: false }}).exec();
+        } else {
+          let names = arrInput.filter(s => /\b\U\w{8}\b/g.test(s)).map(n => n.slice(2, 11));
+          names.forEach(n => Project.model.findOneAndUpdate({ name: strName }, { $addToSet: { members: n }}).exec())
+          res = "OK noms enregistrés !";
         }
         funcOut(res);
       }
