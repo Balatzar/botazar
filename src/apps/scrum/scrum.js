@@ -1,5 +1,5 @@
-const helpModule          = require("./modules/helpModule");
-const newModule           = require("./modules/newModule");
+const helpModule         = require("./modules/helpModule");
+const baseModule         = require("./modules/baseModule");
 // const configureModule     = require("./modules/configureModule");
 
 module.exports = function(arrInput, strCommand, objMessage, funcOut) {
@@ -15,12 +15,6 @@ module.exports = function(arrInput, strCommand, objMessage, funcOut) {
       break;
     }
 
-    case "-new":
-    case "-n": {
-      newModule(arrInput, objMessage, funcOut);
-      break;
-    }
-
     case "-configure":
     case "-c": {
       configureModule(funcOut);
@@ -28,7 +22,7 @@ module.exports = function(arrInput, strCommand, objMessage, funcOut) {
     }
 
     default: {
-      newModule(arrInput, objMessage, funcOut);
+      baseModule(arrInput, objMessage, funcOut);
     }
   }
 };

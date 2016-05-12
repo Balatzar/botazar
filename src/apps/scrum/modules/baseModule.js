@@ -69,9 +69,14 @@ module.exports = function(arrInput, objMessage, funcOut) {
         } else {
           let names = arrInput.filter(s => /\b\U\w{8}\b/g.test(s)).map(n => n.slice(2, 11));
           names.forEach(n => Project.model.findOneAndUpdate({ name: strName }, { $addToSet: { members: n }}).exec())
-          res = "OK noms enregistrés !";
+          res = "OK noms enregistrés, merci !";
+          Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { activated: false }}).exec();
         }
         funcOut(res);
+      }
+
+      else if (currentState === "ANSWER_1") {
+        funcOut("ANSWER_1");
       }
 
       else {
