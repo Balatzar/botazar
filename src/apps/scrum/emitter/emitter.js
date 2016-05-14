@@ -1,6 +1,8 @@
 const cron      = require('node-schedule');
+const request   = require("request");
 const Project   = require("../models/Project");
 const Watcher   = require("../../../services/slack/models/Watcher");
+const User      = require("../../../services/slack/models/User");
 
 module.exports = function (funcOut) {
   "use strict";
@@ -23,11 +25,19 @@ function startAsking(funcOut) {
     } else {
       projects.forEach(p => {
         p.members.forEach(m => {
-          Watcher.createWatcher({
-            channel: m,
-            app: "scrum",
-          });
-          funcOut("hey ! t'as fait quoi du coup today ? :)", m);
+          User.model.findOne({ id: m }, function(err, user) {
+            if (err) {
+              console.log(err)
+            } else {
+              request("https://slack.com/api/chat.postMessage?token=" + process.env.SLACK_API_TOKEN + "&channel=%40" + user.name + "&text=coucou%20dm%20yeah&pretty=1", function(err, res, body) {
+                if (err) {
+                  console.log(err)
+                } else {
+                  console.log(body)
+                }
+              })
+            }
+          })
         });
       });
     }

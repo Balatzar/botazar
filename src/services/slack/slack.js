@@ -34,8 +34,8 @@ module.exports = function(strToken) {
 
   apps.forEach(a => {
     if (a.emitter) {
-      require("../../apps/" + a.strName.toLowerCase() + "/emitter/emitter.js")(function(strMsg, strChannel) {
-        rtm.sendMessage(strMsg, strChannel);
+      require("../../apps/" + a.strName.toLowerCase() + "/emitter/emitter.js")(function(strMsg) {
+        rtm.send(strMsg);
       });
     }
   });
