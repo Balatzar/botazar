@@ -15,11 +15,11 @@ module.exports = function(arrInput, strCommand, objMessage, funcOut) {
       break;
     }
 
-    case "-configure":
-    case "-c": {
-      configureModule(funcOut);
-      break;
-    }
+    // case "-configure":
+    // case "-c": {
+    //   configureModule(funcOut);
+    //   break;
+    // }
 
     default: {
       baseModule(arrInput, objMessage, funcOut);
