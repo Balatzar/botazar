@@ -12,7 +12,7 @@ const reportSchema = new mongoose.Schema({
 const Report = {
   model: mongoose.model("reports", reportSchema),
 
-  createreport: function(report) {
+  createReport: function(report) {
     "use strict";
     Report.model.create(report);
   },

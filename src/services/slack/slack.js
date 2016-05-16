@@ -25,7 +25,6 @@ module.exports = function(strToken) {
     if (!objMessage.text) {
       return;
     }
-    console.log(objMessage.channel)
     objMessage.userName = rtm.dataStore.getUserById(objMessage.user) ? rtm.dataStore.getUserById(objMessage.user).name : "none";
     objMessage.team = rtm.dataStore.getTeamById(rtm.activeTeamId).name;
     objMessage.channelName = rtm.dataStore.getChannelGroupOrDMById(objMessage.channel).name;
@@ -34,9 +33,7 @@ module.exports = function(strToken) {
 
   apps.forEach(a => {
     if (a.emitter) {
-      require("../../apps/" + a.strName.toLowerCase() + "/emitter/emitter.js")(function(strMsg) {
-        rtm.send(strMsg);
-      });
+      require("../../apps/" + a.strName.toLowerCase() + "/emitter/emitter.js")();
     }
   });
 

@@ -1,10 +1,11 @@
 "use strict";
 const Watcher   = require("../../../services/slack/models/Watcher");
 const Project   = require("../models/Project");
+const Report    = require("../models/Report");
 let strName;
+let reportID;
 
 module.exports = function(arrInput, objMessage, funcOut) {
-  "use strict";
 
   Watcher.model.find({
     app: "scrum",
@@ -40,7 +41,7 @@ module.exports = function(arrInput, objMessage, funcOut) {
             });
             Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "ASKING_CONFIRMATION" }}).exec();
           }
-        })
+        });
       }
 
       else if (currentState === "ASKING_CONFIRMATION") {
@@ -68,15 +69,42 @@ module.exports = function(arrInput, objMessage, funcOut) {
           Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { activated: false }}).exec();
         } else {
           let names = arrInput.filter(s => /\b\U\w{8}\b/g.test(s)).map(n => n.slice(2, 11));
-          names.forEach(n => Project.model.findOneAndUpdate({ name: strName }, { $addToSet: { members: n }}).exec())
+          names.forEach(n => Project.model.findOneAndUpdate({ name: strName }, { $addToSet: { members: n }}).exec());
           res = "OK noms enregistrés, merci !";
           Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { activated: false }}).exec();
         }
         funcOut(res);
       }
 
-      else if (currentState === "ANSWER_1") {
-        funcOut("ANSWER_1");
+      else if (currentState === "FIRST_QUESTION") {
+        const first = input;
+        Report.createReport({
+          first,
+          project: strName,
+          user:objMessage.userName,
+        });
+        Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "SECOND_QUESTION" }}, function(err, report) {
+          if (err) {
+            console.log(err);
+          } else {
+            reportID = report._id;
+          }
+        });
+        funcOut("ok super et quels problèmes t'as rencontré ?");
+      }
+
+      else if (currentState === "SECOND_QUESTION") {
+        const second = input;
+        Report.model.findOneAndUpdate(reportID, { $set: { second }}).exec();
+        Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "THIRD_QUESTION" }}).exec();
+        funcOut("ça roule et tu compte travailler sur quoi la semaine prochaine ?");
+      }
+
+      else if (currentState === "THIRD_QUESTION") {
+        const third = input;
+        Report.model.findOneAndUpdate(reportID, { $set: { third }}).exec();
+        Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { activated: false }}).exec();
+        funcOut("ok c'est fini merci !");
       }
 
       else {
