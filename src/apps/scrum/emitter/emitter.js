@@ -9,11 +9,9 @@ module.exports = function() {
 
   console.log("Starting Scrum Cron");
 
-  const rule = new cron.RecurrenceRule();
-  rule.second = 30;
-  cron.scheduleJob(rule, function() {
-      console.log(new Date(), "The 30th second of the minute.");
-      startAsking();
+  cron.scheduleJob("40 13 * * *", function(){
+    console.log(new Date(), "starting asking");
+    startAsking();
   });
 
 };

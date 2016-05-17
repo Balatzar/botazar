@@ -7,6 +7,7 @@ const reportSchema = new mongoose.Schema({
   third: String,
   user: String,
   project: String,
+  editing: { type: Boolean, default: true },
 });
 
 const Report = {
@@ -16,7 +17,7 @@ const Report = {
     "use strict";
     Report.model.create(report);
   },
-  
+
 };
 
 module.exports = Report;

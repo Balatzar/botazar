@@ -6,6 +6,7 @@ const watcherSchema = new mongoose.Schema({
   channel: String,
   app: String,
   state: String,
+  data: Object,
 });
 
 const Watcher = {
@@ -15,7 +16,7 @@ const Watcher = {
     "use strict";
     Watcher.model.create(watcher);
   },
-  
+
 };
 
 module.exports = Watcher;

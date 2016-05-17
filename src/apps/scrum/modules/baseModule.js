@@ -2,8 +2,6 @@
 const Watcher   = require("../../../services/slack/models/Watcher");
 const Project   = require("../models/Project");
 const Report    = require("../models/Report");
-let strName;
-let reportID;
 
 module.exports = function(arrInput, objMessage, funcOut) {
 
@@ -14,7 +12,7 @@ module.exports = function(arrInput, objMessage, funcOut) {
   }, function(err, watcher) {
     if (err) {
       console.log(err);
-    } 
+    }
 
     else if (watcher.length) {
       const currentWatcher = watcher[0];
@@ -30,7 +28,6 @@ module.exports = function(arrInput, objMessage, funcOut) {
           } else if (project.length) {
             funcOut("ce projet existe déjà !");
           } else {
-            strName = input;
             funcOut("OK le nom de votre projet est bien *" + input + "* ? (oui/non)");
             Project.createProject({
               owner: objMessage.user,
@@ -39,7 +36,7 @@ module.exports = function(arrInput, objMessage, funcOut) {
               members: [objMessage.user],
               membersNames: [objMessage.userName],
             });
-            Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "ASKING_CONFIRMATION" }}).exec();
+            Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "ASKING_CONFIRMATION", data: { name: input }}}).exec();
           }
         });
       }
@@ -49,10 +46,10 @@ module.exports = function(arrInput, objMessage, funcOut) {
         let res;
         if (input === "oui") {
           res = "OK c'est créé !\nvoulez vous ajouter des gens ?";
-          Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "ASKING_PEOPLE" }}).exec();
+          Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "ASKING_PEOPLE" }}).exec();
         } else if (input === "non") {
           res = "ça roule, c'est quoi du coup ?";
-          Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "ASKING_NAME" }}).exec();
+          Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "ASKING_NAME" }}).exec();
         } else {
           res = "sorry j'ai pas compris";
         }
@@ -66,12 +63,12 @@ module.exports = function(arrInput, objMessage, funcOut) {
           res = "OK, mettez les noms des gens avec des @ siouplay";
         } else if (input === "non") {
           res = "OK bon bah on a fini !";
-          Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { activated: false }}).exec();
+          Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}).exec();
         } else {
           let names = arrInput.filter(s => /\b\U\w{8}\b/g.test(s)).map(n => n.slice(2, 11));
           names.forEach(n => Project.model.findOneAndUpdate({ name: strName }, { $addToSet: { members: n }}).exec());
           res = "OK noms enregistrés, merci !";
-          Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { activated: false }}).exec();
+          Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}).exec();
         }
         funcOut(res);
       }
@@ -83,27 +80,21 @@ module.exports = function(arrInput, objMessage, funcOut) {
           project: strName,
           user:objMessage.userName,
         });
-        Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "SECOND_QUESTION" }}, function(err, report) {
-          if (err) {
-            console.log(err);
-          } else {
-            reportID = report._id;
-          }
-        });
+        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "SECOND_QUESTION" }}).exec();
         funcOut("ok super et quels problèmes t'as rencontré ?");
       }
 
       else if (currentState === "SECOND_QUESTION") {
         const second = input;
-        Report.model.findOneAndUpdate(reportID, { $set: { second }}).exec();
-        Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { state: "THIRD_QUESTION" }}).exec();
+        Report.model.findOneAndUpdate({ editing: true, user: objMessage.userName }, { $set: { second }}).exec();
+        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "THIRD_QUESTION" }}).exec();
         funcOut("ça roule et tu compte travailler sur quoi la semaine prochaine ?");
       }
 
       else if (currentState === "THIRD_QUESTION") {
         const third = input;
         Report.model.findOneAndUpdate(reportID, { $set: { third }}).exec();
-        Watcher.model.findByIdAndUpdate(currentWatcher._id, { $set: { activated: false }}).exec();
+        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}).exec();
         funcOut("ok c'est fini merci !");
       }
 
@@ -111,7 +102,7 @@ module.exports = function(arrInput, objMessage, funcOut) {
         funcOut("ça bug mec");
       }
 
-    } 
+    }
 
     else {
       Watcher.createWatcher({
