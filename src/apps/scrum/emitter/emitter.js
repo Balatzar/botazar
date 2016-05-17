@@ -9,7 +9,7 @@ module.exports = function() {
 
   console.log("Starting Scrum Cron");
 
-  cron.scheduleJob("40 13 * * *", function(){
+  cron.scheduleJob("53 20 * * *", function(){
     console.log(new Date(), "starting asking");
     startAsking();
   });
@@ -41,6 +41,7 @@ function startAsking() {
                     app: "scrum",
                     channel,
                     state: "FIRST_QUESTION",
+                    data: { project: p.name, user: p.ownerName }
                   });
                 }
               });

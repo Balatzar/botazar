@@ -36,7 +36,7 @@ module.exports = function(arrInput, objMessage, funcOut) {
               members: [objMessage.user],
               membersNames: [objMessage.userName],
             });
-            Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "ASKING_CONFIRMATION", data: { name: input }}}).exec();
+            Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "ASKING_CONFIRMATION", data: { name: input, user: objMessage.userName }}}).exec();
           }
         });
       }
@@ -58,43 +58,61 @@ module.exports = function(arrInput, objMessage, funcOut) {
 
       else if (currentState === "ASKING_PEOPLE") {
         console.log("in ASKING_PEOPLE");
-        let res;
         if (input === "oui") {
-          res = "OK, mettez les noms des gens avec des @ siouplay";
+          funcOut("OK, mettez les noms des gens avec des @ siouplay");
         } else if (input === "non") {
-          res = "OK bon bah on a fini !";
+          funcOut("OK bon bah on a fini !");
           Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}).exec();
         } else {
-          let names = arrInput.filter(s => /\b\U\w{8}\b/g.test(s)).map(n => n.slice(2, 11));
-          names.forEach(n => Project.model.findOneAndUpdate({ name: strName }, { $addToSet: { members: n }}).exec());
-          res = "OK noms enregistrés, merci !";
-          Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}).exec();
+          Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}, function(err, watcher) {
+            if (err) {
+              console.log(err);
+            } else {
+              let names = arrInput.filter(s => /\b\U\w{8}\b/g.test(s)).map(n => n.slice(2, 11));
+              names.forEach(n => Project.model.findOneAndUpdate({ name: watcher.data.name }, { $addToSet: { members: n }}).exec());
+              funcOut("OK noms enregistrés, merci !");
+            }
+          });
         }
-        funcOut(res);
       }
 
       else if (currentState === "FIRST_QUESTION") {
-        const first = input;
-        Report.createReport({
-          first,
-          project: strName,
-          user:objMessage.userName,
+        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "SECOND_QUESTION" }}, function(err, watcher) {
+          if (err) {
+            console.log(err);
+          } else {
+            const first = input;
+            Report.createReport({
+              first,
+              project: watcher.data.project,
+              user: watcher.data.user,
+            });
+          }
         });
-        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "SECOND_QUESTION" }}).exec();
         funcOut("ok super et quels problèmes t'as rencontré ?");
       }
 
       else if (currentState === "SECOND_QUESTION") {
         const second = input;
-        Report.model.findOneAndUpdate({ editing: true, user: objMessage.userName }, { $set: { second }}).exec();
-        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "THIRD_QUESTION" }}).exec();
+        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { state: "THIRD_QUESTION" }}, function(err, watcher) {
+          if (err) {
+            console.log(err);
+          } else {
+            Report.model.findOneAndUpdate({ editing: true, user: watcher.data.user }, { $set: { second }}).exec();
+          }
+        });
         funcOut("ça roule et tu compte travailler sur quoi la semaine prochaine ?");
       }
 
       else if (currentState === "THIRD_QUESTION") {
-        const third = input;
-        Report.model.findOneAndUpdate(reportID, { $set: { third }}).exec();
-        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}).exec();
+        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}, function(err, watcher) {
+          if (err) {
+            console.log(err);
+          } else {
+            const third = input;
+            Report.model.findOneAndUpdate({ editing: true, user: watcher.data.user }, { $set: { third, editing: false }}).exec();
+          }
+        });
         funcOut("ok c'est fini merci !");
       }
 
