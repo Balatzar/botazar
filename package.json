@@ -19,6 +19,7 @@
   "dependencies": {
     "@slack/client": "^2.3.0",
     "bunyan": "^1.8.1",
+    "express": "^4.13.4",
     "googleapis": "^5.2.1",
     "iconv-lite": "^0.4.13",
     "moment": "^2.13.0",

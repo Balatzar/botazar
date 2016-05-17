@@ -3,7 +3,8 @@ const User    = require("../models/User");
 const Im      = require("../models/Im");
 
 module.exports = function(rtmStartData) {
-  console.log("init")
+  "use strict";
+  console.log("init");
 
   User.model.find({}, function(err, users) {
     if (err) {
