@@ -194,13 +194,14 @@ function createGame(objMessage, funcOut) {
         if (err) {
           return console.log(err);
         }
+        funcOut("veuillez patienter quelques instants j'initialise mon dico");
         const sanitized = iconv.decode(file, "ISO-8859-1");
         sanitized.split("\r").forEach(w => {
           Word.createWord({ word: w.slice(1) });
         });
-        setTimeout(function(funcOut) {
+        setTimeout(function() {
           funcOut("ok j'ai initialisé mon dico, veuillez relancer le pendu s'il vous plait :)");
-        }, 5000);
+        }, 20000);
       });
     } else {
       const newWord = word[0].word;

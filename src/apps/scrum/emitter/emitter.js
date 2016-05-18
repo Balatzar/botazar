@@ -9,7 +9,7 @@ module.exports = function() {
 
   console.log("Starting Scrum Cron");
 
-  cron.scheduleJob("05 21 * * *", function(){
+  cron.scheduleJob("40 9 * * *", function(){
     console.log(new Date(), "starting asking");
     startAsking();
   });
