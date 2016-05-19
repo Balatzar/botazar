@@ -14,7 +14,7 @@ app.use(function(request, response, next) {
 module.exports = function() {
   "use strict";
 
-  app.get("/scrum/reports", function (req, res) {
+  app.get("/scrum/reports", function(req, res) {
     Report.model.find({}, function(err, reports) {
       if (err) {
         console.log(err);
@@ -24,7 +24,11 @@ module.exports = function() {
     });
   });
 
-  app.listen(8080, function () {
+  app.get("/slackyoutube/login/:id", function(req, res) {
+    res.send("Votre code à copier est => " + req.params.id);
+  });
+
+  app.listen(8080, function() {
     console.log("Web server listening on port 8080!");
   });
 };
