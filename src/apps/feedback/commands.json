@@ -10,7 +10,7 @@
       "description": "un module pour avoir de l'aide sur cette app"
     },
     "Send feedback": {
-      "syntax": "feedback [type] (idea, bug, message) [content] (ex `botazar fdb bug hello everything is broken`)",
+      "syntax": "feedback [type] (idea, bug, msg) [content] (ex `botazar fdb bug hello everything is broken`)",
       "description": "un module pour envoyer du feedback"
     },
     "List feedback": {
