@@ -85,7 +85,7 @@ function truc(err, user, hash, member) {
                 app: "scrum",
                 channel,
                 state: "FIRST_QUESTION",
-                data: { project: projectName, user: user.name, projets: hash[member] },
+                data: { project: projectName, user: user.name, projects: hash[member] },
               });
             }
           });

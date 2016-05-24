@@ -105,15 +105,25 @@ module.exports = function(arrInput, objMessage, funcOut) {
       }
 
       else if (currentState === "THIRD_QUESTION") {
-        Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}, function(err, watcher) {
+        Watcher.model.findOne({ activated: true, channel: objMessage.channel }, function(err, watcher) {
           if (err) {
             console.log(err);
           } else {
             const third = input;
+            if (watcher.data.projects.length) {
+              funcOut("ok, maintenant le projet " + watcher.data.projects[0] + " ! tu as fait quoi cette semaine dessus ?");
+              Report.createReport({
+                project: watcher.data.projects[0],
+                user: watcher.data.user,
+              });
+              Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { "data.project": watcher.data.project[0], state: "FIRST_QUESTION" }, $pop: { "data.projects": -1 }}).exec();
+            } else {
+              funcOut("ok c'est fini merci !");
+              Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel }, { $set: { activated: false }}).exec();
+            }
             Report.model.findOneAndUpdate({ editing: true, user: watcher.data.user }, { $set: { third, editing: false }}).exec();
           }
         });
-        funcOut("ok c'est fini merci !");
       }
 
       else {
