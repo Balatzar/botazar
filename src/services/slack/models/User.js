@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const generate = require("../../../helpers/generateCode");
 
 const userSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
@@ -20,6 +21,7 @@ const userSchema = new mongoose.Schema({
   is_ultra_restricted: Boolean,
   is_bot: Boolean,
   presence: String,
+  code: String,
 });
 
 const User = {
@@ -27,6 +29,7 @@ const User = {
 
   createUser: function(user) {
     "use strict";
+    user.code = generate(user.name);
     User.model.create(user);
   },
   
