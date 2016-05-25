@@ -8,6 +8,10 @@
     "My code": {
       "syntax": "mycode (ex `bz mc`",
       "description": "la commande pour avoir son code kwa, ne marche pas dans les channels a plusieurs personnes"
+    },
+    "regenerate": {
+      "syntax": "regen (ex `bz -r`",
+      "description": "la commande pour avoir son code kwa, ne marche pas dans les channels a plusieurs personnes"
     }
   }
 }
