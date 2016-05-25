@@ -1,0 +1,13 @@
+{
+  "strName": "mycode",
+  "strEntry": "mycode.js",
+  "arrAliases": "mycode, mc, moncode, cestquoimoncodeboudiou",
+  "boolNamed": true,
+  "description": "pour avoir son code pour le site du botazar !",
+  "commands": {
+    "My code": {
+      "syntax": "mycode (ex `bz mc`",
+      "description": "la commande pour avoir son code kwa, ne marche pas dans les channels a plusieurs personnes"
+    }
+  }
+}

@@ -11,6 +11,7 @@ const channelSchema = new mongoose.Schema({
   members: [],
   topic: [],
   purpose: [],
+  name: String,
 });
 
 const Channel = {
