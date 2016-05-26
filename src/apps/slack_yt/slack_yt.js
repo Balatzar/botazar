@@ -7,7 +7,7 @@ const baseModule        = require("./modules/baseModule");
 module.exports = function(arrInput, strCommand, objMessage, funcOut) {
   "use strict";
 
-  // make a route to get all playlists
+  // TODO make a route to get all playlists
 
   console.log(arrInput);
   console.log(strCommand);
