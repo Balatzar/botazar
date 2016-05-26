@@ -1,7 +1,7 @@
 const express         = require("express");
 const expressJWT      = require("express-jwt");
 const Report          = require("../../apps/scrum/models/Report");
-const secret          = require("./private/config").secret;
+const secret          = require("../../../private/config").secret;
 
 const app             = express();
 
@@ -22,6 +22,10 @@ app.use(function(request, response, next) {
 module.exports = function() {
   "use strict";
 
+  app.get("/api/test", function(req, res) {
+    res.send("ok");
+  });
+
   app.get("/scrum/reports", function(req, res) {
     Report.model.find({}, function(err, reports) {
       if (err) {
@@ -32,8 +36,8 @@ module.exports = function() {
     });
   });
 
-  app.get("api/slackyoutube/login/:id", function(req, res) {
-    res.send("Votre code à copier est => " + req.params.id);
+  app.get("/api/slackyoutube/login/:id", function(req, res) {
+    res.send(req.params.id);
   });
 
   app.listen(8080, function() {
