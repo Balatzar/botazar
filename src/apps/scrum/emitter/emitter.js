@@ -9,11 +9,12 @@ module.exports = function() {
 
   console.log("Starting Scrum Cron");
 
-  cron.scheduleJob("0 16 * * *", function(){
-    console.log(new Date(), "starting asking");
+  cron.scheduleJob("0 15 * * *", function() {
+    console.log(new Date(), "starting asking projects members");
     askProjectMembers();
-    // TODO make another cron for project owners
   });
+
+  // TODO make another cron for project owners
 
 };
 

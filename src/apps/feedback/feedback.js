@@ -6,6 +6,9 @@ const archiveModule   = require("./modules/archiveModule");
 module.exports = function(arrInput, strCommand, objMessage, funcOut) {
   "use strict";
 
+  // TODO create routes to get reports (specify types or limit)
+  // TODO create CRUD
+
   console.log(arrInput);
   console.log(strCommand);
 

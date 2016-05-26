@@ -4,6 +4,7 @@ const Channel   = require("../../../services/slack/models/Channel");
 module.exports = function(objMessage, funcOut) {
   "use strict";
   Channel.model.findOne({ id: objMessage.channel }, function(err, channel) {
+    // TODO dont allow private channels either, only IMs
     if (err) {
       console.log(err);
     } else if (channel) {
