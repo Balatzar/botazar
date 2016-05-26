@@ -5,6 +5,9 @@ const baseModule          = require("./modules/baseModule");
 module.exports = function(arrInput, strCommand, objMessage, funcOut) {
   "use strict";
 
+  // TODO make an api route to get a random word
+  // TODO make an api set of routes to play a game
+
   console.log(arrInput);
   console.log(strCommand);
 
