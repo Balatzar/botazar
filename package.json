@@ -31,7 +31,9 @@
     "mongoose-random": "^0.1.1",
     "node-schedule": "^1.1.0",
     "request": "^2.72.0",
-    "slackbots": "^0.5.1"
+    "slackbots": "^0.5.1",
+    "express-jwt": "^3.3.0",
+    "jsonwebtoken": "^5.7.0"
   },
   "devDependencies": {
     "faucet": "0.0.1",
