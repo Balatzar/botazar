@@ -71,25 +71,27 @@ function truc(err, user, hash, member) {
       const otherUrl = "https://slack.com/api/chat.postMessage?token=" + process.env.SLACK_API_TOKEN +
                   "&channel=%40" + user.name + "&text=tes%20projets%20sont%20nombreux&as_user=true";
 
-      request(otherUrl, (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          request(url, (err, res, body) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(body);
-              const channel = JSON.parse(body).channel;
-              Watcher.createWatcher({
-                app: "scrum",
-                channel,
-                state: "FIRST_QUESTION",
-                data: { project: projectName, user: user.name, projects: hash[member] },
-              });
-            }
-          });
-        }
+      setTimeout(() => {
+        request(otherUrl, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            request(url, (err, res, body) => {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(body);
+                const channel = JSON.parse(body).channel;
+                Watcher.createWatcher({
+                  app: "scrum",
+                  channel,
+                  state: "FIRST_QUESTION",
+                  data: { project: projectName, user: user.name, projects: hash[member] },
+                });
+              }
+            });
+          }
+        }, 1000);
       });
 
     } else {
