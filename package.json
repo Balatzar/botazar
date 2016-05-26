@@ -22,7 +22,6 @@
   "homepage": "https://github.com/Balatzar/botazar#readme",
   "dependencies": {
     "@slack/client": "^2.3.0",
-    "bunyan": "^1.8.1",
     "express": "^4.13.4",
     "googleapis": "^5.2.1",
     "iconv-lite": "^0.4.13",
@@ -31,7 +30,6 @@
     "mongoose-random": "^0.1.1",
     "node-schedule": "^1.1.0",
     "request": "^2.72.0",
-    "slackbots": "^0.5.1",
     "express-jwt": "^3.3.0",
     "jsonwebtoken": "^5.7.0"
   },

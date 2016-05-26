@@ -1,6 +1,14 @@
-const express = require("express");
-const Report  = require("../../apps/scrum/models/Report");
-const app     = express();
+const express         = require("express");
+const expressJWT      = require("express-jwt");
+const Report          = require("../../apps/scrum/models/Report");
+const secret          = require("./private/config").secret;
+
+const app             = express();
+
+const regPublic       = new RegExp("/public/.*"); // for public assets
+const regAPI          = new RegExp("/api/.*");    // for public API
+
+app.use(expressJWT({secret: secret}).unless({path: [regPublic, regAPI]}));
 
 app.use(function(request, response, next) {
   "use strict";
@@ -24,7 +32,7 @@ module.exports = function() {
     });
   });
 
-  app.get("/slackyoutube/login/:id", function(req, res) {
+  app.get("api/slackyoutube/login/:id", function(req, res) {
     res.send("Votre code à copier est => " + req.params.id);
   });
 
