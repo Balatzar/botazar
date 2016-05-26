@@ -19,6 +19,8 @@ app.use(function(request, response, next) {
   next();
 });
 
+// TODO put the routes in their app and make a route parser
+
 module.exports = function() {
   "use strict";
 
@@ -36,9 +38,13 @@ module.exports = function() {
     });
   });
 
+  // TODO make a list of codes and a route explaining them
+
   app.get("/api/slackyoutube/login/:id", function(req, res) {
     res.send(req.params.id);
   });
+
+  // TODO make an https server triggering if we are not in a dev env (with env variable)
 
   app.listen(8080, function() {
     console.log("Web server listening on port 8080!");

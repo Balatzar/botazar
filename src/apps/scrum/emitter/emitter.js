@@ -12,6 +12,7 @@ module.exports = function() {
   cron.scheduleJob("0 16 * * *", function(){
     console.log(new Date(), "starting asking");
     askProjectMembers();
+    // TODO make another cron for project owners
   });
 
 };
