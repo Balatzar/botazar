@@ -11,13 +11,13 @@ module.exports = function() {
 
   cron.scheduleJob("0 16 * * *", function(){
     console.log(new Date(), "starting asking");
-    startAsking();
+    askProjectMembers();
   });
 
 };
 
 
-function startAsking() {
+function askProjectMembers() {
   "use strict";
   Project.model.find({ archived: false }, function (err, projects) {
 
