@@ -1,7 +1,10 @@
 {
   "name": "baltaslack",
-  "dependencies": {},
+  "dependencies": {
+    "request": "registry:npm/request#2.69.0+20160428223725"
+  },
   "globalDependencies": {
-    "node": "registry:env/node#4.0.0+20160507210304"
+    "node": "registry:env/node#4.0.0+20160507210304",
+    "node-slack": "registry:dt/node-slack#0.0.0+20160316155526"
   }
 }

@@ -1,7 +1,5 @@
-/// <reference path="typings/globals/node/index.d.ts" />
-
 const mongoose      = require("mongoose");
-const slackService  = require("./src/services/slack/slack");
+import slackService from "./src/services/slack/slack";
 const webService    = require("./src/services/web/server");
 
 mongoose.connect(process.env.MONGO_URL || "mongodb://localhost/botazar");

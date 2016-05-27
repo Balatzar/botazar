@@ -2,7 +2,7 @@ const Channel = require("../models/Channel");
 const User    = require("../models/User");
 const Im      = require("../models/Im");
 
-module.exports = function(rtmStartData) {
+export default function(rtmStartData): void {
   "use strict";
   console.log("init");
 

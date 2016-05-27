@@ -3,16 +3,6 @@ import baseModule     from "./modules/baseModule";
 import listModule     from "./modules/listModule";
 import archiveModule  from "./modules/archiveModule";
 
-export interface Message {
-  channel: string;
-  user: string;
-  userName: string;
-}
-
-export interface SendMessage {
-  (msg: string): any;
-}
-
 module.exports = function(arrInput: [string], strCommand: string, objMessage: Message, funcOut: SendMessage) {
   "use strict";
 
