@@ -4,6 +4,8 @@
     "request": "registry:npm/request#2.69.0+20160428223725"
   },
   "globalDependencies": {
+    "express-jwt": "registry:dt/express-jwt#0.0.0+20160319033732",
+    "mongoose": "registry:dt/mongoose#3.8.5+20160517033907",
     "node": "registry:env/node#4.0.0+20160507210304",
     "node-slack": "registry:dt/node-slack#0.0.0+20160316155526"
   }

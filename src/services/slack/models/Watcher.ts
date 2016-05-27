@@ -1,4 +1,15 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
+
+interface IWatcher extends mongoose.Document {
+  createdAt: string,
+  activated: boolean,
+  channel: string,
+  app: string,
+  _id: string,
+  __v: number,
+  state: string,
+  data: Object,
+}
 
 const watcherSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
@@ -10,10 +21,9 @@ const watcherSchema = new mongoose.Schema({
 });
 
 const Watcher = {
-  model: mongoose.model("watchers", watcherSchema),
+  model: mongoose.model<IWatcher>("watchers", watcherSchema),
 
   createWatcher: function(watcher) {
-    "use strict";
     Watcher.model.create(watcher);
   },
 

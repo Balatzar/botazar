@@ -11,7 +11,6 @@ const watcherSchema = new mongoose.Schema({
 const Watcher = {
     model: mongoose.model("watchers", watcherSchema),
     createWatcher: function (watcher) {
-        "use strict";
         Watcher.model.create(watcher);
     },
 };
