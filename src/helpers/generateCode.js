@@ -8,7 +8,7 @@ module.exports = function generate(name) {
     return code;
 };
 const rand = function (n) {
-    return parseInt();
+    return Math.floor(n * (10 * Math.random()) % 90);
 };
 const charcode = function (c) {
     c = rand(c);

@@ -2,9 +2,9 @@ import helpModule     from "./modules/helpModule";
 import baseModule     from "./modules/baseModule";
 import listModule     from "./modules/listModule";
 import archiveModule  from "./modules/archiveModule";
+import { SendMessage, Message } from "../../services/slack/typings/typings";
 
 module.exports = function(arrInput: [string], strCommand: string, objMessage: Message, funcOut: SendMessage) {
-  "use strict";
 
   // TODO create routes to get reports (specify types or limit)
   // TODO create CRUD
