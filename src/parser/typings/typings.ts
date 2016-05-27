@@ -1,4 +1,4 @@
-interface Command {
+export interface Command {
   syntax: string,
   description: string
 }
