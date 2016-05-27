@@ -1,0 +1,7 @@
+{
+  "name": "baltaslack",
+  "dependencies": {},
+  "globalDependencies": {
+    "node": "registry:env/node#4.0.0+20160507210304"
+  }
+}
