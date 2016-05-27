@@ -5,9 +5,9 @@ const MemoryDataStore   = require("@slack/client").MemoryDataStore;
 
 import { Message, SendMessage } from "./typings/typings";
 
-import inputParser from "../../parser/inputParser";
-import jsonParser from "../../parser/jsonParser");
-import initModule from "./modules/init");
+import inputParser  from "../../parser/inputParser";
+import jsonParser   from "../../parser/jsonParser";
+import initModule   from "./modules/init";
 
 const apps = jsonParser();
 
@@ -43,7 +43,9 @@ export default function(strToken: string): void {
 
 };
 
-function funcBakeChannel(strChannel: string, rtm): Function {
+// TODO remove all types from var names
+
+function funcBakeChannel(strChannel: string, rtm): (msg: string) => void {
   return function(strMsg: string): void {
     rtm.sendMessage(strMsg, strChannel);
   };

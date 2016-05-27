@@ -1,13 +1,14 @@
-const arrApps        = require("./jsonParser.js")();
+import jsonParser               from "./jsonParser";
+import { Message, SendMessage } from "../services/slack/typings/typings";
+import { App }                  from "./typings/typings";
+import Watcher                  from "../services/slack/models/Watcher";
+
 const arrBotNames: [string]  = [ "baltabot", "botazar", "botazar:",
                                  "<@U1082RRH8>:", "balthabot", "petikon", "bz" ];
-const Watcher        = require("../services/slack/models/Watcher");
 
-export default function(strInput, objMessage, funcOut): void {
-  "use strict";
-  if (typeof strInput !== "string") {
-    throw "Input needs to be a string";
-  }
+const apps = jsonParser();
+
+export default function(strInput: string, objMessage: Message, funcOut: SendMessage): void {
 
   Watcher.model.find({ activated: true }, function(err, watchers) {
     if (err) {
@@ -21,7 +22,7 @@ export default function(strInput, objMessage, funcOut): void {
     }
   });
 
-  const arrSanitizedInput = strInput.split(" ");
+  const arrSanitizedInput: string[] = strInput.split(" ");
 
   if (arrBotNames.indexOf(arrSanitizedInput[0].toLowerCase()) !== -1) {
 
@@ -37,9 +38,9 @@ export default function(strInput, objMessage, funcOut): void {
       strCommand = arrSanitizedInput.shift().toLowerCase();
     }
 
-    for (let i = 0; i < arrApps.length; i += 1) {
-      if (arrApps[i].arrAliases.indexOf(strApp.toLowerCase()) !== -1 && arrApps[i].boolNamed) {
-        require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, strCommand, objMessage, funcOut);
+    for (let i = 0; i < apps.length; i += 1) {
+      if (apps[i].arrAliases.indexOf(strApp.toLowerCase()) !== -1 && apps[i].boolNamed) {
+        require("../apps/" + apps[i].strName.toLowerCase() + "/" + apps[i].strEntry)(arrSanitizedInput, strCommand, objMessage, funcOut);
         return;
       }
     }
@@ -48,9 +49,9 @@ export default function(strInput, objMessage, funcOut): void {
 
   else {
 
-    for (let i = 0; i < arrApps.length; i += 1) {
-      if (funcReg(arrApps[i], arrSanitizedInput)) {
-        require("../apps/" + arrApps[i].strName.toLowerCase() + "/" + arrApps[i].strEntry)(arrSanitizedInput, undefined, objMessage, funcOut);
+    for (let i = 0; i < apps.length; i += 1) {
+      if (funcReg(apps[i], arrSanitizedInput)) {
+        require("../apps/" + apps[i].strName.toLowerCase() + "/" + apps[i].strEntry)(arrSanitizedInput, undefined, objMessage, funcOut);
       }
     }
 
@@ -59,9 +60,8 @@ export default function(strInput, objMessage, funcOut): void {
   return;
 };
 
-function funcReg(objApp, arrInput) {
-  "use strict";
-  const regex = objApp.regex ? new RegExp(objApp.regex) : false;
+function funcReg(objApp: App, arrInput: string[]): boolean {
+  const regex: any = objApp.regex ? new RegExp(objApp.regex) : false;
   if (!regex) {
     return false;
   }

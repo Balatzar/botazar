@@ -10,5 +10,5 @@ export interface Message {
 };
 
 export interface SendMessage {
-  (msg: string): any;
+  (msg: string): void;
 };

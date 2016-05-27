@@ -5,9 +5,7 @@ const CLIENT_EVENTS = require("@slack/client").CLIENT_EVENTS;
 const MemoryDataStore = require("@slack/client").MemoryDataStore;
 const inputParser_1 = require("../../parser/inputParser");
 const jsonParser_1 = require("../../parser/jsonParser");
-;
 const init_1 = require("./modules/init");
-;
 const apps = jsonParser_1.default();
 function default_1(strToken) {
     const rtm = new RtmClient(strToken, {
@@ -37,6 +35,7 @@ function default_1(strToken) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = default_1;
 ;
+// TODO remove all types from var names
 function funcBakeChannel(strChannel, rtm) {
     return function (strMsg) {
         rtm.sendMessage(strMsg, strChannel);

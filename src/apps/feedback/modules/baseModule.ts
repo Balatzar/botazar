@@ -1,12 +1,11 @@
 const Feedback = require("../models/Feedback");
-import { Message, SendMessage } from "../feedback";
+import { Message, SendMessage } from "../../../services/slack/typings/typings";
 
 export default function(input: string, objMessage: Message, out: SendMessage) {
-  "use strict";
   if (!input) {
     return out("il faut du texte !");
   }
-  let sanitized = input.split(" ");
+  let sanitized: string[] = input.split(" ");
 
   if (sanitized.length < 2 || sanitized[1] === "") {
     return out("il me manque un truc là !");
@@ -16,9 +15,7 @@ export default function(input: string, objMessage: Message, out: SendMessage) {
 
   console.log(type);
 
-  if (type !== "idea" &&
-      type !== "bug" &&
-      type !== "msg") {
+  if (isWrongType(type)) {
     return out("Type inconnu.");
   }
 
@@ -31,3 +28,13 @@ export default function(input: string, objMessage: Message, out: SendMessage) {
 
   out("Merci gars");
 };
+
+function isWrongType(type: string): boolean {
+  if (type !== "idea" &&
+    type !== "bug" &&
+    type !== "msg") {
+    return true;
+  } else {
+    return false;
+  }
+}

@@ -1,8 +1,10 @@
 const fs = require("fs");
 
-export default function(): [] {
+import { App } from "./typings/typings";
+
+export default function(): App[] {
   "use strict";
-  let apps = [];
+  let apps: App[] = [];
   const path = "./src/apps";
   const dirs = fs.readdirSync(path);
 

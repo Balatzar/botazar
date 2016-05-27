@@ -1,7 +1,6 @@
 "use strict";
 const Feedback = require("../models/Feedback");
 function default_1(input, objMessage, out) {
-    "use strict";
     if (!input) {
         return out("il faut du texte !");
     }
@@ -11,9 +10,7 @@ function default_1(input, objMessage, out) {
     }
     let type = sanitized.shift();
     console.log(type);
-    if (type !== "idea" &&
-        type !== "bug" &&
-        type !== "msg") {
+    if (isWrongType(type)) {
         return out("Type inconnu.");
     }
     Feedback.createFeedback({
@@ -27,3 +24,13 @@ function default_1(input, objMessage, out) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = default_1;
 ;
+function isWrongType(type) {
+    if (type !== "idea" &&
+        type !== "bug" &&
+        type !== "msg") {
+        return true;
+    }
+    else {
+        return false;
+    }
+}

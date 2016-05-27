@@ -1,7 +1,6 @@
 const Feedback = require("../models/Feedback");
+import { SendMessage } from "../../../services/slack/typings/typings";
 
-export default function(out: (msg: string) => any) {
-  "use strict";
-  console.log("list");
+export default function(out: SendMessage) {
   Feedback.listAll(out);
 };
