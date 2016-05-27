@@ -1,8 +1,8 @@
 "use strict";
 const helpModule_1 = require("./modules/helpModule");
-const baseModule_1 = require("./modules/baseModule");
-const listModule_1 = require("./modules/listModule");
-const archiveModule_1 = require("./modules/archiveModule");
+const baseModule = require("./modules/baseModule");
+const listModule = require("./modules/listModule");
+const archiveModule = require("./modules/archiveModule");
 module.exports = function (arrInput, strCommand, objMessage, funcOut) {
     "use strict";
     // TODO create routes to get reports (specify types or limit)
@@ -17,16 +17,16 @@ module.exports = function (arrInput, strCommand, objMessage, funcOut) {
         }
         case "-list":
         case "-l": {
-            listModule_1.default(funcOut);
+            listModule(funcOut);
             break;
         }
         case "-delete":
         case "-d": {
-            archiveModule_1.default(arrInput.join(" "), objMessage.channel, funcOut);
+            archiveModule(arrInput.join(" "), funcOut);
             break;
         }
         default: {
-            baseModule_1.default(arrInput.join(" "), objMessage, funcOut);
+            baseModule(arrInput.join(" "), objMessage, funcOut);
         }
     }
 };

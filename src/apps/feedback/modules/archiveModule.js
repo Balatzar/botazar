@@ -1,6 +1,9 @@
+"use strict";
 const Feedback = require("../models/Feedback");
-
-module.exports = function(id, channel, out) {
-  "use strict";
-  Feedback.archiveFeedback(id, channel, out);
-};
+function default_1(id, channel, out) {
+    "use strict";
+    Feedback.archiveFeedback(id, channel, out);
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
+;

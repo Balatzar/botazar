@@ -1,7 +1,10 @@
+"use strict";
 const Feedback = require("../models/Feedback");
-
-module.exports = function(channel, out) {
-  "use strict";
-  console.log("list");
-  Feedback.listAll(channel, out);
-};
+function default_1(out) {
+    "use strict";
+    console.log("list");
+    Feedback.listAll(out);
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
+;
