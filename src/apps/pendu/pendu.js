@@ -7,6 +7,7 @@ module.exports = function(arrInput, strCommand, objMessage, funcOut) {
 
   // TODO make an api route to get a random word
   // TODO make an api set of routes to play a game
+  // TODO make a private route to get the leaderboard
 
   console.log(arrInput);
   console.log(strCommand);
