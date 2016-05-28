@@ -1,6 +1,6 @@
 "use strict";
-const fs = require("fs");
 const iconv = require("iconv-lite");
+const fs = require("fs");
 const Game = require("../models/Game");
 const Word = require("../models/Word");
 const Player = require("../models/Player");
@@ -17,8 +17,7 @@ const Watcher_1 = require("../../../services/slack/models/Watcher");
 //   î: "i",
 //   ï: "i",
 // };
-module.exports = function (arrInput, objMessage, funcOut) {
-    "use strict";
+function default_1(arrInput, objMessage, funcOut) {
     Game.model.findOne({ playing: true, channel: objMessage.channel }, function (err, game) {
         if (err) {
             return console.log(err);
@@ -31,9 +30,11 @@ module.exports = function (arrInput, objMessage, funcOut) {
             playGame(arrInput, objMessage, game, funcOut);
         }
     });
-};
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
+;
 function playGame(arrInput, objMessage, objGame, funcOut) {
-    "use strict";
     if (arrInput.length !== 1) {
         return;
     }
@@ -63,10 +64,9 @@ function playGame(arrInput, objMessage, objGame, funcOut) {
             looseRound(objGame, strGuess, objMessage, funcOut);
         }
     }
-    return 0;
+    return;
 }
 function winGame(objGame, objMessage, funcOut) {
-    "use strict";
     const arrParticipants = objGame.participants;
     let hashFinalScore = {};
     let strWinners = "";
@@ -87,12 +87,10 @@ function winGame(objGame, objMessage, funcOut) {
     endGame(objGame, objMessage, { playing: false, });
 }
 function looseGame(objGame, objMessage, funcOut) {
-    "use strict";
     funcOut("nop c'est raté :/\nle mot était _" + objGame.word + "_");
     endGame(objGame, objMessage, { playing: false, points: 0 });
 }
 function endGame(objGame, objMessage, set) {
-    "use strict";
     Game.model.findByIdAndUpdate(objGame._id, { $set: set, $addToSet: { participants: objMessage.userName } }, function (err) {
         if (err) {
             console.log(err);
@@ -105,7 +103,6 @@ function endGame(objGame, objMessage, set) {
     });
 }
 function winRound(objGame, strGuess, objMessage, funcOut) {
-    "use strict";
     const strWord = objGame.word.toLowerCase();
     const strCurrent = objGame.current;
     let newCurrent = "";
@@ -135,7 +132,6 @@ function winRound(objGame, strGuess, objMessage, funcOut) {
     });
 }
 function looseRound(objGame, strGuess, objMessage, funcOut) {
-    "use strict";
     const intPoints = objGame.points - 1;
     if (!intPoints) {
         looseGame(objGame, objMessage, funcOut);
@@ -154,7 +150,6 @@ function looseRound(objGame, strGuess, objMessage, funcOut) {
     }
 }
 function createGame(objMessage, funcOut) {
-    "use strict";
     Word.model.findRandom().limit(1).exec(function (err, word) {
         if (err) {
             return console.log(err);

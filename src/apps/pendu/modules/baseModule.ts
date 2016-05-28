@@ -1,9 +1,10 @@
-const fs        = require("fs");
-const iconv     = require("iconv-lite");
+const iconv = require("iconv-lite");
+import fs = require("fs");
 const Game      = require("../models/Game");
 const Word      = require("../models/Word");
-const Player    = require("../models/Player");
+const Player = require("../models/Player");
 import Watcher from "../../../services/slack/models/Watcher";
+import { SendMessage, Message } from "../../../services/slack/typings/typings";
 
 // const accents = {
 //   é: "e",
@@ -18,8 +19,7 @@ import Watcher from "../../../services/slack/models/Watcher";
 //   ï: "i",
 // };
 
-module.exports = function(arrInput, objMessage, funcOut) {
-  "use strict";
+export default function(arrInput: string, objMessage: Message, funcOut: SendMessage) {
 
   Game.model.findOne({ playing: true, channel: objMessage.channel }, function(err, game) {
     if (err) {
@@ -35,12 +35,11 @@ module.exports = function(arrInput, objMessage, funcOut) {
   });
 };
 
-function playGame(arrInput, objMessage, objGame, funcOut) {
-  "use strict";
+function playGame(arrInput: string, objMessage: Message, objGame, funcOut: SendMessage): void {
   if (arrInput.length !== 1) {
     return;
   }
-  let strGuess = arrInput[0].toLowerCase();
+  let strGuess: string = arrInput[0].toLowerCase();
 
   // if (accents.keys().indexOf(strGuess) !== -1) {
   //   strGuess = accents[strGuess];
@@ -65,14 +64,13 @@ function playGame(arrInput, objMessage, objGame, funcOut) {
       looseRound(objGame, strGuess, objMessage, funcOut);
     }
   }
-  return 0;
+  return;
 }
 
-function winGame(objGame, objMessage, funcOut) {
-  "use strict";
-  const arrParticipants = objGame.participants;
-  let hashFinalScore = {};
-  let strWinners = "";
+function winGame(objGame, objMessage: Message, funcOut: SendMessage): void {
+  const arrParticipants: string[] = objGame.participants;
+  let hashFinalScore: Object = {};
+  let strWinners: string = "";
 
   arrParticipants.forEach(p => {
     hashFinalScore[p] ? hashFinalScore[p] += 1 : hashFinalScore[p] = 1;
@@ -87,7 +85,7 @@ function winGame(objGame, objMessage, funcOut) {
     }
   }
 
-  const res = "yes c'est gagné !\n" +
+  const res: string = "yes c'est gagné !\n" +
           "le mot était *" + objGame.word + "*\n\n" +
           strWinners;
 
@@ -97,8 +95,7 @@ function winGame(objGame, objMessage, funcOut) {
 
 }
 
-function looseGame(objGame, objMessage, funcOut) {
-  "use strict";
+function looseGame(objGame, objMessage: Message, funcOut: SendMessage): void {
 
   funcOut("nop c'est raté :/\nle mot était _" + objGame.word + "_");
 
@@ -106,8 +103,7 @@ function looseGame(objGame, objMessage, funcOut) {
 
 }
 
-function endGame(objGame, objMessage, set) {
-  "use strict";
+function endGame(objGame, objMessage: Message, set: Object) {
 
   Game.model.findByIdAndUpdate(objGame._id, { $set: set, $addToSet: { participants: objMessage.userName }}, function(err) {
     if (err) {
@@ -116,21 +112,18 @@ function endGame(objGame, objMessage, set) {
   });
 
   Watcher.model.findOneAndUpdate( { activated: true, channel: objMessage.channel, app: "pendu" },
-                                  { $set: { activated: false, }},
-                                  function(err) {
-
-    if (err) {
-      console.log(err);
-    }
+    { $set: { activated: false, }}, function(err) {
+      if (err) {
+        console.log(err);
+      }
   });
 }
 
-function winRound(objGame, strGuess, objMessage, funcOut) {
-  "use strict";
-  const strWord       = objGame.word.toLowerCase();
-  const strCurrent    = objGame.current;
-  let newCurrent      = "";
-  let win             = true;
+function winRound(objGame, strGuess: string, objMessage: Message, funcOut: SendMessage): void {
+  const strWord: string       = objGame.word.toLowerCase();
+  const strCurrent: string    = objGame.current;
+  let newCurrent: string      = "";
+  let win: boolean            = true;
 
   for (let i = 0; i < strWord.length; i += 1) {
     if (strWord[i] === strGuess) {
@@ -159,15 +152,14 @@ function winRound(objGame, strGuess, objMessage, funcOut) {
 
 }
 
-function looseRound(objGame, strGuess, objMessage, funcOut) {
-  "use strict";
-  const intPoints = objGame.points - 1;
+function looseRound(objGame, strGuess: string, objMessage: Message, funcOut: SendMessage): void {
+  const intPoints: number = objGame.points - 1;
 
   if (!intPoints) {
     looseGame(objGame, objMessage, funcOut);
   } else {
 
-    let res = "nope !\nil vous reste " + intPoints + " points\n" + objGame.current;
+    let res: string = "nope !\nil vous reste " + intPoints + " points\n" + objGame.current;
 
     if (intPoints === 3) {
       res += "\n*attention les accents comptent !*";
@@ -184,8 +176,7 @@ function looseRound(objGame, strGuess, objMessage, funcOut) {
 
 }
 
-function createGame(objMessage, funcOut) {
-  "use strict";
+function createGame(objMessage: Message, funcOut: SendMessage): void {
   Word.model.findRandom().limit(1).exec(function (err, word) {
     if (err) {
       return console.log(err);
@@ -196,7 +187,7 @@ function createGame(objMessage, funcOut) {
           return console.log(err);
         }
         funcOut("veuillez patienter quelques instants j'initialise mon dico");
-        const sanitized = iconv.decode(file, "ISO-8859-1");
+        const sanitized: string = iconv.decode(file, "ISO-8859-1");
         sanitized.split("\r").forEach(w => {
           Word.createWord({ word: w.slice(1) });
         });
@@ -205,8 +196,8 @@ function createGame(objMessage, funcOut) {
         }, 20000);
       });
     } else {
-      const newWord = word[0].word;
-      const toFind = newWord.replace(/./gi, ".");
+      const newWord: string = word[0].word;
+      const toFind: string = newWord.replace(/./gi, ".");
       Game.createGame({
         channel: objMessage.channel,
         word: newWord,
