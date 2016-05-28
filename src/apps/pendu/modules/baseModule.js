@@ -58,9 +58,6 @@ function playGame(arrInput, objMessage, objGame, funcOut) {
             return funcOut("vous avez deja joué cette lettre");
         }
         if (objGame.word.toLowerCase().indexOf(strGuess) !== -1) {
-            if (objGame.played.indexOf(strGuess) !== -1) {
-                return funcOut("vous avez deja joué cette lettre");
-            }
             winRound(objGame, strGuess, objMessage, funcOut);
         }
         else {

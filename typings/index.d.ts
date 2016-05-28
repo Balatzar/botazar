@@ -2,7 +2,6 @@
 /// <reference path="globals/express-serve-static-core/index.d.ts" />
 /// <reference path="globals/express-unless/index.d.ts" />
 /// <reference path="globals/express/index.d.ts" />
-/// <reference path="globals/iconv/index.d.ts" />
 /// <reference path="globals/mongoose/index.d.ts" />
 /// <reference path="globals/node-slack/index.d.ts" />
 /// <reference path="globals/node/index.d.ts" />
