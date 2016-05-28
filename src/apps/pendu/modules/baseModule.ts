@@ -1,5 +1,5 @@
-const iconv = require("iconv-lite");
-import fs = require("fs");
+const iconv     = require("iconv-lite");
+const fs        = require("fs");
 const Game      = require("../models/Game");
 const Word      = require("../models/Word");
 const Player = require("../models/Player");
@@ -55,6 +55,9 @@ function playGame(arrInput: string, objMessage: Message, objGame, funcOut: SendM
       looseGame(objGame, objMessage, funcOut);
     }
   } else {
+    if (objGame.played.indexOf(strGuess) !== -1) {
+      return funcOut("vous avez deja joué cette lettre");
+    }
     if (objGame.word.toLowerCase().indexOf(strGuess) !== -1) {
       if (objGame.played.indexOf(strGuess) !== -1) {
         return funcOut("vous avez deja joué cette lettre");

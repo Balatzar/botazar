@@ -54,6 +54,9 @@ function playGame(arrInput, objMessage, objGame, funcOut) {
         }
     }
     else {
+        if (objGame.played.indexOf(strGuess) !== -1) {
+            return funcOut("vous avez deja joué cette lettre");
+        }
         if (objGame.word.toLowerCase().indexOf(strGuess) !== -1) {
             if (objGame.played.indexOf(strGuess) !== -1) {
                 return funcOut("vous avez deja joué cette lettre");
