@@ -1,11 +1,10 @@
-"use strict";
-const jsonParser_1 = require("./jsonParser");
-const Watcher_1 = require("../services/slack/models/Watcher");
+import jsonParser from "./jsonParser";
+import Watcher from "../services/slack/models/Watcher";
 const arrBotNames = ["baltabot", "botazar", "botazar:",
     "<@U1082RRH8>:", "balthabot", "petikon", "bz"];
-const apps = jsonParser_1.default();
-function default_1(strInput, objMessage, funcOut) {
-    Watcher_1.default.model.find({ activated: true }, function (err, watchers) {
+const apps = jsonParser();
+export default function (strInput, objMessage, funcOut) {
+    Watcher.model.find({ activated: true }, function (err, watchers) {
         if (err) {
             console.log(err);
         }
@@ -44,8 +43,6 @@ function default_1(strInput, objMessage, funcOut) {
     }
     return;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = default_1;
 ;
 function funcReg(objApp, arrInput) {
     const regex = objApp.regex ? new RegExp(objApp.regex) : false;

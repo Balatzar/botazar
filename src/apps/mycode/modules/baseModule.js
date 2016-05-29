@@ -1,9 +1,7 @@
-"use strict";
 const User = require("../../../services/slack/models/User");
 const Channel = require("../../../services/slack/models/Channel");
-function default_1(objMessage, funcOut) {
+export default function (objMessage, funcOut) {
     Channel.model.findOne({ id: objMessage.channel }, function (err, channel) {
-        // TODO dont allow private channels either, only IMs
         if (err) {
             console.log(err);
         }
@@ -22,6 +20,4 @@ function default_1(objMessage, funcOut) {
         }
     });
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = default_1;
 ;

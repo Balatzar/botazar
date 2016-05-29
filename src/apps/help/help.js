@@ -1,6 +1,5 @@
-"use strict";
-const jsonParser_1 = require("../../parser/jsonParser");
-const apps = jsonParser_1.default();
+import jsonParser from "../../parser/jsonParser";
+const apps = jsonParser();
 module.exports = function (arrInput, strCommand, objMessage, funcOut) {
     "use strict";
     let res = "";
@@ -11,7 +10,6 @@ module.exports = function (arrInput, strCommand, objMessage, funcOut) {
                 const currentApp = apps[i];
                 const strAliases = currentApp.arrAliases;
                 const arrCommands = [];
-                // TODO this shit is unreadable
                 for (let command in currentApp.commands) {
                     if (currentApp.commands.hasOwnProperty(command)) {
                         let str = "";

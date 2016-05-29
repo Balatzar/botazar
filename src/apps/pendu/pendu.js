@@ -1,26 +1,22 @@
-"use strict";
-const helpModule_1 = require("./modules/helpModule");
-const leaderboardModule_1 = require("./modules/leaderboardModule");
-const baseModule_1 = require("./modules/baseModule");
+import helpModule from "./modules/helpModule";
+import leaderboardModule from "./modules/leaderboardModule";
+import baseModule from "./modules/baseModule";
 module.exports = function (arrInput, strCommand, objMessage, funcOut) {
-    // TODO make an api route to get a random word
-    // TODO make an api set of routes to play a game
-    // TODO make a private route to get the leaderboard
     console.log(arrInput);
     console.log(strCommand);
     switch (strCommand) {
         case "-help":
         case "-h": {
-            helpModule_1.default(funcOut);
+            helpModule(funcOut);
             break;
         }
         case "-leaderboard":
         case "-l": {
-            leaderboardModule_1.default(funcOut);
+            leaderboardModule(funcOut);
             break;
         }
         default: {
-            baseModule_1.default(arrInput, objMessage, funcOut);
+            baseModule(arrInput, objMessage, funcOut);
         }
     }
 };

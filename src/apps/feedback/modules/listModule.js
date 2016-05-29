@@ -1,8 +1,5 @@
-"use strict";
 const Feedback = require("../models/Feedback");
-function default_1(out) {
+export default function (out) {
     Feedback.listAll(out);
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = default_1;
 ;

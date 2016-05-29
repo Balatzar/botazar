@@ -1,6 +1,5 @@
-"use strict";
 const Feedback = require("../models/Feedback");
-function default_1(input, objMessage, out) {
+export default function (input, objMessage, out) {
     if (!input) {
         return out("il faut du texte !");
     }
@@ -21,8 +20,6 @@ function default_1(input, objMessage, out) {
     });
     out("Merci gars");
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = default_1;
 ;
 function isWrongType(type) {
     if (type !== "idea" &&

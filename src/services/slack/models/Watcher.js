@@ -1,5 +1,4 @@
-"use strict";
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 const watcherSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     activated: { type: Boolean, default: true },
@@ -14,5 +13,4 @@ const Watcher = {
         Watcher.model.create(watcher);
     },
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Watcher;
+export default Watcher;

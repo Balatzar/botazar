@@ -1,23 +1,10 @@
-"use strict";
 const iconv = require("iconv-lite");
 const fs = require("fs");
 const Game = require("../models/Game");
 const Word = require("../models/Word");
 const Player = require("../models/Player");
-const Watcher_1 = require("../../../services/slack/models/Watcher");
-// const accents = {
-//   é: "e",
-//   è: "e",
-//   ë: "e",
-//   ê: "e",
-//   à: "a",
-//   ù: "u",
-//   ö: "o",
-//   ô: "o",
-//   î: "i",
-//   ï: "i",
-// };
-function default_1(arrInput, objMessage, funcOut) {
+import Watcher from "../../../services/slack/models/Watcher";
+export default function (arrInput, objMessage, funcOut) {
     Game.model.findOne({ playing: true, channel: objMessage.channel }, function (err, game) {
         if (err) {
             return console.log(err);
@@ -31,17 +18,12 @@ function default_1(arrInput, objMessage, funcOut) {
         }
     });
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = default_1;
 ;
 function playGame(arrInput, objMessage, objGame, funcOut) {
     if (arrInput.length !== 1) {
         return;
     }
     let strGuess = arrInput[0].toLowerCase();
-    // if (accents.keys().indexOf(strGuess) !== -1) {
-    //   strGuess = accents[strGuess];
-    // }
     if (strGuess.length > 1) {
         if (strGuess.length !== objGame.word.length) {
             return;
@@ -96,7 +78,7 @@ function endGame(objGame, objMessage, set) {
             console.log(err);
         }
     });
-    Watcher_1.default.model.findOneAndUpdate({ activated: true, channel: objMessage.channel, app: "pendu" }, { $set: { activated: false, } }, function (err) {
+    Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel, app: "pendu" }, { $set: { activated: false, } }, function (err) {
         if (err) {
             console.log(err);
         }
@@ -177,7 +159,7 @@ function createGame(objMessage, funcOut) {
                 word: newWord,
                 current: toFind,
             });
-            Watcher_1.default.createWatcher({
+            Watcher.createWatcher({
                 channel: objMessage.channel,
                 app: "pendu",
             });

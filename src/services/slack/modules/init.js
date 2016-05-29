@@ -1,8 +1,7 @@
-"use strict";
 const Channel = require("../models/Channel");
 const User = require("../models/User");
 const Im = require("../models/Im");
-function default_1(rtmStartData) {
+export default function (rtmStartData) {
     "use strict";
     console.log("init");
     User.model.find({}, function (err, users) {
@@ -20,6 +19,4 @@ function default_1(rtmStartData) {
         }
     });
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = default_1;
 ;

@@ -1,6 +1,5 @@
-"use strict";
 const fs = require("fs");
-function default_1() {
+export default function () {
     "use strict";
     let apps = [];
     const path = "./src/apps";
@@ -16,6 +15,4 @@ function default_1() {
     }
     return apps;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = default_1;
 ;

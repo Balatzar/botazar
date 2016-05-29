@@ -1,6 +1,5 @@
-"use strict";
 const Player = require("../models/Player");
-function default_1(funcOut) {
+export default function (funcOut) {
     Player.model.find({}).sort({ points: -1 }).limit(10).exec(function (err, players) {
         if (err) {
             console.log(err);
@@ -16,6 +15,4 @@ function default_1(funcOut) {
         }
     });
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = default_1;
 ;
