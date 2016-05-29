@@ -1,5 +1,6 @@
-import * as mongoose from "mongoose";
-const watcherSchema = new mongoose.Schema({
+"use strict";
+var mongoose = require("mongoose");
+var watcherSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     activated: { type: Boolean, default: true },
     channel: String,
@@ -7,10 +8,11 @@ const watcherSchema = new mongoose.Schema({
     state: String,
     data: Object,
 });
-const Watcher = {
+var Watcher = {
     model: mongoose.model("watchers", watcherSchema),
     createWatcher: function (watcher) {
         Watcher.model.create(watcher);
     },
 };
-export default Watcher;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Watcher;

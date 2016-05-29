@@ -1,10 +1,23 @@
-const iconv = require("iconv-lite");
-const fs = require("fs");
-const Game = require("../models/Game");
-const Word = require("../models/Word");
-const Player = require("../models/Player");
-import Watcher from "../../../services/slack/models/Watcher";
-export default function (arrInput, objMessage, funcOut) {
+"use strict";
+var iconv = require("iconv-lite");
+var fs = require("fs");
+var Game = require("../models/Game");
+var Word = require("../models/Word");
+var Player = require("../models/Player");
+var Watcher_1 = require("../../../services/slack/models/Watcher");
+// const accents = {
+//   é: "e",
+//   è: "e",
+//   ë: "e",
+//   ê: "e",
+//   à: "a",
+//   ù: "u",
+//   ö: "o",
+//   ô: "o",
+//   î: "i",
+//   ï: "i",
+// };
+function default_1(arrInput, objMessage, funcOut) {
     Game.model.findOne({ playing: true, channel: objMessage.channel }, function (err, game) {
         if (err) {
             return console.log(err);
@@ -18,12 +31,17 @@ export default function (arrInput, objMessage, funcOut) {
         }
     });
 }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
 ;
 function playGame(arrInput, objMessage, objGame, funcOut) {
     if (arrInput.length !== 1) {
         return;
     }
-    let strGuess = arrInput[0].toLowerCase();
+    var strGuess = arrInput[0].toLowerCase();
+    // if (accents.keys().indexOf(strGuess) !== -1) {
+    //   strGuess = accents[strGuess];
+    // }
     if (strGuess.length > 1) {
         if (strGuess.length !== objGame.word.length) {
             return;
@@ -49,20 +67,20 @@ function playGame(arrInput, objMessage, objGame, funcOut) {
     return;
 }
 function winGame(objGame, objMessage, funcOut) {
-    const arrParticipants = objGame.participants;
-    let hashFinalScore = {};
-    let strWinners = "";
-    arrParticipants.forEach(p => {
+    var arrParticipants = objGame.participants;
+    var hashFinalScore = {};
+    var strWinners = "";
+    arrParticipants.forEach(function (p) {
         hashFinalScore[p] ? hashFinalScore[p] += 1 : hashFinalScore[p] = 1;
     });
     console.log(hashFinalScore);
-    for (let player in hashFinalScore) {
+    for (var player in hashFinalScore) {
         if (hashFinalScore.hasOwnProperty(player)) {
             Player.winGame({ username: player, points: hashFinalScore[player] });
             strWinners += player + " gagne " + hashFinalScore[player] + " points\n";
         }
     }
-    const res = "yes c'est gagné !\n" +
+    var res = "yes c'est gagné !\n" +
         "le mot était *" + objGame.word + "*\n\n" +
         strWinners;
     funcOut(res);
@@ -78,18 +96,18 @@ function endGame(objGame, objMessage, set) {
             console.log(err);
         }
     });
-    Watcher.model.findOneAndUpdate({ activated: true, channel: objMessage.channel, app: "pendu" }, { $set: { activated: false, } }, function (err) {
+    Watcher_1.default.model.findOneAndUpdate({ activated: true, channel: objMessage.channel, app: "pendu" }, { $set: { activated: false, } }, function (err) {
         if (err) {
             console.log(err);
         }
     });
 }
 function winRound(objGame, strGuess, objMessage, funcOut) {
-    const strWord = objGame.word.toLowerCase();
-    const strCurrent = objGame.current;
-    let newCurrent = "";
-    let win = true;
-    for (let i = 0; i < strWord.length; i += 1) {
+    var strWord = objGame.word.toLowerCase();
+    var strCurrent = objGame.current;
+    var newCurrent = "";
+    var win = true;
+    for (var i = 0; i < strWord.length; i += 1) {
         if (strWord[i] === strGuess) {
             newCurrent += strGuess;
         }
@@ -114,12 +132,12 @@ function winRound(objGame, strGuess, objMessage, funcOut) {
     });
 }
 function looseRound(objGame, strGuess, objMessage, funcOut) {
-    const intPoints = objGame.points - 1;
+    var intPoints = objGame.points - 1;
     if (!intPoints) {
         looseGame(objGame, objMessage, funcOut);
     }
     else {
-        let res = "nope !\nil vous reste " + intPoints + " points\n" + objGame.current;
+        var res = "nope !\nil vous reste " + intPoints + " points\n" + objGame.current;
         if (intPoints === 3) {
             res += "\n*attention les accents comptent !*";
         }
@@ -142,8 +160,8 @@ function createGame(objMessage, funcOut) {
                     return console.log(err);
                 }
                 funcOut("veuillez patienter quelques instants j'initialise mon dico");
-                const sanitized = iconv.decode(file, "ISO-8859-1");
-                sanitized.split("\r").forEach(w => {
+                var sanitized = iconv.decode(file, "ISO-8859-1");
+                sanitized.split("\r").forEach(function (w) {
                     Word.createWord({ word: w.slice(1) });
                 });
                 setTimeout(function () {
@@ -152,14 +170,14 @@ function createGame(objMessage, funcOut) {
             });
         }
         else {
-            const newWord = word[0].word;
-            const toFind = newWord.replace(/./gi, ".");
+            var newWord = word[0].word;
+            var toFind = newWord.replace(/./gi, ".");
             Game.createGame({
                 channel: objMessage.channel,
                 word: newWord,
                 current: toFind,
             });
-            Watcher.createWatcher({
+            Watcher_1.default.createWatcher({
                 channel: objMessage.channel,
                 app: "pendu",
             });

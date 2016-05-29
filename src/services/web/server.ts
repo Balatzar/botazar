@@ -20,24 +20,25 @@ app.use(function(request, response, next) {
 
 // TODO put the routes in their app and make a route parser
 
-module.exports = function() {
-
+/**
+ * API
+ * @namespace
+ */
+function Api() {
+  
   app.get("/api/test", function(req, res) {
     res.send("ok");
   });
 
   app.get("/api/reports", function(req, res) {
-    // TODO change every data base calls to async await
-    getReports()
-      .then(success, fail);
-
-    function success(reports) {
-      res.json(reports);
-    }
-
-    function fail(err) {
-      console.log(err);
-    }
+    // TODO change every database calls to async await
+    Report.model.find({}, (err, reports) => {
+      if (err) {
+        res.json(400, err);
+      } else {
+        res.json(200, reports);
+      }
+    })
     
   });
 
@@ -54,6 +55,4 @@ module.exports = function() {
   });
 };
 
-async function getReports() {
-  return await Report.model.find().exec();
-}
+module.exports = Api;
