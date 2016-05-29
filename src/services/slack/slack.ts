@@ -3,7 +3,7 @@ const RTM_EVENTS        = require("@slack/client").RTM_EVENTS;
 const CLIENT_EVENTS     = require("@slack/client").CLIENT_EVENTS;
 const MemoryDataStore   = require("@slack/client").MemoryDataStore;
 
-import { Message, SendMessage } from "./typings/typings";
+import { Message, SendMessage } from "./types/types";
 
 import inputParser  from "../../parser/inputParser";
 import jsonParser   from "../../parser/jsonParser";

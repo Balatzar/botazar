@@ -1,6 +1,6 @@
 const User      = require("../../../services/slack/models/User");
 const Channel = require("../../../services/slack/models/Channel");
-import { SendMessage, Message } from "../../../services/slack/typings/typings";
+import { SendMessage, Message } from "../../../services/slack/types/types";
 
 export default function(objMessage: Message, funcOut: SendMessage) {
   Channel.model.findOne({ id: objMessage.channel }, function(err, channel) {

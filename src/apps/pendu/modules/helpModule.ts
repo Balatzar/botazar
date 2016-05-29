@@ -1,4 +1,4 @@
-import { SendMessage } from "../../../services/slack/typings/typings";
+import { SendMessage } from "../../../services/slack/types/types";
 
 export default function(funcOut: SendMessage): void {
   const help: string =  "hello !\n" +

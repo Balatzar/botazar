@@ -1,7 +1,7 @@
-const express         = require("express");
-const expressJWT      = require("express-jwt");
+import * as express         from "express";
+import * as expressJWT      from "express-jwt";
 const Report          = require("../../apps/scrum/models/Report");
-const secret          = require("../../../private/config").secret;
+import { secret } from "../../../private/config";
 
 const app             = express();
 

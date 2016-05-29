@@ -1,5 +1,5 @@
 const Feedback = require("../models/Feedback");
-import { Message, SendMessage } from "../../../services/slack/typings/typings";
+import { Message, SendMessage } from "../../../services/slack/types/types";
 
 export default function(input: string, objMessage: Message, out: SendMessage) {
   if (!input) {

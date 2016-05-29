@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-import { App } from "./typings/typings";
+import { App } from "./types/types";
 
 export default function(): App[] {
   "use strict";

@@ -1,6 +1,6 @@
 import jsonParser               from "./jsonParser";
-import { Message, SendMessage } from "../services/slack/typings/typings";
-import { App }                  from "./typings/typings";
+import { Message, SendMessage } from "../services/slack/types/types";
+import { App }                  from "./types/types";
 import Watcher                  from "../services/slack/models/Watcher";
 
 const arrBotNames: [string]  = [ "baltabot", "botazar", "botazar:",

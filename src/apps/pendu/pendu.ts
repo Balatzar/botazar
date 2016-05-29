@@ -1,7 +1,7 @@
 import helpModule               from "./modules/helpModule";
 import leaderboardModule        from "./modules/leaderboardModule";
 import baseModule               from "./modules/baseModule";
-import { SendMessage, Message } from "../../services/slack/typings/typings";
+import { SendMessage, Message } from "../../services/slack/types/types";
 
 module.exports = function(arrInput: string, strCommand: string, objMessage: Message, funcOut: SendMessage) {
 

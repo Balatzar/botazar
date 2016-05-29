@@ -4,7 +4,7 @@ const Game      = require("../models/Game");
 const Word      = require("../models/Word");
 const Player = require("../models/Player");
 import Watcher from "../../../services/slack/models/Watcher";
-import { SendMessage, Message } from "../../../services/slack/typings/typings";
+import { SendMessage, Message } from "../../../services/slack/types/types";
 
 // const accents = {
 //   é: "e",

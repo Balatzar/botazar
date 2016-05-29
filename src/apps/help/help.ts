@@ -1,7 +1,7 @@
 import jsonParser from "../../parser/jsonParser";
 // TODO change folder parser to parserS
-import { SendMessage, Message } from "../../services/slack/typings/typings";
-import { App, Command } from "../../parser/typings/typings";
+import { SendMessage, Message } from "../../services/slack/types/types";
+import { App, Command } from "../../parser/types/types";
 
 const apps: App[] = jsonParser();
 

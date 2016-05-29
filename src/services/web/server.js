@@ -6,10 +6,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const express = require("express");
-const expressJWT = require("express-jwt");
+import * as express from "express";
+import * as expressJWT from "express-jwt";
 const Report = require("../../apps/scrum/models/Report");
-const secret = require("../../../private/config").secret;
+import { secret } from "../../../private/config";
 const app = express();
 const regPublic = new RegExp("/public/*");
 const regAPI = new RegExp("/api/*");

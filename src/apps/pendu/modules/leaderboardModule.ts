@@ -1,4 +1,4 @@
-import { SendMessage } from "../../../services/slack/typings/typings";
+import { SendMessage } from "../../../services/slack/types/types";
 const Player    = require("../models/Player");
 
 export default function(funcOut: SendMessage): void {
