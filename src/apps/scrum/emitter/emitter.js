@@ -15,21 +15,7 @@ module.exports = function() {
   });
 
   // TODO make another cron for project owners
-   
-  cron.scheduleJob("1 * * * * *", function() {
-    spamCoin();
-  })
-
 };
-
-function spamCoin() {
-  console.log(new Date())
-  console.log("spamming coin")
-  const url = "https://slack.com/api/chat.postMessage?token=" + process.env.SLACK_API_TOKEN +
-              "&channel=%40supercoincoin&text=hey%20!%20tu%20es%20dans%20le%20projet%20" + "alorsonspam" +
-              ".%20alors%20tu%20as%20taff%C3%A9%20sur%20quoi%20cette%20semaine%20%3F%20%3A)&as_user=true";
-  request(url); 
-}
 
 
 function askProjectMembers() {
