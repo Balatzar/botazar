@@ -1,6 +1,7 @@
-const User = require("../../../services/slack/models/User");
-const Channel = require("../../../services/slack/models/Channel");
-export default function (objMessage, funcOut) {
+"use strict";
+var User = require("../../../services/slack/models/User");
+var Channel = require("../../../services/slack/models/Channel");
+function default_1(objMessage, funcOut) {
     Channel.model.findOne({ id: objMessage.channel }, function (err, channel) {
         if (err) {
             console.log(err);
@@ -20,4 +21,6 @@ export default function (objMessage, funcOut) {
         }
     });
 }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
 ;

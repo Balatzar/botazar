@@ -1,28 +1,29 @@
-import helpModule from "./modules/helpModule";
-import baseModule from "./modules/baseModule";
-import listModule from "./modules/listModule";
-import archiveModule from "./modules/archiveModule";
+"use strict";
+var helpModule_1 = require("./modules/helpModule");
+var baseModule_1 = require("./modules/baseModule");
+var listModule_1 = require("./modules/listModule");
+var archiveModule_1 = require("./modules/archiveModule");
 module.exports = function (arrInput, strCommand, objMessage, funcOut) {
     console.log(arrInput);
     console.log(strCommand);
     switch (strCommand) {
         case "-help":
         case "-h": {
-            helpModule(funcOut);
+            helpModule_1.default(funcOut);
             break;
         }
         case "-list":
         case "-l": {
-            listModule(funcOut);
+            listModule_1.default(funcOut);
             break;
         }
         case "-delete":
         case "-d": {
-            archiveModule(arrInput.join(" "), objMessage.channel, funcOut);
+            archiveModule_1.default(arrInput.join(" "), objMessage.channel, funcOut);
             break;
         }
         default: {
-            baseModule(arrInput.join(" "), objMessage, funcOut);
+            baseModule_1.default(arrInput.join(" "), objMessage, funcOut);
         }
     }
 };

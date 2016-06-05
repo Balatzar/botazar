@@ -1,22 +1,23 @@
-import helpModule from "./modules/helpModule";
-import leaderboardModule from "./modules/leaderboardModule";
-import baseModule from "./modules/baseModule";
+"use strict";
+var helpModule_1 = require("./modules/helpModule");
+var leaderboardModule_1 = require("./modules/leaderboardModule");
+var baseModule_1 = require("./modules/baseModule");
 module.exports = function (arrInput, strCommand, objMessage, funcOut) {
     console.log(arrInput);
     console.log(strCommand);
     switch (strCommand) {
         case "-help":
         case "-h": {
-            helpModule(funcOut);
+            helpModule_1.default(funcOut);
             break;
         }
         case "-leaderboard":
         case "-l": {
-            leaderboardModule(funcOut);
+            leaderboardModule_1.default(funcOut);
             break;
         }
         default: {
-            baseModule(arrInput, objMessage, funcOut);
+            baseModule_1.default(arrInput, objMessage, funcOut);
         }
     }
 };

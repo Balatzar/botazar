@@ -1,5 +1,5 @@
-const helpModule = require("./modules/helpModule");
-const baseModule = require("./modules/baseModule");
+var helpModule = require("./modules/helpModule");
+var baseModule = require("./modules/baseModule");
 module.exports = function (arrInput, strCommand, objMessage, funcOut) {
     "use strict";
     var test = 1;

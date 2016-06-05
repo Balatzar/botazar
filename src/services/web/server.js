@@ -6,13 +6,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const express = require("express");
-const expressJWT = require("express-jwt");
-const Report = require("../../apps/scrum/models/Report");
-const secret = require("../../../private/config").secret;
-const app = express();
-const regPublic = new RegExp("/public/*");
-const regAPI = new RegExp("/api/*");
+var express = require("express");
+var expressJWT = require("express-jwt");
+var Report = require("../../apps/scrum/models/Report");
+var secret = require("../../../private/config").secret;
+var app = express();
+var regPublic = new RegExp("/public/*");
+var regAPI = new RegExp("/api/*");
 app.use(expressJWT({ secret: secret }).unless({ path: [regPublic, regAPI] }));
 app.use(function (request, response, next) {
     response.header("Access-Control-Allow-Credentials", true);
