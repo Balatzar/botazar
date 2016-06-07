@@ -1,0 +1,57 @@
+{
+  "name": "botazar",
+  "version": "0.1.0",
+  "description": "Mon bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "tape src/apps/**/tests/*.js | faucet",
+    "prestart": "echo 'Dont forget to run npm run babel in another terminal'",
+    "start": "nodemon lib/app.js",
+    "babel" : "babel app --out-dir lib --watch",
+    "service": "forever -a -o out.log -e err.log start app.js",
+    "end": "forever stop app.js",
+    "restart": "npm run end && npm run service",
+    "dev": "nodemon node_modules/babel-cli/bin/babel-node.js app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Balatzar/botazar.git"
+  },
+  "author": "balthazar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Balatzar/botazar/issues"
+  },
+  "homepage": "https://github.com/Balatzar/botazar#readme",
+  "dependencies": {
+    "@slack/client": "^2.3.0",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
+    "express": "^4.13.4",
+    "express-jwt": "^3.3.0",
+    "googleapis": "^5.2.1",
+    "iconv-lite": "^0.4.13",
+    "install": "^0.8.1",
+    "jsonwebtoken": "^5.7.0",
+    "moment": "^2.13.0",
+    "mongoose": "^4.4.12",
+    "mongoose-random": "^0.1.1",
+    "node-schedule": "^1.1.0",
+    "npm": "^3.9.5",
+    "request": "^2.72.0",
+    "request-promise": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "faucet": "0.0.1",
+    "forever": "^0.15.2",
+    "nodemon": "^1.9.2",
+    "tape": "^4.5.1"
+  },
+  "babel": {
+    "plugins": [
+      "transform-es2015-modules-commonjs",
+      "transform-async-to-generator"
+    ]
+  }
+}
