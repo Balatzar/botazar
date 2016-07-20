@@ -1,14 +1,12 @@
 import jsonParser               from "./jsonParser";
-import { Message, SendMessage } from "../services/slack/typings/typings";
-import { App }                  from "./typings/typings";
 import Watcher                  from "../services/slack/models/Watcher";
 
-const arrBotNames: [string]  = [ "baltabot", "botazar", "botazar:",
+const arrBotNames  = [ "baltabot", "botazar", "botazar:",
                                  "<@U1082RRH8>:", "balthabot", "petikon", "bz" ];
 
 const apps = jsonParser();
 
-export default function(strInput: string, objMessage: Message, funcOut: SendMessage): void {
+export default function(strInput, objMessage, funcOut): void {
 
   Watcher.model.find({ activated: true }, function(err, watchers) {
     if (err) {
@@ -22,7 +20,7 @@ export default function(strInput: string, objMessage: Message, funcOut: SendMess
     }
   });
 
-  const arrSanitizedInput: string[] = strInput.split(" ");
+  const arrSanitizedInput = strInput.split(" ");
 
   if (arrBotNames.indexOf(arrSanitizedInput[0].toLowerCase()) !== -1) {
 
@@ -60,7 +58,7 @@ export default function(strInput: string, objMessage: Message, funcOut: SendMess
   return;
 };
 
-function funcReg(objApp: App, arrInput: string[]): boolean {
+function funcReg(objApp, arrInput) {
   const regex: any = objApp.regex ? new RegExp(objApp.regex) : false;
   if (!regex) {
     return false;
