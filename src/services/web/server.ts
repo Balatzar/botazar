@@ -1,14 +1,14 @@
 const express         = require("express");
 const expressJWT      = require("express-jwt");
 const Report          = require("../../apps/scrum/models/Report");
-const secret          = require("../../../private/config").secret;
+// const secret          = require("../../../private/config").secret;
 
 const app             = express();
 
 const regPublic       = new RegExp("/public/*"); // for public assets
 const regAPI          = new RegExp("/api/*");    // for public API
 
-app.use(expressJWT({secret: secret}).unless({path: [regPublic, regAPI]}));
+// app.use(expressJWT({secret: secret}).unless({path: [regPublic, regAPI]}));
 
 app.use(function(request, response, next) {
   response.header("Access-Control-Allow-Credentials", true);
