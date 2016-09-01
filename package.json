@@ -3,9 +3,13 @@
   "version": "0.0.1",
   "description": "Mon bot",
   "main": "app.js",
+  "engines": {
+    "node": "6.3.1"
+  },
   "scripts": {
     "test": "tape src/apps/**/tests/*.js | faucet",
-    "start": "forever -a -o out.log -e err.log start app.js",
+    "start": "node app.js",
+    "startservice": "forever -a -o out.log -e err.log start app.js",
     "end": "forever stop app.js",
     "restart": "npm run end && npm start",
     "dev": "nodemon app.js",
