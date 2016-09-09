@@ -13,7 +13,7 @@
     "startservice": "forever -a -o out.log -e err.log start app.js",
     "end": "forever stop app.js",
     "restart": "npm run end && npm start",
-    "dev": "nodemon app.js",
+    "dev": "nodemon ts-built/app.js",
     "ts": "tsc -w --pretty"
   },
   "repository": {
