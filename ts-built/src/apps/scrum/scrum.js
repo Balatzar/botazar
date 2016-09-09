@@ -1,6 +1,5 @@
-const helpModule = require("./modules/helpModule");
-const baseModule = require("./modules/baseModule");
-// const configureModule     = require("./modules/configureModule");
+var helpModule = require("./modules/helpModule");
+var baseModule = require("./modules/baseModule");
 module.exports = function (arrInput, strCommand, objMessage, funcOut) {
     "use strict";
     var test = 1;
@@ -12,11 +11,6 @@ module.exports = function (arrInput, strCommand, objMessage, funcOut) {
             helpModule(funcOut);
             break;
         }
-        // case "-configure":
-        // case "-c": {
-        //   configureModule(funcOut);
-        //   break;
-        // }
         default: {
             baseModule(arrInput, objMessage, funcOut);
         }

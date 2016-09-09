@@ -1,1 +1,0 @@
-// TODO make a function that fetches all apps routes and sends back an array

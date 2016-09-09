@@ -3,7 +3,8 @@
         "target": "es5",
         "noImplicitAny": false,
         "sourceMap": false,
-        "removeComments": true
+        "removeComments": true,
+        "outDir": "ts-built"
     },
     "exclude": [
         "node_modules"
