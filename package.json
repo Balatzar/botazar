@@ -9,6 +9,7 @@
   "scripts": {
     "test": "tape src/apps/**/tests/*.js | faucet",
     "start": "node app.js",
+    "prestart": "tsc --pretty",
     "startservice": "forever -a -o out.log -e err.log start app.js",
     "end": "forever stop app.js",
     "restart": "npm run end && npm start",
