@@ -1,4 +1,3 @@
-"use strict";
 module.exports  = function generate(name: string): string {
   let code: string = "";
   let nb: number = 0;
