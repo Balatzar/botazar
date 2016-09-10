@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 
 const channelSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
@@ -24,4 +24,4 @@ const Channel = {
   
 };
 
-module.exports = Channel;
+export default Channel;

@@ -1,6 +1,6 @@
-const Channel = require("../models/Channel");
-const User    = require("../models/User");
-const Im      = require("../models/Im");
+import Channel from "../models/Channel";
+import User    from "../models/User";
+import Im      from "../models/Im";
 
 export default function(rtmStartData): void {
   "use strict";

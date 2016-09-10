@@ -1,8 +1,8 @@
 const cron      = require("node-schedule");
 const request   = require("request");
-const Project   = require("../models/Project");
-const Watcher   = require("../../../services/slack/models/Watcher");
-const User      = require("../../../services/slack/models/User");
+import Project from "../models/Project";
+import Watcher from "../../../services/slack/models/Watcher";
+import User    from "../../../services/slack/models/User";
 
 module.exports = function() {
   "use strict";
@@ -21,11 +21,8 @@ module.exports = function() {
 function askProjectMembers() {
   "use strict";
   Project.model.find({ archived: false }, function (err, projects) {
-
     if (err) {
-
       console.log(err);
-
     } else {
 
       let hash = {};

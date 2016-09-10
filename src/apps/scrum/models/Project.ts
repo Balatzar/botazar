@@ -1,6 +1,16 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 
-const projectSchema = new mongoose.Schema({
+interface IProject extends mongoose.Document {
+  createdAt: Date,
+  members: [string],
+  membersNames: [string],
+  archived: boolean,
+  owner: string,
+  ownerName: string,
+  name: string,
+}
+
+const projectSchema: mongoose.Schema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   members: [String],
   membersNames: [String],
@@ -11,13 +21,13 @@ const projectSchema = new mongoose.Schema({
 });
 
 const Project = {
-  model: mongoose.model("projects", projectSchema),
+  model: mongoose.model<IProject>("projects", projectSchema),
 
-  createProject: function(project) {
+  createProject(project) {
     "use strict";
     Project.model.create(project);
   },
   
 };
 
-module.exports = Project;
+export default Project;

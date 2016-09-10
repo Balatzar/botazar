@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 const generate = require("../../../helpers/generateCode");
 
 const userSchema = new mongoose.Schema({
@@ -35,4 +35,4 @@ const User = {
   
 };
 
-module.exports = User;
+export default User;

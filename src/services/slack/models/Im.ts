@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 
 const imSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
@@ -25,4 +25,4 @@ const Im = {
   
 };
 
-module.exports = Im;
+export default Im;
