@@ -1,6 +1,6 @@
-const google    = require("googleapis");
-const Tokens    = require("../models/Tokens");
-const Playlist  = require("../models/Playlist");
+import google from "googleapis";
+import Tokens from '../models/Tokens';
+import Playlist from "../models/Playlist";
 
 const youtube   = google.youtube("v3");
 const OAuth2    = google.auth.OAuth2;
@@ -52,11 +52,3 @@ module.exports = function(arrInput, objMessage, funcOut) {
     }
   });
 };
-
-/*
-
-trouver la playlist correspondant au channel depuis lequel la vidéo est envoyée
-récupérer les tokens
-ajouter la vidéo a la playlist sur yt
-
-*/

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 
 const playlistSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
@@ -33,4 +33,4 @@ const Playlist = {
 
 };
 
-module.exports = Playlist;
+export default Playlist;

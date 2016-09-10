@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 
 const tokensSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
@@ -17,4 +17,4 @@ const Tokens = {
   
 };
 
-module.exports = Tokens;
+export default Tokens;

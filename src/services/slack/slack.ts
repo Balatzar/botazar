@@ -15,7 +15,8 @@ export default function(strToken: string): void {
 
   const rtm = new RtmClient(strToken, {
     dataStore: new MemoryDataStore(),
-  }); // , { logLevel: "debug" }
+    // logLevel: "debug",
+  });
 
   rtm.start();
 
@@ -35,9 +36,9 @@ export default function(strToken: string): void {
     inputParser(Message.text, Message, funcBakeChannel(Message.channel, rtm));
   });
 
-  apps.forEach(a => {
-    if (a.emitter) {
-      require("../../apps/" + a.strName.toLowerCase() + "/emitter/emitter.js")();
+  apps.forEach(app => {
+    if (app.emitter) {
+      require("../../apps/" + app.strName.toLowerCase() + "/emitter/emitter.js")();
     }
   });
 
@@ -45,8 +46,8 @@ export default function(strToken: string): void {
 
 // TODO remove all types from var names
 
-function funcBakeChannel(strChannel: string, rtm): (msg: string) => void {
-  return function(strMsg: string): void {
-    rtm.sendMessage(strMsg, strChannel);
+function funcBakeChannel(channel: string, rtm): (msg: string) => void {
+  return function(msg: string): void {
+    rtm.sendMessage(msg, channel);
   };
 }
